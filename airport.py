@@ -1,4 +1,3 @@
-import customtkinter as ctk
 import matplotlib.pyplot as plt
 import os
 
@@ -27,6 +26,10 @@ def PrintAirport(airport: Airport): # Que airport sea un objeto Airport
     airport.latitude = print(f"Latitud: {airport.latitude}")
     airport.longitude = print(f"Longitud: {airport.longitude}")
     airport.schengen = print(f"Pertenece a la zona Schengen: {airport.schengen}")
+
+def save_new_airport(airport:Airport):
+    with open('created_airports.txt', 'a', encoding='utf-8') as file:
+        file.write(f'{airport.icaoCode}|{airport.latitude}|{airport.longitude}\n')
 
 def PlotAirports(airports):
     sch, nSch = 0, 0
