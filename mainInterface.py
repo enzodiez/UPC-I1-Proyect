@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from tkinter import messagebox
+import FigureCanvasTkAgg
 from airport import *
 
 # Configuración de apariencia
@@ -33,7 +34,7 @@ class InterfazPrincipal(ctk.CTk):
         self.create_airp.grid(row=0, column=0, sticky='nsew', padx=15, pady=15)
         self.visz_airp_data = ctk.CTkButton(self.options_frame, text="Ver información aeropuerto/s", corner_radius=5, border_width=2)
         self.visz_airp_data.grid(row=1, column=0, sticky='nsew', padx=15, pady=15)
-        self.gr_Sch_NSch = ctk.CTkButton(self.options_frame, text="Gráfico aeropuertos Schengen/No-Schengen", corner_radius=5, border_width=2)
+        self.gr_Sch_NSch = ctk.CTkButton(self.options_frame, text="Gráfico aeropuertos Schengen/No-Schengen", corner_radius=5, border_width=2, command=self.mostrar_gra_sch_nSch)
         self.gr_Sch_NSch.grid(row=2, column=0, sticky='nsew', padx=15, pady=15)
         self.map_airp = ctk.CTkButton(self.options_frame, text="Crear Aeropuerto", corner_radius=5, border_width=2)
         self.map_airp.grid(row=3, column=0, sticky='nsew', padx=15, pady=15)
@@ -92,6 +93,19 @@ class InterfazPrincipal(ctk.CTk):
         self.input_ic.focus()
 
         messagebox.showinfo('Creado!', f'Aeropuerto {codICAO} creado exitosamente!')
+
+    def mostrar_gra_sch_nSch(self):
+        # Vaciar frame principal
+        for widget in self.principal_frame.winfo_children():
+            widget.destroy()
+
+        fig = PlotAirports(LoadAirports('Airports.txt'))
+
+        canvas = FigureCanvasTkAgg(fig, master=self.principal_frame)
+        canvas.draw()
+        canvas.get_tk_widget().pack(side='top', fill='both', expand=True, padx=20, pady=20)
+
+        plt.rcParams.update({'figure.facecolor': '#2b2b2b', 'axes.facecolor': '#2b2b2b', 'text.color': 'white', 'axes.labelcolor': 'white', 'xtick.color': 'white', 'ytick.color': 'white'})
 
 if __name__ == "__main__":
     app = InterfazPrincipal()
