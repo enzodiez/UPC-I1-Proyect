@@ -52,7 +52,7 @@ def PlotAirports(airports):
     ax.set_title('Schengen airports')
     ax.legend()
     
-    plt.show()
+    return fig
 
 def MapAirports(airports):
     # Sobreescribe todo el fichero para actualizarlo
