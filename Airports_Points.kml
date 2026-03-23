@@ -1,4 +1,5 @@
-<kml xmlns="https://www.opengis.net/kml/2.2">
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
 <Document>
     <Style id="Schengen">
         <IconStyle>
@@ -9,1216 +10,1209 @@
         <IconStyle>
             <color>ff0000ff</color>
         </IconStyle>
-    </Style
-    <Placemark>
-        <name>BIKF</name>
-        <styleUrl>Schengen</styleUrl>
-        <Point>
-            <coordinates>N635906,W0223620</coordinates>
-        </Point>
-    </Placemark>
+    </Style>
     <Placemark>
         <name>CYUL</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N452805,W0734429</coordinates>
+            <coordinates>-73.74139,45.46806,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>CYYZ</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N434038,W0793750</coordinates>
+            <coordinates>-79.63056,43.67722,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>DAAG</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N364138,E0031252</coordinates>
+            <coordinates>3.21444,36.69389,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>DTTA</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N365104,E0101337</coordinates>
+            <coordinates>10.22694,36.85111,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EBAW</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N511122,E0042737</coordinates>
+            <coordinates>4.46028,51.18944,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EBBR</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N505405,E0042904</coordinates>
+            <coordinates>4.48444,50.90139,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EBLG</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N503811,E0052634</coordinates>
+            <coordinates>5.44278,50.63639,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EBOS</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N511156,E0025144</coordinates>
+            <coordinates>2.86222,51.19889,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EDDB</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N522144,E0133002</coordinates>
+            <coordinates>13.50056,52.36222,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EDDF</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N500200,E0083414</coordinates>
+            <coordinates>8.57056,50.03333,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EDDH</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N533749,E0095918</coordinates>
+            <coordinates>9.98833,53.63028,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EDDK</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N505157,E0070834</coordinates>
+            <coordinates>7.14278,50.86583,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EDDL</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N511651,E0064526</coordinates>
+            <coordinates>6.75722,51.28083,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EDDM</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N482114,E0114710</coordinates>
+            <coordinates>11.78611,48.35389,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EDDN</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N492955,E0110441</coordinates>
+            <coordinates>11.07806,49.49861,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EDDP</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N512526,E0121411</coordinates>
+            <coordinates>12.23639,51.42389,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EDDS</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N484124,E0091319</coordinates>
+            <coordinates>9.22194,48.69000,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EDDT</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N523335,E0131716</coordinates>
+            <coordinates>13.28778,52.55972,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EDDV</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N522737,E0094101</coordinates>
+            <coordinates>9.68361,52.46028,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EETN</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N592448,E0244957</coordinates>
+            <coordinates>24.83250,59.41333,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EFHK</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N601902,E0245748</coordinates>
+            <coordinates>24.96333,60.31722,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGAA</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N543927,W0061257</coordinates>
+            <coordinates>-6.21583,54.65750,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGBB</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N522714,W0014453</coordinates>
+            <coordinates>-1.74806,52.45389,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGCC</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N532114,W0021630</coordinates>
+            <coordinates>-2.27500,53.35389,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGFF</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N512348,W0032036</coordinates>
+            <coordinates>-3.34333,51.39667,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGGD</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N512258,W0024309</coordinates>
+            <coordinates>-2.71917,51.38278,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGGP</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N532001,W0025059</coordinates>
+            <coordinates>-2.84972,53.33361,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGGW</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N515229,W0002206</coordinates>
+            <coordinates>-0.36833,51.87472,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGHI</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N505701,W0012124</coordinates>
+            <coordinates>-1.35667,50.95028,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGKK</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N510853,W0001125</coordinates>
+            <coordinates>-0.19028,51.14806,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGLL</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N512839,W0002741</coordinates>
+            <coordinates>-0.46139,51.47750,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGMC</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N513413,E0004136</coordinates>
+            <coordinates>0.69333,51.57028,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGNM</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N535158,W0013939</coordinates>
+            <coordinates>-1.66083,53.86611,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGNT</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N550217,W0014123</coordinates>
+            <coordinates>-1.68972,55.03806,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGNX</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N524952,W0011940</coordinates>
+            <coordinates>-1.32778,52.83111,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGPH</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N555700,W0032221</coordinates>
+            <coordinates>-3.37250,55.95000,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGPK</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N553034,W0043540</coordinates>
+            <coordinates>-4.59444,55.50944,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EGSS</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N515306,E0001406</coordinates>
+            <coordinates>0.23500,51.88500,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EHAM</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N521829,E0044551</coordinates>
+            <coordinates>4.76417,52.30806,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EHEH</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N512700,E0052228</coordinates>
+            <coordinates>5.37444,51.45000,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EHRD</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N515725,E0042614</coordinates>
+            <coordinates>4.43722,51.95694,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EIDW</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N532517,W0061612</coordinates>
+            <coordinates>-6.27000,53.42139,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EKBI</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N554425,E0090906</coordinates>
+            <coordinates>9.15167,55.74028,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EKCH</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N553705,E0123922</coordinates>
+            <coordinates>12.65611,55.61806,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>ELLX</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N493724,E0061216</coordinates>
+            <coordinates>6.20444,49.62333,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>ENBR</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N601737,E0051305</coordinates>
+            <coordinates>5.21806,60.29361,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>ENGM</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N601210,E0110502</coordinates>
+            <coordinates>11.08389,60.20278,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EPKK</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N500440,E0194705</coordinates>
+            <coordinates>19.78472,50.07778,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EPKT</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N502827,E0190448</coordinates>
+            <coordinates>19.08000,50.47417,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EPWA</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N520957,E0205802</coordinates>
+            <coordinates>20.96722,52.16583,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>ESGG</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N573936,E0121728</coordinates>
+            <coordinates>12.29111,57.66000,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>ESKN</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N584719,E0165413</coordinates>
+            <coordinates>16.90361,58.78861,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>ESSA</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N593907,E0175507</coordinates>
+            <coordinates>17.91861,59.65194,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>ETNL</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N535509,E0121642</coordinates>
+            <coordinates>12.27833,53.91917,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EVRA</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N565525,E0235816</coordinates>
+            <coordinates>23.97111,56.92361,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>EYVI</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N543813,E0251716</coordinates>
+            <coordinates>25.28778,54.63694,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>GCFV</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N282710,W0135150</coordinates>
+            <coordinates>-13.86389,28.45278,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>GCLP</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N275555,W0152312</coordinates>
+            <coordinates>-15.38667,27.93194,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>GCRR</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N285644,W0133619</coordinates>
+            <coordinates>-13.60528,28.94556,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>GCXO</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N282858,W0162030</coordinates>
+            <coordinates>-16.34167,28.48278,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>GMFF</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N335538,W0045840</coordinates>
+            <coordinates>-4.97778,33.92722,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>GMMN</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N332151,W0073454</coordinates>
+            <coordinates>-7.58167,33.36417,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>GMMX</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N313631,W0080227</coordinates>
+            <coordinates>-8.04083,31.60861,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>GMTT</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N354354,W0055516</coordinates>
+            <coordinates>-5.92111,35.73167,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>HECA</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N300641,E0312450</coordinates>
+            <coordinates>31.41389,30.11139,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>HTDA</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>S065232,E0391212</coordinates>
+            <coordinates>39.20333,-6.87556,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>KATL</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N333800,W0842600</coordinates>
+            <coordinates>-84.43333,33.63333,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>KCLT</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N351300,W0805700</coordinates>
+            <coordinates>-80.95000,35.21667,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>KEWR</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N404148,W0741006</coordinates>
+            <coordinates>-74.16833,40.69667,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>KIAD</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N385642,W0772724</coordinates>
+            <coordinates>-77.45667,38.94500,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>KJFK</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N403825,W0734642</coordinates>
+            <coordinates>-73.77833,40.64028,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>KMIA</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N254800,W0801700</coordinates>
+            <coordinates>-80.28333,25.80000,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>KPHL</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N395212,W0751442</coordinates>
+            <coordinates>-75.24500,39.87000,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>KUGN</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N422518,W0875206</coordinates>
+            <coordinates>-87.86833,42.42167,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LBSF</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N424142,E0232430</coordinates>
+            <coordinates>23.40833,42.69500,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LCLK</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N345244,E0333749</coordinates>
+            <coordinates>33.63028,34.87889,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LDDU</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N423341,E0181606</coordinates>
+            <coordinates>18.26833,42.56139,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LDSP</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N433220,E0161753</coordinates>
+            <coordinates>16.29806,43.53889,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LDZA</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N454435,E0160408</coordinates>
+            <coordinates>16.06889,45.74306,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEAL</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N381656,W0003329</coordinates>
+            <coordinates>-0.55806,38.28222,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEAM</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N365038,W0022212</coordinates>
+            <coordinates>-2.37000,36.84389,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEAS</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N433349,W0060205</coordinates>
+            <coordinates>-6.03472,43.56361,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEBB</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N431804,W0025438</coordinates>
+            <coordinates>-2.91056,43.30111,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEBL</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N411749,E0020442</coordinates>
+            <coordinates>2.07833,41.29694,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEBZ</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N385329,W0064917</coordinates>
+            <coordinates>-6.82139,38.89139,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LECO</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N431807,W0082238</coordinates>
+            <coordinates>-8.37722,43.30194,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEGE</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N415403,E0024538</coordinates>
+            <coordinates>2.76056,41.90083,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEGR</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N371119,W0034638</coordinates>
+            <coordinates>-3.77722,37.18861,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEIB</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N385222,E0012223</coordinates>
+            <coordinates>1.37306,38.87278,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEJR</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N364441,W0060336</coordinates>
+            <coordinates>-6.06000,36.74472,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LELN</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N423519,W0053922</coordinates>
+            <coordinates>-5.65611,42.58861,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEMD</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N402820,W0033339</coordinates>
+            <coordinates>-3.56083,40.47222,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEMG</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N364030,W0042957</coordinates>
+            <coordinates>-4.49917,36.67500,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEMH</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N395145,E0041307</coordinates>
+            <coordinates>4.21861,39.86250,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEPA</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N393306,E0024420</coordinates>
+            <coordinates>2.73889,39.55167,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LESO</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N432123,W0014726</coordinates>
+            <coordinates>-1.79056,43.35639,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEST</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N425347,W0082455</coordinates>
+            <coordinates>-8.41528,42.89639,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEVC</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N392922,W0002854</coordinates>
+            <coordinates>-0.48167,39.48944,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEVD</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N414222,W0045107</coordinates>
+            <coordinates>-4.85194,41.70611,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEVX</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N421345,W0083739</coordinates>
+            <coordinates>-8.62750,42.22917,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEXJ</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N432537,W0034912</coordinates>
+            <coordinates>-3.82000,43.42694,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEZL</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N372505,W0055356</coordinates>
+            <coordinates>-5.89889,37.41806,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFBD</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N444943,W0004255</coordinates>
+            <coordinates>-0.71528,44.82861,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFBT</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N431108,W0000010</coordinates>
+            <coordinates>-0.00278,43.18556,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFCK</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N433318,E0021726</coordinates>
+            <coordinates>2.29056,43.55500,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFLL</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N454332,E0050452</coordinates>
+            <coordinates>5.08111,45.72556,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFMD</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N433247,E0065715</coordinates>
+            <coordinates>6.95417,43.54639,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFML</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N432612,E0051254</coordinates>
+            <coordinates>5.21500,43.43667,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFMN</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N433955,E0071254</coordinates>
+            <coordinates>7.21500,43.66528,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFOB</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N492716,E0020646</coordinates>
+            <coordinates>2.11278,49.45444,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFPG</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N490035,E0023252</coordinates>
+            <coordinates>2.54778,49.00972,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFPO</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N484324,E0022246</coordinates>
+            <coordinates>2.37944,48.72333,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFQQ</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N503348,E0030513</coordinates>
+            <coordinates>3.08694,50.56333,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFRN</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N480419,W0014356</coordinates>
+            <coordinates>-1.73222,48.07194,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFRS</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N470925,W0013628</coordinates>
+            <coordinates>-1.60778,47.15694,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFSB</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N473524,E0073145</coordinates>
+            <coordinates>7.52917,47.59000,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFST</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N483231,E0073804</coordinates>
+            <coordinates>7.63444,48.54194,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LGAV</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N375612,E0235640</coordinates>
+            <coordinates>23.94444,37.93667,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LGIR</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N352023,E0251049</coordinates>
+            <coordinates>25.18028,35.33972,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LGKR</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N393607,E0195444</coordinates>
+            <coordinates>19.91222,39.60194,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LGMK</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N372614,E0252050</coordinates>
+            <coordinates>25.34722,37.43722,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LGSR</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N362357,E0252845</coordinates>
+            <coordinates>25.47917,36.39917,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LGTS</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N403111,E0225815</coordinates>
+            <coordinates>22.97083,40.51972,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LHBP</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N472622,E0191543</coordinates>
+            <coordinates>19.26194,47.43944,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LIBD</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N410817,E0164554</coordinates>
+            <coordinates>16.76500,41.13806,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LICJ</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N381055,E0130558</coordinates>
+            <coordinates>13.09944,38.18194,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LIEE</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N391450,E0090322</coordinates>
+            <coordinates>9.05611,39.24722,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LIEO</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N405355,E0093104</coordinates>
+            <coordinates>9.51778,40.89861,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LIMC</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N453748,E0084323</coordinates>
+            <coordinates>8.72306,45.63000,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LIME</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N454008,E0094201</coordinates>
+            <coordinates>9.70028,45.66889,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LIMF</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N451209,E0073858</coordinates>
+            <coordinates>7.64944,45.20250,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LIML</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N452658,E0091642</coordinates>
+            <coordinates>9.27833,45.44944,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LIPE</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N443151,E0111749</coordinates>
+            <coordinates>11.29694,44.53083,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LIPH</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N453903,E0121152</coordinates>
+            <coordinates>12.19778,45.65083,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LIPX</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N452347,E0105316</coordinates>
+            <coordinates>10.88778,45.39639,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LIPZ</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N453019,E0122107</coordinates>
+            <coordinates>12.35194,45.50528,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LIRF</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N414801,E0121420</coordinates>
+            <coordinates>12.23889,41.80028,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LIRN</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N405304,E0141727</coordinates>
+            <coordinates>14.29083,40.88444,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LIRP</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N434058,E0102344</coordinates>
+            <coordinates>10.39556,43.68278,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LIRQ</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N434831,E0111210</coordinates>
+            <coordinates>11.20278,43.80861,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LKPR</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N500603,E0141536</coordinates>
+            <coordinates>14.26000,50.10083,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LLBG</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N320034,E0345308</coordinates>
+            <coordinates>34.88556,32.00944,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LMML</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N355127,E0142839</coordinates>
+            <coordinates>14.47750,35.85750,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LOWW</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N480637,E0163411</coordinates>
+            <coordinates>16.56972,48.11028,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LPPR</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N411408,W0084041</coordinates>
+            <coordinates>-8.67806,41.23556,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LPPT</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N384627,W0090803</coordinates>
+            <coordinates>-9.13417,38.77417,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LRCL</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N464721,E0234132</coordinates>
+            <coordinates>23.69222,46.78917,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LROP</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N443416,E0260506</coordinates>
+            <coordinates>26.08500,44.57111,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LSGG</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N461418,E0060634</coordinates>
+            <coordinates>6.10944,46.23833,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LSZG</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N471053,E0072459</coordinates>
+            <coordinates>7.41639,47.18139,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LSZH</name>
-        <styleUrl>Schengen</styleUrl>
+        <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>N472729,E0083253</coordinates>
+            <coordinates>8.54806,47.45806,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LTBA</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N405834,E0284851</coordinates>
+            <coordinates>28.81417,40.97611,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LTFJ</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N405354,E0291833</coordinates>
+            <coordinates>29.30917,40.89833,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LUKK</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N465540,E0285551</coordinates>
+            <coordinates>28.93083,46.92778,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LWSK</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N415742,E0213717</coordinates>
+            <coordinates>21.62139,41.96167,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LYBE</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N444910,E0201825</coordinates>
+            <coordinates>20.30694,44.81944,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LYTV</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N422417,E0184324</coordinates>
+            <coordinates>18.72333,42.40472,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>OLBA</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N334909,E0352924</coordinates>
+            <coordinates>35.49000,33.81917,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>OMAA</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N242600,E0543900</coordinates>
+            <coordinates>54.65000,24.43333,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>OMDB</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N251457,E0552136</coordinates>
+            <coordinates>55.36000,25.24917,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>OTHH</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N251628,E0513630</coordinates>
+            <coordinates>51.60833,25.27444,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>SAEZ</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>S344920,W0583209</coordinates>
+            <coordinates>-58.53583,-34.82222,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>SBGR</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>S232600,W0462812</coordinates>
+            <coordinates>-46.47000,-23.43333,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>SKBO</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N044200,W0740900</coordinates>
+            <coordinates>-74.15000,4.70000,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>UKBB</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N502041,E0305336</coordinates>
+            <coordinates>30.89333,50.34472,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>UKKK</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N502407,E0302707</coordinates>
+            <coordinates>30.45194,50.40194,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>ULLI</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N594801,E0301545</coordinates>
+            <coordinates>30.26250,59.80028,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>URKK</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N450205,E0391012</coordinates>
+            <coordinates>39.17000,45.03472,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>UUDD</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N552431,E0375423</coordinates>
+            <coordinates>37.90639,55.40861,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>UUEE</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N555821,E0372447</coordinates>
+            <coordinates>37.41306,55.97250,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>UWKD</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N553625,E0491649</coordinates>
+            <coordinates>49.28028,55.60694,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>WSSS</name>
-        <styleUrl>Non Schengen</styleUrl>
+        <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>N012133,E1035921</coordinates>
+            <coordinates>103.98917,1.35917,0</coordinates>
         </Point>
     </Placemark>
 </Document>

@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from tkinter import messagebox
-import FigureCanvasTkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
 from airport import *
 
 # Configuración de apariencia
@@ -32,12 +33,16 @@ class InterfazPrincipal(ctk.CTk):
 
         self.create_airp = ctk.CTkButton(self.options_frame, text="Crear Aeropuerto", corner_radius=5, border_width=2, command=self.ejecutar_create_airp)
         self.create_airp.grid(row=0, column=0, sticky='nsew', padx=15, pady=15)
-        self.visz_airp_data = ctk.CTkButton(self.options_frame, text="Ver información aeropuerto/s", corner_radius=5, border_width=2)
+
+        self.visz_airp_data = ctk.CTkButton(self.options_frame, text="Ver información aeropuerto/s", corner_radius=5, border_width=2, command=lambda: self.ejecutar_visz_airports(LoadAirports('Airports.txt')))
         self.visz_airp_data.grid(row=1, column=0, sticky='nsew', padx=15, pady=15)
+
         self.gr_Sch_NSch = ctk.CTkButton(self.options_frame, text="Gráfico aeropuertos Schengen/No-Schengen", corner_radius=5, border_width=2, command=self.mostrar_gra_sch_nSch)
         self.gr_Sch_NSch.grid(row=2, column=0, sticky='nsew', padx=15, pady=15)
-        self.map_airp = ctk.CTkButton(self.options_frame, text="Crear Aeropuerto", corner_radius=5, border_width=2)
+
+        self.map_airp = ctk.CTkButton(self.options_frame, text="Mapa aeropuertos", corner_radius=5, border_width=2, command=lambda: MapAirports(LoadAirports('Airports.txt')))
         self.map_airp.grid(row=3, column=0, sticky='nsew', padx=15, pady=15)
+
         self.switch_appear = ctk.StringVar(value="on")
         self.appearance = ctk.CTkSwitch(self.options_frame, text='Modo Oscuro', onvalue='on', offvalue='off', variable=self.switch_appear, command=self.cambiar_modo_toggle)
         self.appearance.grid(row=4, column=0, sticky='nsew', padx=15, pady=15)
@@ -54,7 +59,7 @@ class InterfazPrincipal(ctk.CTk):
             self.appearance.configure(text="Modo Claro")
     
     def ejecutar_create_airp(self):
-        # Vaciar frame principal
+        # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():
             widget.destroy()
         
@@ -82,6 +87,8 @@ class InterfazPrincipal(ctk.CTk):
             return
         
         nuevo_aeropuerto = Airport(ic=codICAO, lat=latitud, lon=longitud)
+        SetSchengen(nuevo_aeropuerto)
+
         save_new_airport(nuevo_aeropuerto)
 
         # Limpio las casillas
@@ -91,21 +98,70 @@ class InterfazPrincipal(ctk.CTk):
 
         # El cursor vuelve a la primera casilla
         self.input_ic.focus()
+    
+    def ejecutar_visz_airports(self, airports):
+        # Vaciar el frame principal
+        for widget in self.principal_frame.winfo_children():
+            widget.destroy()
+        
+        #Por ahora, su función es la de mostrar la información que hay de TODOS los aeropuertos en airports.txt
+        #pero con las coordenadas en números gracias a la función LoadAirports('airports.xt')
+        self.tabla = ctk.CTkScrollableFrame(self.principal_frame, label_text="Información de los aeropuertos registrados")
+        self.tabla.pack(fill="both", expand=True, padx=10, pady=10)
+        self.tabla.grid_columnconfigure((0, 1, 2), weight=1)
 
-        messagebox.showinfo('Creado!', f'Aeropuerto {codICAO} creado exitosamente!')
+        headers = ["Código ICAO", "Latitud", "Longitud"]
+        for col, texto in enumerate(headers):
+            header = ctk.CTkLabel(
+                self.tabla, 
+                text=texto, 
+                font=("Arial", 14, "bold"),
+                fg_color=("#3a7ebf", "#1f538d"),
+                text_color="white",
+                corner_radius=5
+            )
+            header.grid(row=0, column=col, sticky="nsew", padx=2, pady=5)
+        
+        # Empiezo en la fila 1 porque la 0 son los encabezados
+        for i, line in enumerate(airports, start=1):
+            airp_data = line.split()
+            for j in range(3):
+                dato = ctk.CTkLabel(
+                    self.tabla,
+                    text=airp_data[j],
+                    fg_color='transparent' if i % 2 == 0 else ("#f0f0f0", "#0085B5") #Sentencia if para tener las filas en colores alternos (más facil para seguir una línea)
+                )
+                dato.grid(row=i, column=j, sticky='nsew', padx=2, pady=2)
 
     def mostrar_gra_sch_nSch(self):
-        # Vaciar frame principal
+        # 1. Limpiar frame
         for widget in self.principal_frame.winfo_children():
             widget.destroy()
 
-        fig = PlotAirports(LoadAirports('Airports.txt'))
+        try:
+            # 2. Configurar el estilo ANTES de crear la figura
+            plt.rcParams.update({
+                'figure.facecolor': '#2b2b2b', 
+                'axes.facecolor': '#2b2b2b', 
+                'text.color': 'white', 
+                'axes.labelcolor': 'white', 
+                'xtick.color': 'white', 
+                'ytick.color': 'white'
+            })
 
-        canvas = FigureCanvasTkAgg(fig, master=self.principal_frame)
-        canvas.draw()
-        canvas.get_tk_widget().pack(side='top', fill='both', expand=True, padx=20, pady=20)
+            # 3. Obtener la figura
+            # IMPORTANTE: Asegúrate de que PlotAirports devuelva la figura (return fig)
+            # y que NO ejecute plt.show() dentro.
+            lista_aeropuertos = LoadAirports('Airports.txt')
+            fig = PlotAirports(lista_aeropuertos)
 
-        plt.rcParams.update({'figure.facecolor': '#2b2b2b', 'axes.facecolor': '#2b2b2b', 'text.color': 'white', 'axes.labelcolor': 'white', 'xtick.color': 'white', 'ytick.color': 'white'})
+            # 4. Integrar en CustomTkinter
+            canvas = FigureCanvasTkAgg(fig, master=self.principal_frame)
+            canvas.draw()
+            canvas.get_tk_widget().pack(side='top', fill='both', expand=True, padx=20, pady=20)
+            
+        except Exception as e:
+            messagebox.showerror("Error de Gráfico", f"No se pudo generar el gráfico: {e}")
 
 if __name__ == "__main__":
     app = InterfazPrincipal()
