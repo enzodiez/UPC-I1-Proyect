@@ -110,7 +110,7 @@ class InterfazPrincipal(ctk.CTk):
         self.tabla.pack(fill="both", expand=True, padx=10, pady=10)
         self.tabla.grid_columnconfigure((0, 1, 2), weight=1)
 
-        headers = ["Código ICAO", "Latitud", "Longitud"]
+        headers = ["Código ICAO", "Latitud", "Longitud", "¿Schengen?"]
         for col, texto in enumerate(headers):
             header = ctk.CTkLabel(
                 self.tabla, 
@@ -123,9 +123,13 @@ class InterfazPrincipal(ctk.CTk):
             header.grid(row=0, column=col, sticky="nsew", padx=2, pady=5)
         
         # Empiezo en la fila 1 porque la 0 son los encabezados
-        for i, line in enumerate(airports, start=1):
-            airp_data = line.split()
-            for j in range(3):
+        for i, airp in enumerate(airports, start=1):
+            icaoCode = airp.icaoCode
+            lat = airp.latitude
+            lon = airp.longitude
+            sch = airp.schengen
+            airp_data = [icaoCode, lat, lon, sch]
+            for j in range(4):
                 dato = ctk.CTkLabel(
                     self.tabla,
                     text=airp_data[j],
