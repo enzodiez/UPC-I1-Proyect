@@ -31,7 +31,7 @@ class InterfazPrincipal(ctk.CTk):
         self.options_frame.grid_rowconfigure(3, weight=1)
         self.options_frame.grid_rowconfigure(4, weight=1)
 
-        self.create_airp = ctk.CTkButton(self.options_frame, text="Crear Aeropuerto", corner_radius=5, border_width=2, command=self.ejecutar_create_airp)
+        self.create_airp = ctk.CTkButton(self.options_frame, text="Gestionar Aeropuertos", corner_radius=5, border_width=2, command=self.ejecutar_gestionar_airp)
         self.create_airp.grid(row=0, column=0, sticky='nsew', padx=15, pady=15)
 
         self.visz_airp_data = ctk.CTkButton(self.options_frame, text="Ver información aeropuerto/s", corner_radius=5, border_width=2, command=lambda: self.ejecutar_visz_airports(LoadAirports('Airports.txt')))
@@ -76,6 +76,64 @@ class InterfazPrincipal(ctk.CTk):
         crear = ctk.CTkButton(self.principal_frame, text='Crear', fg_color='green', command=self.procesar_create_airp)
         crear.pack(pady=20)
     
+    def ejecutar_gestionar_airp(self):
+        # Vaciar el frame principal
+        for widget in self.principal_frame.winfo_children():
+            widget.destroy()
+        
+        label = ctk.CTkLabel(self.principal_frame, text="¿Qué quieres?", font=("Arial", 20))
+        label.pack(pady=40)
+
+        #Creo un subframe para los botones
+        btn_frame = ctk.CTkFrame(self.principal_frame, fg_color="transparent")
+        btn_frame.pack(expand=True)
+
+        #Los dos botones los creo dentro del subframe
+        btn_crear = ctk.CTkButton(btn_frame, text='Crear', fg_color='green', command=self.ejecutar_create_airp)
+        btn_crear.pack(side="left", padx=20)
+
+        btn_elim = ctk.CTkButton(btn_frame, text='Eliminar', fg_color='red', command=self.ejecutar_eliminate_airp)
+        btn_elim.pack(side="left", padx=20)
+    
+    def ejecutar_eliminate_airp(self):
+        # Vaciar el frame principal
+        for widget in self.principal_frame.winfo_children():
+            widget.destroy()
+        
+        label = ctk.CTkLabel(self.principal_frame, text="introduce el código ICAO del aeropuerto", font=("Arial", 20))
+        label.pack(pady=20)
+
+        self.input_ic = ctk.CTkEntry(self.principal_frame, placeholder_text='Código ICAO')
+        self.input_ic.pack(pady=100)
+
+        btn_elim = ctk.CTkButton(self.principal_frame, text='Eliminar', fg_color='red', command=self.procesar_eliminate_airp)
+        btn_elim.pack(pady=100)
+    
+    def procesar_eliminate_airp(self):
+        ic = self.input_ic.get()
+
+        if ic == '':
+            messagebox.showerror('Error', 'El campo no puede estar vacío.')
+            return
+        elif len(ic) != 4:
+            messagebox.showerror('Error', 'Los códigos ICAO son de 4 LETRAS')
+            return
+        else:
+            for ch in list(ic):
+                if 'a' <= ch <= 'z' or 'A' <= ch <= 'Z':
+                    pass
+                else:
+                    messagebox.showerror('Error', 'Todos los caracteres deben ser letras')
+                    return
+        
+        if RemoveAirport(LoadAirports('Airports.txt'), ic):
+            messagebox.showinfo('Eliminado', f'Aeropuerto de código {ic} eliminado correctamente.')
+        else:
+            messagebox.showerror('Error', f'Este aeropuerto no se encuentra en nuestros datos.')
+        
+        #Limpio la casilla
+        self.input_ic.delete(0, 'end')
+
     def procesar_create_airp(self):
         codICAO = self.input_ic.get()
         latitud = self.input_lat.get()
@@ -86,10 +144,35 @@ class InterfazPrincipal(ctk.CTk):
             messagebox.showwarning("Error", "Todos los campos son obligatorios")
             return
         
-        nuevo_aeropuerto = Airport(ic=codICAO, lat=latitud, lon=longitud)
+        try:
+            lat = float(latitud)
+            lon = float(longitud)
+        except ValueError as e:
+            messagebox.showerror('Error', '"Latitud" y "Longitud" deben ser números (punto decimal)')
+            return
+        
+        if codICAO == '':
+            messagebox.showerror('Error', 'El campo "Código ICAO" no puede estar vacío.')
+            return
+        elif len(codICAO) != 4:
+            messagebox.showerror('Error', 'Los códigos ICAO son de 4 LETRAS')
+            return
+        else:
+            for ch in list(codICAO):
+                if 'a' <= ch <= 'z' or 'A' <= ch <= 'Z':
+                    pass
+                else:
+                    messagebox.showerror('Error', 'Todos los caracteres de Código ICAO deben ser letras')
+                    return
+        
+        nuevo_aeropuerto = Airport(ic=codICAO.upper(), lat=latitud, lon=longitud)
         SetSchengen(nuevo_aeropuerto)
 
-        save_new_airport(nuevo_aeropuerto)
+        if not AddAirport(LoadAirports('Airports.txt'), nuevo_aeropuerto):
+            messagebox.showerror('Error', f'El Aeropuerto con el código {nuevo_aeropuerto.icaoCode} ya está en nuestros datos.')
+            return
+        else:
+            messagebox.showinfo('Creado!', f'Aeropuerto {nuevo_aeropuerto.icaoCode} creado exitosamente!')
 
         # Limpio las casillas
         self.input_ic.delete(0, 'end')

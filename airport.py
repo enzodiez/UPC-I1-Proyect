@@ -28,9 +28,64 @@ def PrintAirport(airport: Airport): # Que airport sea un objeto Airport
     print(f"Longitud: {airport.longitude}")
     print(f"Pertenece a la zona Schengen: {airport.schengen}")
 
-def save_new_airport(airport:Airport):
-    with open('created_airports.txt', 'a', encoding='utf-8') as file:
-        file.write(f'{airport.icaoCode}|{airport.latitude}|{airport.longitude}\n')
+'''def SaveSchengenAirports(airports, filename):
+    with open(filename, 'r', encoding='utf-8') as file:
+        schAirp = file.readlines()
+    
+    for airp in airports:
+        if IsSchengenAirport(airp.icaoCode):
+            found = False
+            cnt = 0
+            while not found and cnt < len(schAirp):
+                ic, lat, lon = schAirp[cnt].split()
+                if airp.icaoCode == ic:
+                    found = True
+                cnt += 1
+            if not found:
+                latitud = Convertir_a_gms(float(airp.latitude), 'N', 'S')
+                longitud = Convertir_a_gms(float(airp.longitude), 'E', 'W')
+                line = f'{airp.icaoCode} {latitud} {longitud}'
+                schAirp.append(line)
+    
+    with open(filename, 'w', encoding='utf-8') as file:
+        for linea in schAirp:
+            file.write(f'{linea}\n')'''
+def SaveSchengenAirports(airports, filename):
+    # Leeo y limpio los saltos de línea con splitlines()
+    try:
+        with open(filename, 'r', encoding='utf-8') as file:
+            # splitlines() elimina los \n automáticamente
+            schAirp = file.read().splitlines()
+    except FileNotFoundError:
+        schAirp = []
+    
+    for airp in airports:
+        if IsSchengenAirport(airp.icaoCode):
+            found = False
+            cnt = 0
+            
+            while not found and cnt < len(schAirp):
+                try:
+                    partes = schAirp[cnt].split()
+                    if partes: # Si la línea no está vacía
+                        ic = partes[0]
+                        if airp.icaoCode == ic:
+                            found = True
+                except IndexError:
+                    pass
+                cnt += 1
+                
+            if not found:
+                latitud = Convertir_a_gms(float(airp.latitude), 'N', 'S')
+                longitud = Convertir_a_gms(float(airp.longitude), 'E', 'W')
+                line = f'{airp.icaoCode} {latitud} {longitud}'
+                schAirp.append(line)
+    
+    # Reescribir el archivo actualizado
+    with open(filename, 'w', encoding='utf-8') as file:
+        for linea in schAirp:
+            if linea.strip(): # Solo escribir si la línea tiene contenido, para evitar problemas
+                file.write(f'{linea}\n')
 
 def PlotAirports(airports):
     sch, nSch = 0, 0
@@ -144,6 +199,7 @@ def LoadAirports (filename):
     return apdata
 
 def Convertir_a_gms (value, positive, negative): #Defino esta función para pasar de grados a grados, minutos y segundos, con la N, S, W y E como en el documento airports.txt, por si hace falta en algún momento
+    #positive es N o E, negative es S o W
     direction = positive if value >= 0 else negative
     value = abs(value)
 
@@ -153,17 +209,18 @@ def Convertir_a_gms (value, positive, negative): #Defino esta función para pasa
 
     return f"{direction}{degrees:02d}{minutes:02d}{seconds:02d}"
 
-def AddAirportlist (airports, airport):
-    for a in airports:
-        if a[0] == airport.icaoCode:
-            messagebox.showerror('Error', f'El Aeropuerto con el código {airport.icaoCode} ya está en nuestros datos.')
+def AddAirport (airports, airport):
+    for airp in airports:
+        if airp.icaoCode == airport.icaoCode:
+            return False
     
     airports.append(airport)
-    messagebox.showinfo('Creado!', f'Aeropuerto {airport.icaoCode} creado exitosamente!')
+    SaveSchengenAirports(airports, 'SchengenAirports.txt')
+    return True
 
-def RemoveAirportlist (airports, code):
+def RemoveAirport (airports, code):
     for i in range(len(airports)):
-        if airports[i][0] == code:
-            airports.pop(i)
-            messagebox.showinfo('Eliminado', f'Aeropuerto de código {code} eliminado exitosamente.')
-    messagebox.showerror('Error', f'Este aeropuerto no se encuentra en nuestros datos.')
+        if airports[i].icaoCode == code.upper():
+            del airports[i]
+            return True
+    return False
