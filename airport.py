@@ -35,7 +35,7 @@ def save_new_airport(airport:Airport):
 def PlotAirports(airports):
     sch, nSch = 0, 0
     for airport in airports:
-        if IsSchengenAirport(f"{airport[0]}{airport[1]}"):
+        if IsSchengenAirport(f"{airport.icaoCode[0]}{airport.icaoCode[1]}"):
             sch += 1
         else:
             nSch += 1
@@ -75,8 +75,10 @@ def MapAirports(airports):
     </Style>
 """)
 
-    for i in range(1, len(airports)):
-        ic, lat, lon  = airports[i].split()
+    for i in range(len(airports)):
+        ic = airports[i].icaoCode
+        lat = airports[i].latitude
+        lon = airports[i].longitude
 
         if IsSchengenAirport(ic):
             style = 'Schengen'
@@ -135,7 +137,9 @@ def LoadAirports (filename):
         lon = lon + sec_lon + min_lon
         if w_e == "W":
             lon = -lon
-        apdata.append(''.join(f"{name} {lat:0.5f} {lon:0.5f}"))
+        airp = Airport(name, float(f"{lat:0.5f}"), float(f"{lon:0.5f}"))
+        SetSchengen(airp)
+        apdata.append(airp)
     F.close()
     return apdata
 

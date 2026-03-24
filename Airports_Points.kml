@@ -12,6 +12,13 @@
         </IconStyle>
     </Style>
     <Placemark>
+        <name>BIKF</name>
+        <styleUrl>#Schengen</styleUrl>
+        <Point>
+            <coordinates>-22.60556,63.985,0</coordinates>
+        </Point>
+    </Placemark>
+    <Placemark>
         <name>CYUL</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
@@ -127,7 +134,7 @@
         <name>EDDS</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>9.22194,48.69000,0</coordinates>
+            <coordinates>9.22194,48.69,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -148,7 +155,7 @@
         <name>EETN</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>24.83250,59.41333,0</coordinates>
+            <coordinates>24.8325,59.41333,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -162,7 +169,7 @@
         <name>EGAA</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>-6.21583,54.65750,0</coordinates>
+            <coordinates>-6.21583,54.6575,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -176,7 +183,7 @@
         <name>EGCC</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>-2.27500,53.35389,0</coordinates>
+            <coordinates>-2.275,53.35389,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -225,7 +232,7 @@
         <name>EGLL</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>-0.46139,51.47750,0</coordinates>
+            <coordinates>-0.46139,51.4775,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -260,7 +267,7 @@
         <name>EGPH</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>-3.37250,55.95000,0</coordinates>
+            <coordinates>-3.3725,55.95,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -274,7 +281,7 @@
         <name>EGSS</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>0.23500,51.88500,0</coordinates>
+            <coordinates>0.235,51.885,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -288,7 +295,7 @@
         <name>EHEH</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>5.37444,51.45000,0</coordinates>
+            <coordinates>5.37444,51.45,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -302,7 +309,7 @@
         <name>EIDW</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>-6.27000,53.42139,0</coordinates>
+            <coordinates>-6.27,53.42139,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -351,7 +358,7 @@
         <name>EPKT</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>19.08000,50.47417,0</coordinates>
+            <coordinates>19.08,50.47417,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -365,7 +372,7 @@
         <name>ESGG</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>12.29111,57.66000,0</coordinates>
+            <coordinates>12.29111,57.66,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -484,7 +491,7 @@
         <name>KCLT</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>-80.95000,35.21667,0</coordinates>
+            <coordinates>-80.95,35.21667,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -498,7 +505,7 @@
         <name>KIAD</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>-77.45667,38.94500,0</coordinates>
+            <coordinates>-77.45667,38.945,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -512,14 +519,14 @@
         <name>KMIA</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>-80.28333,25.80000,0</coordinates>
+            <coordinates>-80.28333,25.8,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>KPHL</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>-75.24500,39.87000,0</coordinates>
+            <coordinates>-75.245,39.87,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -533,7 +540,7 @@
         <name>LBSF</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>23.40833,42.69500,0</coordinates>
+            <coordinates>23.40833,42.695,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -575,7 +582,7 @@
         <name>LEAM</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>-2.37000,36.84389,0</coordinates>
+            <coordinates>-2.37,36.84389,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -638,7 +645,7 @@
         <name>LEJR</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>-6.06000,36.74472,0</coordinates>
+            <coordinates>-6.06,36.74472,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -659,14 +666,14 @@
         <name>LEMG</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>-4.49917,36.67500,0</coordinates>
+            <coordinates>-4.49917,36.675,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEMH</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>4.21861,39.86250,0</coordinates>
+            <coordinates>4.21861,39.8625,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -708,14 +715,14 @@
         <name>LEVX</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>-8.62750,42.22917,0</coordinates>
+            <coordinates>-8.6275,42.22917,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LEXJ</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>-3.82000,43.42694,0</coordinates>
+            <coordinates>-3.82,43.42694,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -743,7 +750,7 @@
         <name>LFCK</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>2.29056,43.55500,0</coordinates>
+            <coordinates>2.29056,43.555,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -764,14 +771,14 @@
         <name>LFML</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>5.21500,43.43667,0</coordinates>
+            <coordinates>5.215,43.43667,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>LFMN</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>7.21500,43.66528,0</coordinates>
+            <coordinates>7.215,43.66528,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -820,7 +827,7 @@
         <name>LFSB</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>7.52917,47.59000,0</coordinates>
+            <coordinates>7.52917,47.59,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -883,7 +890,7 @@
         <name>LIBD</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>16.76500,41.13806,0</coordinates>
+            <coordinates>16.765,41.13806,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -911,7 +918,7 @@
         <name>LIMC</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>8.72306,45.63000,0</coordinates>
+            <coordinates>8.72306,45.63,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -925,7 +932,7 @@
         <name>LIMF</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>7.64944,45.20250,0</coordinates>
+            <coordinates>7.64944,45.2025,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -995,7 +1002,7 @@
         <name>LKPR</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>14.26000,50.10083,0</coordinates>
+            <coordinates>14.26,50.10083,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -1009,7 +1016,7 @@
         <name>LMML</name>
         <styleUrl>#Schengen</styleUrl>
         <Point>
-            <coordinates>14.47750,35.85750,0</coordinates>
+            <coordinates>14.4775,35.8575,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -1044,7 +1051,7 @@
         <name>LROP</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>26.08500,44.57111,0</coordinates>
+            <coordinates>26.085,44.57111,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -1114,21 +1121,21 @@
         <name>OLBA</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>35.49000,33.81917,0</coordinates>
+            <coordinates>35.49,33.81917,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>OMAA</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>54.65000,24.43333,0</coordinates>
+            <coordinates>54.65,24.43333,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>OMDB</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>55.36000,25.24917,0</coordinates>
+            <coordinates>55.36,25.24917,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -1149,14 +1156,14 @@
         <name>SBGR</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>-46.47000,-23.43333,0</coordinates>
+            <coordinates>-46.47,-23.43333,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>SKBO</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>-74.15000,4.70000,0</coordinates>
+            <coordinates>-74.15,4.7,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -1177,14 +1184,14 @@
         <name>ULLI</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>30.26250,59.80028,0</coordinates>
+            <coordinates>30.2625,59.80028,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
         <name>URKK</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>39.17000,45.03472,0</coordinates>
+            <coordinates>39.17,45.03472,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
@@ -1198,7 +1205,7 @@
         <name>UUEE</name>
         <styleUrl>#Non Schengen</styleUrl>
         <Point>
-            <coordinates>37.41306,55.97250,0</coordinates>
+            <coordinates>37.41306,55.9725,0</coordinates>
         </Point>
     </Placemark>
     <Placemark>
