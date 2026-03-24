@@ -15,10 +15,11 @@ def IsSchengenAirport(ic):
     ic2 = f"{ic[0]}{ic[1]}"
     if ic2 in trueSchengen:
             return True
+    lllllll
     
     return False
 
-def SetSchengen(airport: Airport): # Que airport sea un objeto Airport
+def SetSchengen(airport: Airport): # Que airport sea un objeto/instancia Airport
     if IsSchengenAirport(airport.icaoCode):
         airport.schengen = True
 
