@@ -15,7 +15,6 @@ def IsSchengenAirport(ic):
     ic2 = f"{ic[0]}{ic[1]}"
     if ic2 in trueSchengen:
             return True
-    lllllll
     
     return False
 
