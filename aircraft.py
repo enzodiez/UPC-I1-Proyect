@@ -7,6 +7,12 @@ class Aircraft():
 
 
 def LoadArrivals (filename):
+    f = open(filename, 'r')
+
+
+
+
+
 
 def PlotArrivals():
     aircraft = Aircraft()
