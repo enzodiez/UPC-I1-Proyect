@@ -4,3 +4,4 @@ class Aircraft():
         self.company = cmp
         self.origin_airp = origin_airp
         self.land_time = land_time
+    
