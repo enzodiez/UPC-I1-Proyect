@@ -6,6 +6,12 @@ class Aircraft():
         self.land_time = land_time
 
 def LoadArrivals (filename):
+    f = open(filename, 'r')
+
+
+
+
+
 
 def PlotArrivals():
 
