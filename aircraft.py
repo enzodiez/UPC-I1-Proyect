@@ -4,4 +4,11 @@ class Aircraft():
         self.company = cmp
         self.origin_airp = origin_airp
         self.land_time = land_time
+
+def LoadArrivals (filename):
+
+def PlotArrivals():
+
+def SaveFlights(aircrafts, filename):
+    file = open(filename, 'w')
     
