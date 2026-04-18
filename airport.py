@@ -107,7 +107,7 @@ def PlotAirports(airports):
     ax.set_title('Schengen airports')
     ax.legend()
     
-    # fig.show() Lo he anulado para que no interfiera en su uso en la interfaz gráfica. ya se muestra ahí.
+    # fig.show() Lo he anulado para que no interfiera en su uso en la interfaz gráfica. Ya se muestra ahí.
 
     return fig
 

@@ -1,5 +1,6 @@
 from airport import IsSchengenAirport, LoadAirports
 import os
+import matplotlib.pyplot as plt
 
 class Aircraft():
     def __init__(self, id="", cmp="", origin_airp="", land_time=""):
@@ -38,6 +39,42 @@ def SaveFlights(aircrafts, filename):
         file.write(txt)
         '''
         return "Registro de llegadas a LEBL hoy guardado correctamente."
+
+def PlotAirlines(aircrafts):
+    if not aircrafts:
+        return "Error en los datos recibidos. No se encontró información."
+    else:
+        airline_flights = {}
+        for airc in aircrafts:
+            airline_flights[airc.company] += 1
+        
+        # Del diccionario hago dos listas, una para cada eje del gráfico, con las claves y los valores
+        claves = list(airline_flights.keys())
+        valores = list(airline_flights.values())
+
+        # Creo el gráfico de barras
+        fig, ax = plt.subplots()
+        bars = ax.bar(claves, valores, color='skyblue', edgecolor='black')
+
+        # Personalizo el gráfico
+        ax.set_xlabel('Aerolíneas', fontsize=12)
+        ax.set_ylabel('Número de vuelos', fontsize=12)
+        ax.set_title('Vuelos a LEBL por aerolínea', fontsize=14, fontweight='bold')
+
+        # Roto etiquetas, por si hay muchas aerolíneas
+        ax.tick_params(axis='x', rotation=45, ha='right')
+
+        # Mostrar valores sobre las barras
+        for bar, valor in zip(bars, valores):
+            ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5,
+                    str(valor), ha='center', va='bottom', fontweight='bold', fontsize=10)
+        
+        # Ajusto el límite superior del eje Y para que quepa el texto
+        ax.set_ylim(0, max(valores) + max(valores) * 0.1)
+
+        fig.tight_layout()
+        # fig.show() Lo he anulado para que no interfiera en su uso en la interfaz gráfica. Ya se muestra ahí.
+        return fig
 
 def MapFlights(aircrafts):
     # Sobreescribe todo el fichero para actualizarlo
