@@ -86,7 +86,7 @@ def SaveSchengenAirports(airports, filename):
             if linea.strip(): # Solo escribir si la línea tiene contenido, para evitar problemas
                 file.write(f'{linea}\n')
 
-def PlotAirports(airports):
+def PlotAirports(airports, titulo='Schengen airports VS No Schengen airports'):
     sch, nSch = 0, 0
     for airport in airports:
         if IsSchengenAirport(f"{airport.icaoCode[0]}{airport.icaoCode[1]}"):
@@ -104,7 +104,7 @@ def PlotAirports(airports):
 
     # Configuraciones visuales
     ax.set_ylabel('Count')
-    ax.set_title('Schengen airports')
+    ax.set_title(titulo)
     ax.legend()
     
     # fig.show() Lo he anulado para que no interfiera en su uso en la interfaz gráfica. Ya se muestra ahí.

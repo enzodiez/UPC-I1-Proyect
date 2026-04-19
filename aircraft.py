@@ -1,4 +1,4 @@
-from airport import IsSchengenAirport, LoadAirports
+from airport import IsSchengenAirport, LoadAirports, Airport, SetSchengen, PlotAirports
 import os
 import matplotlib.pyplot as plt
 
@@ -18,6 +18,7 @@ def LoadArrivals (filename):
 
 
 def PlotArrivals():
+
 
 def SaveFlights(aircrafts, filename):
     if not aircrafts:
@@ -74,6 +75,20 @@ def PlotAirlines(aircrafts):
 
         fig.tight_layout()
         # fig.show() Lo he anulado para que no interfiera en su uso en la interfaz gráfica. Ya se muestra ahí.
+        return fig
+
+def PlotFlightsType(aircrafts):
+    if not aircrafts:
+        return "Error en los datos recibidos. No se encontró información."
+    else:
+        airports = []
+        for airc in aircrafts:
+            airp = Airport(ic=airc.origin_airp)
+            SetSchengen(airp)
+            airports.append(airp)
+        
+        fig = PlotAirports(airports, titulo='Arrivals from Schengen airports VS No Schengen airports')
+
         return fig
 
 def MapFlights(aircrafts):
