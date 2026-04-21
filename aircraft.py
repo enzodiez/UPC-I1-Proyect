@@ -57,7 +57,7 @@ def SaveFlights(aircrafts, filename):
         i = 0
         while i < len(aircrafts):
             a = aircrafts[i]
-            txt = f"{a.id or "-"} {a.origin_airp or "-"} {a.land_time or "-"} {a.company or "-"}"
+            txt = f"{a.id or '-'} {a.origin_airp or '-'} {a.land_time or '-'} {a.company or '-'}"
             file.write(txt)
             i += 1
         file.close()
