@@ -3,6 +3,7 @@ from tkinter import messagebox
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 from airport import *
+from aircraft import *
 
 # Configuración de apariencia
 ctk.set_appearance_mode("dark")  # Modos: "system" (standard), "dark", "light"
@@ -40,8 +41,8 @@ class InterfazPrincipal(ctk.CTk):
         self.gr_Sch_NSch = ctk.CTkButton(self.options_frame, text="Gráfico aeropuertos Schengen/No-Schengen", corner_radius=5, border_width=2, command=self.mostrar_gra_sch_nSch)
         self.gr_Sch_NSch.grid(row=2, column=0, sticky='nsew', padx=15, pady=15)
 
-        self.map_airp = ctk.CTkButton(self.options_frame, text="Mapa aeropuertos", corner_radius=5, border_width=2, command=lambda: MapAirports(LoadAirports('Airports.txt')))
-        self.map_airp.grid(row=3, column=0, sticky='nsew', padx=15, pady=15)
+        self.maps = ctk.CTkButton(self.options_frame, text="Mapas con Google Earth", corner_radius=5, border_width=2, command=self.ejecutar_google_earth)
+        self.maps.grid(row=3, column=0, sticky='nsew', padx=15, pady=15)
 
         self.switch_appear = ctk.StringVar(value="on")
         self.appearance = ctk.CTkSwitch(self.options_frame, text='Modo Oscuro', onvalue='on', offvalue='off', variable=self.switch_appear, command=self.cambiar_modo_toggle)
@@ -76,6 +77,25 @@ class InterfazPrincipal(ctk.CTk):
         crear = ctk.CTkButton(self.principal_frame, text='Crear', fg_color='green', command=self.procesar_create_airp)
         crear.pack(pady=20)
     
+    def ejecutar_google_earth(self):
+        # Vaciar el frame principal
+        for widget in self.principal_frame.winfo_children():
+            widget.destroy()
+        
+        label = ctk.CTkLabel(self.principal_frame, text="Mapas con Google Earth", font=("Arial", 20))
+        label.pack(pady=20)
+        
+        #Creo un subframe para los botones
+        btn_frame = ctk.CTkFrame(self.principal_frame, fg_color="transparent")
+        btn_frame.pack(expand=True)
+
+        #Creo botones para las múltiples opciones de mapas con Google Earth dentro del subframe
+        btn_map_airp = ctk.CTkButton(btn_frame, text='Mapa Aeropuertos', command=lambda: MapAirports(LoadAirports('Airports.txt')))
+        btn_map_airp.pack(pady=50)
+
+        btn_lebl_arrivals = ctk.CTkButton(btn_frame, text='Vuelos a LEBL hoy', command=lambda: MapFlights(LoadArrivals('Arrivals.txt')))
+        btn_lebl_arrivals.pack(pady=50)
+
     def ejecutar_gestionar_airp(self):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():

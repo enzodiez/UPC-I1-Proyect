@@ -113,8 +113,9 @@ def PlotAirports(airports, titulo='Schengen airports VS No Schengen airports'):
 
 def MapAirports(airports):
     # Sobreescribe todo el fichero para actualizarlo
-    txt = []
-    txt.append("""<?xml version="1.0" encoding="UTF-8"?>
+    file = open('Airports_Points.kml', 'w')
+
+    file.write("""<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
 <Document>
     <Style id="Schengen">
@@ -139,7 +140,7 @@ def MapAirports(airports):
         else:
             style = 'Non Schengen'
 
-        txt.append(f"""    <Placemark>
+        file.write(f"""    <Placemark>
         <name>{ic}</name>
         <styleUrl>#{style}</styleUrl>
         <Point>
@@ -148,13 +149,9 @@ def MapAirports(airports):
     </Placemark>
 """)
     
-    txt.append("""</Document>
+    file.write("""</Document>
 </kml>""")
     
-    new_txt = ''.join(txt)
-    
-    file = open('Airports_Points.kml', 'w')
-    file.write(new_txt)
     file.close()
 
     print("Abriendo mapa de aeropuertos en Google Earth...")

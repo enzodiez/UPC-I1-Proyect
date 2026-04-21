@@ -3,7 +3,6 @@ import os
 import matplotlib.pyplot as plt
 import math
 
-
 class Aircraft():
     def __init__(self, id="", cmp="", origin_airp="", land_time=""):
         self.id = id
@@ -12,19 +11,19 @@ class Aircraft():
         self.land_time = land_time
 
 def LoadArrivals(filename):
-    arrivals = []
     try:
-        with open(filename, "r") as file:
-            lines = file.readlines()
+        arrivals = []
+        file = open(filename, 'r')
+        line = file.readline()
 
-        for line in lines[1:]:
+        while line != "":
+            line = line.split()
             if len(line) < 4: # Asegurar una correcta estructura
                 continue
-            parts = line.split()
-            aircraft_id = parts[0]
-            origin = parts[1]
-            arrival_time = parts[2]
-            company = parts[3]
+            aircraft_id = line[0]
+            origin = line[1]
+            arrival_time = line[2]
+            company = line[3]
 
             plane = Aircraft(
                 id=aircraft_id,
@@ -32,10 +31,13 @@ def LoadArrivals(filename):
                 origin_airp=origin,
                 land_time=arrival_time
             )
-
             arrivals.append(plane)
+            
+            line = file.readline()
+        
+        file.close()
 
-            return arrivals
+        return arrivals
 
     except FileNotFoundError:
             return []
@@ -130,74 +132,68 @@ def PlotFlightsType(aircrafts):
 
 def MapFlights(aircrafts):
     # Sobreescribe todo el fichero para actualizarlo
-    txt = []
-    txt.append("""<?xml version="1.0" encoding="UTF-8"?>
+    file = open('LEBL_Arrivals.kml', 'w')
+    file.write("""<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
 <Document>
     <Style id="Schengen">
-        <IconStyle>
+        <LineStyle>
             <color>ff00ff00</color>
-        </IconStyle>
+            <width>3</width>
+            <colorMode>normal</colorMode>
+        </LineStyle>
     </Style>
     <Style id="Non Schengen">
-        <IconStyle>
+        <LineStyle>
             <color>ff0000ff</color>
-        </IconStyle>
+            <width>3</width>
+            <colorMode>normal</colorMode>
+        </LineStyle>
     </Style>
 """)
     
     airports = LoadAirports('Airports.txt')
     lonLEBL, latLEBL = 0, 0
-    lonLatIndx = [] # Los elementos son listas de longitud=3 que contiene la longitud, la latitud y el índice (en ese orden) de los aircrafts de la lista aircrafts
+    lonLatOrigin_airp = [] # Los elementos son listas de longitud=3 que contiene la longitud, la latitud y el código ICAO (en ese orden) de los aircrafts de la lista aircrafts
 
     for elem in airports:
         if elem.icaoCode == 'LEBL':
             lonLEBL, latLEBL = elem.longitude, elem.latitude
         else:
             for n in range(len(aircrafts)):
-                if elem.icaoCode == aircrafts[n].id:
-                    lonLatIndx.append([elem.longitude, elem.latitude, n])
+                if elem.icaoCode == aircrafts[n].origin_airp:
+                    lonLatOrigin_airp.append([elem.longitude, elem.latitude, elem.icaoCode])
     
-    # Ordeno la lista lonLatIndx según el índice de las listas "elemento" para tenerla en el mismo orden que la lista aircrafts
-    lonLatIndx.sort(key=lambda x: x[2])
-    
-    for i in range(len(aircrafts)):
-        a = aircrafts[i]
-        ic = a.origin_airp
-        name = f"Route {ic} - LEBL"
+    for i in range(len(lonLatOrigin_airp)):
+        name = f"Route {lonLatOrigin_airp[i][2]} - LEBL"
 
-        if IsSchengenAirport(ic):
+        if IsSchengenAirport(lonLatOrigin_airp[i][2]):
             style = 'Schengen'
         else:
             style = 'Non Schengen'
 
-        txt.append(f"""    <Placemark>
+        file.write(f"""    <Placemark>
         <name>{name}</name>
         <styleUrl>#{style}</styleUrl>
         <LineString>
-            <altitudeMode<clampToGround</altitudeMode>
+            <altitudeMode>clampToGround</altitudeMode>
             <extrude>1</extrude>
             <tessellate>1</tessellate>
             <coordinates>
-                {lonLatIndx[i][0]},{lonLatIndx[i][1]}
+                {lonLatOrigin_airp[i][0]},{lonLatOrigin_airp[i][1]}
                 {lonLEBL},{latLEBL}
             </coordinates>
         </LineString>
     </Placemark>
 """)
     
-    txt.append("""</Document>
+    file.write("""</Document>
 </kml>""")
     
-    new_txt = ''.join(txt)
-
-    file = open('LEBL_Arrivals.kml', 'w')
-    file.write(new_txt)
     file.close()
 
     print("Abriendo mapa de vuelos a LEBL hoy en Google Earth...")
     os.startfile('LEBL_Arrivals.kml')
-
 
 def LongDistanceArrivals(aircrafts):
     airports = LoadAirports('Airports.txt')
