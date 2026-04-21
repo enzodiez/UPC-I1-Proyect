@@ -49,7 +49,13 @@ def PlotArrivals(aircrafts):
         for airc in aircrafts:
             hr = int(airc.land_time[0] + airc.land_time[1])
             frq[hr] += 1
-
+    fig, ax = plt.subplots()
+    ax.plot(hours, frq, color='skyblue', linewidth=2)
+    ax.set_xlabel("Arrival times", fontsize=12)
+    ax.set_ylabel("Number of flights", fontsize=12)
+    ax.set_title('Frecuencia de aterrizajes', fontsize=14, fontweight='bold')
+    fig.tight_layout()
+    return fig
 
 def SaveFlights(aircrafts, filename):
     if not aircrafts:
@@ -59,7 +65,7 @@ def SaveFlights(aircrafts, filename):
         i = 0
         while i < len(aircrafts):
             a = aircrafts[i]
-            txt = f"{a.id or "-"} {a.origin_airp or "-"} {a.land_time or "-"} {a.company or "-"}"
+            txt = f"{a.id or '-'} {a.origin_airp or '-'} {a.land_time or '-'} {a.company or '-'}"
             file.write(txt)
             i += 1
         file.close()
