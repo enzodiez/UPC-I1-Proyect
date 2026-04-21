@@ -9,8 +9,35 @@ class Aircraft():
         self.origin_airp = origin_airp
         self.land_time = land_time
 
-def LoadArrivals (filename):
-    f = open(filename, 'r')
+def LoadArrivals(filename):
+    arrivals = []
+
+    try:
+        with open(filename, "r") as file:
+            lines = file.readlines()
+
+        for line in lines[1:]:
+            if len(line) < 4: #asegurar una correcta estructura
+                continue
+
+            aircraft_id = parts[0]
+            origin = parts[1]
+            arrival_time = parts[2]
+            company = parts[3]
+
+            plane = Aircraft(
+                id=aircraft_id,
+                cmp=company,
+                origin_airp=origin,
+                land_time=arrival_time
+            )
+
+            arrivals.append(plane)
+
+        except FileNotFoundError:
+            return []
+
+    return arrivals
 
 
 
