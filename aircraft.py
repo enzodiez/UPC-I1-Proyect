@@ -19,7 +19,7 @@ def LoadArrivals(filename):
         for line in lines[1:]:
             if len(line) < 4: #asegurar una correcta estructura
                 continue
-
+            parts = line.split()
             aircraft_id = parts[0]
             origin = parts[1]
             arrival_time = parts[2]
