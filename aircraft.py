@@ -11,13 +11,12 @@ class Aircraft():
 
 def LoadArrivals(filename):
     arrivals = []
-
     try:
         with open(filename, "r") as file:
             lines = file.readlines()
 
         for line in lines[1:]:
-            if len(line) < 4: #asegurar una correcta estructura
+            if len(line) < 4: # Asegurar una correcta estructura
                 continue
 
             aircraft_id = parts[0]
@@ -34,17 +33,20 @@ def LoadArrivals(filename):
 
             arrivals.append(plane)
 
-        except FileNotFoundError:
+            return arrivals
+
+    except FileNotFoundError:
             return []
 
-    return arrivals
-
-
-
-
-
-
-def PlotArrivals():
+def PlotArrivals(aircrafts):
+    if not aircrafts:
+        return "Error en los datos recibidos. No se encontró información."
+    else:
+        frq = [0]*24
+        hours = range(0,24)
+        for airc in aircrafts:
+            hr = int(airc.land_time[0] + airc.land_time[1])
+            frq[hr] += 1
 
 
 def SaveFlights(aircrafts, filename):
