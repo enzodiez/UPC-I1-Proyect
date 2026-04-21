@@ -1,6 +1,8 @@
 from airport import IsSchengenAirport, LoadAirports, Airport, SetSchengen, PlotAirports
 import os
 import matplotlib.pyplot as plt
+import math
+
 
 class Aircraft():
     def __init__(self, id="", cmp="", origin_airp="", land_time=""):
@@ -189,3 +191,23 @@ def MapFlights(aircrafts):
 
     print("Abriendo mapa de vuelos a LEBL hoy en Google Earth...")
     os.startfile('LEBL_Arrivals.kml')
+
+
+def LongDistanceArrivals(aircrafts):
+    airports = LoadAirports('Airports.txt')
+    aircrafts = []
+    n = 1
+    while n < len(aircrafts):
+        latg = float(airports[n].latitude)
+        long = float(airports[n].longitude)
+        lat = math.radians(latg)
+        lon = math.radians(long)
+        dlat = math.abs(0.72-lat)
+        dlon = math.abs(0.0363-lon)
+        a = math.sin(dlat / 2)**2 + math.cos(41.2971) * math.cos(lat) * math.sin(dlon / 2)**2
+        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+        d = 6371 * c
+        if d > 2000:
+            aircrafts.append(airports[n])
+        n = n + 1
+    return aircrafts
