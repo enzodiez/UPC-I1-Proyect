@@ -32,14 +32,14 @@ class InterfazPrincipal(ctk.CTk):
         self.options_frame.grid_rowconfigure(3, weight=1)
         self.options_frame.grid_rowconfigure(4, weight=1)
 
-        self.create_airp = ctk.CTkButton(self.options_frame, text="Gestionar Aeropuertos", corner_radius=5, border_width=2, command=self.ejecutar_gestionar_airp)
-        self.create_airp.grid(row=0, column=0, sticky='nsew', padx=15, pady=15)
+        self.registros = ctk.CTkButton(self.options_frame, text="Registros", corner_radius=5, border_width=2, command=self.ejecutar_registros)
+        self.registros.grid(row=0, column=0, sticky='nsew', padx=15, pady=15)
 
         self.visz_airp_data = ctk.CTkButton(self.options_frame, text="Ver información aeropuerto/s", corner_radius=5, border_width=2, command=lambda: self.ejecutar_visz_airports(LoadAirports('Airports.txt')))
         self.visz_airp_data.grid(row=1, column=0, sticky='nsew', padx=15, pady=15)
 
-        self.gr_Sch_NSch = ctk.CTkButton(self.options_frame, text="Gráficos", corner_radius=5, border_width=2, command=self.ejecutar_graficos)
-        self.gr_Sch_NSch.grid(row=2, column=0, sticky='nsew', padx=15, pady=15)
+        self.graphs = ctk.CTkButton(self.options_frame, text="Gráficos", corner_radius=5, border_width=2, command=self.ejecutar_graficos)
+        self.graphs.grid(row=2, column=0, sticky='nsew', padx=15, pady=15)
 
         self.maps = ctk.CTkButton(self.options_frame, text="Mapas con Google Earth", corner_radius=5, border_width=2, command=self.ejecutar_google_earth)
         self.maps.grid(row=3, column=0, sticky='nsew', padx=15, pady=15)
@@ -59,6 +59,25 @@ class InterfazPrincipal(ctk.CTk):
             ctk.set_appearance_mode("light")
             self.appearance.configure(text="Modo Claro")
     
+    def ejecutar_registros(self):
+        # Vaciar el frame principal
+        for widget in self.principal_frame.winfo_children():
+            widget.destroy()
+        
+        label = ctk.CTkLabel(self.principal_frame, text="¿Qué qué tipo de acción desea realizar?", font=("Arial", 20))
+        label.pack(pady=20)
+        
+        # Creo un subframe para los botones
+        btn_frame = ctk.CTkFrame(self.principal_frame, fg_color="transparent")
+        btn_frame.pack(expand=True)
+
+        # Creo botones para las múltiples opciones de mapas con Google Earth dentro del subframe
+        btn_map_airp = ctk.CTkButton(btn_frame, text='Gestionar aeropuertos', command=self.ejecutar_gestionar_airp)
+        btn_map_airp.pack(pady=30)
+
+        btn_lebl_arrivals = ctk.CTkButton(btn_frame, text='Guardar llegadas hoy a LEBL', command=self.procesar_save_flights)
+        btn_lebl_arrivals.pack(pady=30)
+
     def ejecutar_create_airp(self):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():
@@ -264,6 +283,14 @@ class InterfazPrincipal(ctk.CTk):
 
         # El cursor vuelve a la primera casilla
         self.input_ic.focus()
+    
+    def procesar_save_flights(self):
+        type, txt = SaveFlights(LoadArrivals('Arrivals.txt'), 'ArrivalsToLEBL.txt')
+        
+        if type == 'ERROR':
+            messagebox.showerror('Error', txt)
+        elif type == 'INFO':
+            messagebox.showinfo('Información', txt)
 
     def mostrar_grph_sch_nSch(self):
         # Vaciar el frame principal

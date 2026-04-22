@@ -63,14 +63,14 @@ def PlotArrivals(aircrafts):
 
 def SaveFlights(aircrafts, filename):
     if not aircrafts:
-        return "Error en los datos recibidos. No se encontró información."
+        return "ERROR", "Error en los datos recibidos. No se encontró información."
     else:
         file = open(filename, 'w')
         i = 0
         while i < len(aircrafts):
             a = aircrafts[i]
             txt = f"{a.id or '-'} {a.origin_airp or '-'} {a.land_time or '-'} {a.company or '-'}"
-            file.write(txt)
+            file.write(txt+'\n')
             i += 1
         file.close()
         '''
@@ -80,7 +80,7 @@ def SaveFlights(aircrafts, filename):
         txt = f"{aircraft.id or '-'} {aircraft.origin_airp or '-'} {aircraft.land_time or '-'} {aircraft.company or '-'}"
         file.write(txt)
         '''
-        return "Registro de llegadas a LEBL hoy guardado correctamente."
+        return "INFO", "Registro de llegadas a LEBL hoy guardado correctamente."
 
 def PlotAirlines(aircrafts):
     if not aircrafts:
