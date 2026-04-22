@@ -14,6 +14,8 @@ def LoadArrivals(filename):
     try:
         arrivals = []
         file = open(filename, 'r')
+        # Leo dos veces para saltarme el encabezado
+        line = file.readline()
         line = file.readline()
 
         while line != "":
@@ -86,7 +88,8 @@ def PlotAirlines(aircrafts):
     else:
         airline_flights = {}
         for airc in aircrafts:
-            airline_flights[airc.company] += 1
+            # Usar get para inicializar en 0 si no existe
+            airline_flights[airc.company] = airline_flights.get(airc.company, 0) + 1
         
         # Del diccionario hago dos listas, una para cada eje del gráfico, con las claves y los valores
         claves = list(airline_flights.keys())
@@ -102,7 +105,7 @@ def PlotAirlines(aircrafts):
         ax.set_title('Vuelos a LEBL por aerolínea', fontsize=14, fontweight='bold')
 
         # Roto etiquetas, por si hay muchas aerolíneas
-        ax.tick_params(axis='x', rotation=45, ha='right')
+        ax.tick_params(axis='x', rotation=45)
 
         # Mostrar valores sobre las barras
         for bar, valor in zip(bars, valores):
