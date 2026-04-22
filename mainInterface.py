@@ -35,8 +35,8 @@ class InterfazPrincipal(ctk.CTk):
         self.registros = ctk.CTkButton(self.options_frame, text="Registros", corner_radius=5, border_width=2, command=self.ejecutar_registros)
         self.registros.grid(row=0, column=0, sticky='nsew', padx=15, pady=15)
 
-        self.visz_airp_data = ctk.CTkButton(self.options_frame, text="Ver información aeropuerto/s", corner_radius=5, border_width=2, command=lambda: self.ejecutar_visz_airports(LoadAirports('Airports.txt')))
-        self.visz_airp_data.grid(row=1, column=0, sticky='nsew', padx=15, pady=15)
+        self.visz_data = ctk.CTkButton(self.options_frame, text="Información técnica", corner_radius=5, border_width=2, command=self.ejecutar_info_tecn)
+        self.visz_data.grid(row=1, column=0, sticky='nsew', padx=15, pady=15)
 
         self.graphs = ctk.CTkButton(self.options_frame, text="Gráficos", corner_radius=5, border_width=2, command=self.ejecutar_graficos)
         self.graphs.grid(row=2, column=0, sticky='nsew', padx=15, pady=15)
@@ -148,6 +148,30 @@ class InterfazPrincipal(ctk.CTk):
         btn_elim = ctk.CTkButton(self.principal_frame, text='Eliminar', fg_color='red', command=self.procesar_eliminate_airp)
         btn_elim.pack(pady=100)
     
+    def ejecutar_info_tecn(self):
+        # Vaciar el frame principal
+        for widget in self.principal_frame.winfo_children():
+            widget.destroy()
+        
+        label = ctk.CTkLabel(self.principal_frame, text="¿Qué información buscas?", font=("Arial", 20))
+        label.pack(pady=20)
+        
+        # Creo un subframe para los botones
+        btn_frame = ctk.CTkFrame(self.principal_frame, fg_color="transparent")
+        btn_frame.pack(expand=True)
+
+        # Creo botones para las múltiples opciones de mapas con Google Earth dentro del subframe
+        btn_airp_data = ctk.CTkButton(btn_frame, text='Información aeropuertos', command=lambda: self.ejecutar_visz_airports(LoadAirports('Airports.txt')))
+        btn_airp_data.pack(pady=30)
+
+        btn_long_dist_arrv = ctk.CTkButton(btn_frame, text='Llegadas a LEBL de vuelos de larga distancia', command=self.procesar_long_dist_arrv)
+        btn_long_dist_arrv.pack(pady=30)
+    
+    def procesar_long_dist_arrv(self):
+        long_distance_arrivals_aircrafts = LongDistanceArrivals(LoadArrivals('Arrivals.txt'))
+        print(long_distance_arrivals_aircrafts)
+        messagebox.showinfo('Info', 'Se ha printeado la lista de aircrafts de vuelo de larga distancia con destino LEBL en la terminal.')
+
     def ejecutar_visz_airports(self, airports):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():

@@ -200,19 +200,71 @@ def MapFlights(aircrafts):
 
 def LongDistanceArrivals(aircrafts):
     airports = LoadAirports('Airports.txt')
-    aircrafts = []
-    n = 1
-    while n < len(aircrafts):
-        latg = float(airports[n].latitude)
-        long = float(airports[n].longitude)
-        lat = math.radians(latg)
-        lon = math.radians(long)
-        dlat = math.abs(0.72-lat)
-        dlon = math.abs(0.0363-lon)
-        a = math.sin(dlat / 2)**2 + math.cos(41.2971) * math.cos(lat) * math.sin(dlon / 2)**2
-        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-        d = 6371 * c
-        if d > 2000:
-            aircrafts.append(airports[n])
-        n = n + 1
-    return aircrafts
+
+    # Creo diccionario de aeropuertos para hacer una búsqueda más rápida y sencilla
+    airport_coords = {}
+    for airport in airports:
+        airport_coords[airport.icaoCode] = (airport.latitude, airport.longitude)
+    
+    # Obtengo las coordenadas de LEBL, si no se encuentra no se podrá calcular la distancia
+    if 'LEBL' not in airport_coords:
+        print("Error: No se encontró LEBL en la base de datos")
+        return []
+    
+    lat_lebl_deg = float(airport_coords['LEBL'][0])
+    lon_lebl_deg = float(airport_coords['LEBL'][1])
+
+    # Convierto a radianes
+    lat_lebl_rad = math.radians(lat_lebl_deg)
+    lon_lebl_rad = math.radians(lon_lebl_deg)
+
+    long_distance_aircrafts = []
+    
+    for aircraft in aircrafts:
+        origin_code = aircraft.origin_airp
+        
+        # Verificar que el aeropuerto de origen existe
+        if origin_code not in airport_coords:
+            print(f"Advertencia: No se encontraron coordenadas para {origin_code}")
+            continue
+        
+        # Obtener coordenadas del origen
+        lat_origin_deg = float(airport_coords[origin_code][0])
+        lon_origin_deg = float(airport_coords[origin_code][1])
+        
+        # Convertir a radianes
+        lat_origin_rad = math.radians(lat_origin_deg)
+        lon_origin_rad = math.radians(lon_origin_deg)
+        
+        # Calcular distancia usando Haversine
+        distance = haversine_distance(lat_lebl_rad, lon_lebl_rad, 
+                                      lat_origin_rad, lon_origin_rad)
+        
+        # Si la distancia es mayor a 2000 km la a la lista
+        if distance > 2000:
+            long_distance_aircrafts.append(aircraft)
+    
+    return long_distance_aircrafts
+
+def haversine_distance(lat1_rad, lon1_rad, lat2_rad, lon2_rad):
+    """
+    Calcula la distancia Haversine entre dos puntos en la superficie terrestre.
+    
+    Args:
+        lat1_rad, lon1_rad: Coordenadas del punto 1 en radianes
+        lat2_rad, lon2_rad: Coordenadas del punto 2 en radianes
+    
+    Returns:
+        Distancia en kilómetros
+    """
+    r = 6371  # Radio de la Tierra en km
+    
+    dlat = abs(lat1_rad - lat2_rad)
+    dlon = abs(lon1_rad - lon2_rad)
+    
+    # Fórmula de Haversine
+    a = math.sin(dlat / 2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    distance = r * c
+    
+    return distance
