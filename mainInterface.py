@@ -71,7 +71,7 @@ class InterfazPrincipal(ctk.CTk):
         btn_frame = ctk.CTkFrame(self.principal_frame, fg_color="transparent")
         btn_frame.pack(expand=True)
 
-        # Creo botones para las múltiples opciones de mapas con Google Earth dentro del subframe
+        # Creo botones para las múltiples opciones dentro del subframe
         btn_map_airp = ctk.CTkButton(btn_frame, text='Gestionar aeropuertos', command=self.ejecutar_gestionar_airp)
         btn_map_airp.pack(pady=30)
 
@@ -114,6 +114,9 @@ class InterfazPrincipal(ctk.CTk):
 
         btn_lebl_arrivals = ctk.CTkButton(btn_frame, text='Vuelos a LEBL hoy', command=lambda: MapFlights(LoadArrivals('Arrivals.txt')))
         btn_lebl_arrivals.pack(pady=30)
+
+        btn_long_dist_arrv = ctk.CTkButton(btn_frame, text='Llegadas a LEBL de vuelos de larga distancia', command=self.procesar_long_dist_arrv)
+        btn_long_dist_arrv.pack(pady=30)
 
     def ejecutar_gestionar_airp(self):
         # Vaciar el frame principal
@@ -160,17 +163,12 @@ class InterfazPrincipal(ctk.CTk):
         btn_frame = ctk.CTkFrame(self.principal_frame, fg_color="transparent")
         btn_frame.pack(expand=True)
 
-        # Creo botones para las múltiples opciones de mapas con Google Earth dentro del subframe
+        # Creo botones para las múltiples opciones dentro del subframe
         btn_airp_data = ctk.CTkButton(btn_frame, text='Información aeropuertos', command=lambda: self.ejecutar_visz_airports(LoadAirports('Airports.txt')))
         btn_airp_data.pack(pady=30)
-
-        btn_long_dist_arrv = ctk.CTkButton(btn_frame, text='Llegadas a LEBL de vuelos de larga distancia', command=self.procesar_long_dist_arrv)
-        btn_long_dist_arrv.pack(pady=30)
     
     def procesar_long_dist_arrv(self):
-        long_distance_arrivals_aircrafts = LongDistanceArrivals(LoadArrivals('Arrivals.txt'))
-        print(long_distance_arrivals_aircrafts)
-        messagebox.showinfo('Info', 'Se ha printeado la lista de aircrafts de vuelo de larga distancia con destino LEBL en la terminal.')
+        long_distance_arrivals_aircrafts = MapFlights(LongDistanceArrivals(LoadArrivals('Arrivals.txt')))
 
     def ejecutar_visz_airports(self, airports):
         # Vaciar el frame principal
