@@ -228,7 +228,7 @@ def LongDistanceArrivals(aircrafts):
             print(f"Advertencia: No se encontraron coordenadas para {origin_code}")
             continue
         
-        # Obtener coordenadas del origen
+        # Obtener las coordenadas del origen
         lat_origin_deg = float(airport_coords[origin_code][0])
         lon_origin_deg = float(airport_coords[origin_code][1])
         
