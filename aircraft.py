@@ -51,8 +51,10 @@ def PlotArrivals(aircrafts):
         frq = [0]*24
         hours = range(0,24)
         for airc in aircrafts:
-            hr = int(airc.land_time[0] + airc.land_time[1])
-            frq[hr] += 1
+            hora_str = airc.land_time.split(':')[0]
+            hr = int(hora_str)
+            if 0 <= hr < 24:
+                frq[hr] += 1
     fig, ax = plt.subplots()
     ax.plot(hours, frq, color='skyblue', linewidth=2)
     ax.set_xlabel("Arrival times", fontsize=12)

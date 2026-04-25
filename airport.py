@@ -158,41 +158,44 @@ def MapAirports(airports):
     os.startfile('Airports_Points.kml')
 
 def LoadAirports (filename):
-    F = open(filename,'r')
-    apdata = [] #apdata=airports data
-    line = F.readline()
-    # apdata.append(''.join(f"{line}"))
-    line = F.readline()
-    while line != '':
-        name, lat, lon = (line.split())
+    try:
+        F = open(filename,'r')
+        apdata = [] #apdata=airports data
         line = F.readline()
-        n_s = lat[0] #norte o sur
-        lat = float(lat[1:])
-        w_e = lon[0] #oeste o este
-        lon = float(lon[1:])
-        sec_lat = lat%100 #segundos de la latitud
-        lat = lat//100
-        sec_lat = sec_lat/3600
-        min_lat = lat%100 #minutos de la latitud
-        lat = lat//100
-        min_lat = min_lat/60
-        lat = lat + sec_lat + min_lat
-        if n_s == "S":
-            lat = -lat
-        sec_lon = lon%100 #segundos de la longitud
-        lon = lon//100
-        sec_lon = sec_lon/3600
-        min_lon = lon%100 #minutos de la longitud
-        lon = lon//100
-        min_lon = min_lon/60
-        lon = lon + sec_lon + min_lon
-        if w_e == "W":
-            lon = -lon
-        airp = Airport(name, float(f"{lat:0.5f}"), float(f"{lon:0.5f}"))
-        SetSchengen(airp)
-        apdata.append(airp)
-    F.close()
-    return apdata
+        # apdata.append(''.join(f"{line}"))
+        line = F.readline()
+        while line != '':
+            name, lat, lon = (line.split())
+            line = F.readline()
+            n_s = lat[0] #norte o sur
+            lat = float(lat[1:])
+            w_e = lon[0] #oeste o este
+            lon = float(lon[1:])
+            sec_lat = lat%100 #segundos de la latitud
+            lat = lat//100
+            sec_lat = sec_lat/3600
+            min_lat = lat%100 #minutos de la latitud
+            lat = lat//100
+            min_lat = min_lat/60
+            lat = lat + sec_lat + min_lat
+            if n_s == "S":
+                lat = -lat
+            sec_lon = lon%100 #segundos de la longitud
+            lon = lon//100
+            sec_lon = sec_lon/3600
+            min_lon = lon%100 #minutos de la longitud
+            lon = lon//100
+            min_lon = min_lon/60
+            lon = lon + sec_lon + min_lon
+            if w_e == "W":
+                lon = -lon
+            airp = Airport(name, float(f"{lat:0.5f}"), float(f"{lon:0.5f}"))
+            SetSchengen(airp)
+            apdata.append(airp)
+        F.close()
+        return apdata
+    except FileNotFoundError:
+        return []
 
 def Convertir_a_gms (value, positive, negative): #Defino esta función para pasar de grados a grados, minutos y segundos, con la N, S, W y E como en el documento airports.txt, por si hace falta en algún momento
     #positive es N o E, negative es S o W
