@@ -93,7 +93,7 @@ if __name__ == "__main__":
     print("-" * 40)
     
     fig = PlotAirports(airports, "Test - Schengen vs No Schengen")
-    print("   ✅ Gráfico creado (se cierra en 3 segundos)")
+    print("   ✅ Gráfico creado (se cierra en 10 segundos)")
     plt.ion()
     plt.show(block=False)
     plt.pause(10)

@@ -328,9 +328,39 @@ if __name__ == "__main__":
     plt.close()
     
     # ==========================================
-    # 5. Test LongDistanceArrivals
+    # 5. Test SaveFlights
     # ==========================================
-    print("\n📌 5. Probando LongDistanceArrivals()")
+    print("\n📌 5. Probando SaveFlights()")
+    print("-" * 40)
+    
+    SaveFlights(flights, "ArrivalsToLEBL.txt")
+    
+    if os.path.exists("ArrivalsToLEBL.txt"):
+        with open("ArrivalsToLEBL.txt", "r") as f:
+            lines = f.readlines()
+        print(f"   ✅ Archivo guardado: {len(lines)} líneas")
+        print(f"   Primera línea: {lines[0].strip()}")
+    else:
+        print("   ❌ Error: No se creó el archivo")
+    
+    # ==========================================
+    # 6. Test MapFlights
+    # ==========================================
+    print("\n📌 6. Probando MapFlights()")
+    print("-" * 40)
+    
+    MapFlights(flights, 'LEBL_Arrivals.kml')
+    input()
+    
+    if os.path.exists("LEBL_Arrivals.kml"):
+        print("   ✅ Archivo KML creado: LEBL_Arrivals.kml")
+    else:
+        print("   ❌ Error: No se creó el archivo KML")
+    
+    # ==========================================
+    # 7. Test LongDistanceArrivals
+    # ==========================================
+    print("\n📌 7. Probando LongDistanceArrivals()")
     print("-" * 40)
     
     long_flights = LongDistanceArrivals(flights)
@@ -341,32 +371,10 @@ if __name__ == "__main__":
         for f in long_flights[:5]:
             print(f"      - {f.id} desde {f.origin_airp}")
     
-    # ==========================================
-    # 6. Test SaveFlights
-    # ==========================================
-    print("\n📌 6. Probando SaveFlights()")
-    print("-" * 40)
+    MapFlights(long_flights, 'LEBL_Arrivals_MIN2000.kml')
     
-    SaveFlights(flights, "test_flights_output.txt")
-    
-    if os.path.exists("test_flights_output.txt"):
-        with open("test_flights_output.txt", "r") as f:
-            lines = f.readlines()
-        print(f"   ✅ Archivo guardado: {len(lines)} líneas")
-        print(f"   Primera línea: {lines[0].strip()}")
-    else:
-        print("   ❌ Error: No se creó el archivo")
-    
-    # ==========================================
-    # 7. Test MapFlights
-    # ==========================================
-    print("\n📌 7. Probando MapFlights()")
-    print("-" * 40)
-    
-    MapFlights(flights)
-    
-    if os.path.exists("LEBL_Arrivals.kml"):
-        print("   ✅ Archivo KML creado: LEBL_Arrivals.kml")
+    if os.path.exists("LEBL_Arrivals_MIN2000.kml"):
+        print("   ✅ Archivo KML creado: LEBL_Arrivals_MIN2000.kml")
     else:
         print("   ❌ Error: No se creó el archivo KML")
     
@@ -376,5 +384,5 @@ if __name__ == "__main__":
     print("\n" + "="*60)
     print("🎉 TEST VERSIÓN 2 COMPLETADO")
     print("="*60)
-    print("\n✅ Si no viste errores, todas las funciones funcionan correctamente.")
-    print("✅ Archivos creados: test_flights_output.txt, LEBL_Arrivals.kml")
+    print("\n✅ Si no has visto errores, todas las funciones funcionan correctamente.")
+    print("✅ Archivos creados: ArrivalsToLEBL.txt, LEBL_Arrivals.kml, LEBL_Arrivals_MIN2000.kml")
