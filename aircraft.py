@@ -98,7 +98,7 @@ def PlotAirlines(aircrafts):
         valores = list(airline_flights.values())
 
         # Creo el gráfico de barras
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(16, 6))
         bars = ax.bar(claves, valores, color='skyblue', edgecolor='black')
 
         # Personalizo el gráfico
@@ -107,7 +107,13 @@ def PlotAirlines(aircrafts):
         ax.set_title('Vuelos a LEBL por aerolínea', fontsize=14, fontweight='bold')
 
         # Roto etiquetas, por si hay muchas aerolíneas
-        ax.tick_params(axis='x', rotation=45)
+        ax.tick_params(axis='x', rotation=90, labelsize=13)
+
+        # Ajustar los límites del eje X para eliminar márgenes laterales excesivos
+        # Por defecto hay un margen del 5% a cada lado, lo reducimos a 0
+        ax.margins(x=0.01)  # margen lateral mínimo
+        # También podemos forzar el límite exacto
+        # ax.set_xlim(-0.5, n - 0.5)
 
         # Mostrar valores sobre las barras
         for bar, valor in zip(bars, valores):

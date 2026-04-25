@@ -50,7 +50,19 @@ class InterfazPrincipal(ctk.CTk):
 
         self.principal_frame = ctk.CTkFrame(self)
         self.principal_frame.grid(row=0, column=1, sticky="nsew", padx=20, pady=20)
+
+        # Sirve para poder cerrar bien la interfaz
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
     
+    # Este método me lo ha explicado la IA DeepSeek
+    # Sirve para poder cerrar bien todos los gráficos y evitar que aparezcan errores en la terminal si se cierra la aplicación con gráficos abiertos.
+    def on_closing(self):
+        # Cerrar todas las figuras de matplotlib
+        plt.close('all')
+        # Destruir la ventana principal
+        self.quit()
+        self.destroy()
+
     def cambiar_modo_toggle(self):
         if self.switch_appear.get() == "on":
             ctk.set_appearance_mode("dark")
