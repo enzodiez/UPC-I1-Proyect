@@ -159,15 +159,40 @@ def MapFlights(aircrafts, filename):
     
     airports = LoadAirports('Airports.txt')
     lonLEBL, latLEBL = 0, 0
-    lonLatOrigin_airp = [] # Los elementos son listas de longitud=3 que contiene la longitud, la latitud y el código ICAO (en ese orden) de los aircrafts de la lista aircrafts
+    
+    # Diccionario para almacenar las coordenadas de los aeropuertos de orígen no repetidos
+    origen_coords = {}  # clave: código ICAO, valor: (lon, lat)
 
-    for elem in airports:
-        if elem.icaoCode == 'LEBL':
-            lonLEBL, latLEBL = elem.longitude, elem.latitude
+    # Creo un diccionario con todos los aeropuertos para poder hacer una búsqueda rápida
+    # El VALOR es una tupla (parecido a una lista pero no se puede modificar)
+    airport_dict = {}
+    for airp in airports:
+        airport_dict[airp.icaoCode] = (airp.longitude, airp.latitude)
+
+    # obtengo las coordenadas de LEBL
+    if 'LEBL' in airport_dict:
+        lonLEBL, latLEBL = airport_dict['LEBL']
+    else:
+        # Si no se encuentra LEBL cierro archivo y salgo de la función
+        file.write("</Document>\n</kml>")
+        file.close()
+        print("Error: No se encontró LEBL en Airports.txt")
+        return
+    
+    # Guardo los códigos de los aeropuertos de origen en un set() que si hay elementos repetidos solo se queda con uno de ellos.
+    # Así evito crear rutas repetidas
+    origenes = set()
+    for a in aircrafts:
+        origenes.add(a.origin_airp)
+    
+    # Para cada código de los aeropuertos de origen busco sus coordenadas
+    lonLatOrigin_airp = []  # lista de [longitud, latitud, código ICAO]
+    for codigo in origenes:
+        if codigo in airport_dict:
+            lon, lat = airport_dict[codigo]
+            lonLatOrigin_airp.append([lon, lat, codigo])
         else:
-            for n in range(len(aircrafts)):
-                if elem.icaoCode == aircrafts[n].origin_airp:
-                    lonLatOrigin_airp.append([elem.longitude, elem.latitude, elem.icaoCode])
+            print(f"Advertencia: No se encontraron coordenadas para {codigo}")
     
     for i in range(len(lonLatOrigin_airp)):
         name = f"Route {lonLatOrigin_airp[i][2]} - LEBL"
