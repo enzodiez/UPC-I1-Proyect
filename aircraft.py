@@ -133,9 +133,9 @@ def PlotFlightsType(aircrafts):
 
         return fig
 
-def MapFlights(aircrafts):
+def MapFlights(aircrafts, filename):
     # Sobreescribe todo el fichero para actualizarlo
-    file = open('LEBL_Arrivals.kml', 'w')
+    file = open(filename, 'w')
     file.write("""<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
 <Document>
@@ -196,7 +196,7 @@ def MapFlights(aircrafts):
     file.close()
 
     print("Abriendo mapa de vuelos a LEBL hoy en Google Earth...")
-    os.startfile('LEBL_Arrivals.kml')
+    os.startfile(filename)
 
 def LongDistanceArrivals(aircrafts):
     airports = LoadAirports('Airports.txt')
@@ -268,3 +268,113 @@ def haversine_distance(lat1_rad, lon1_rad, lat2_rad, lon2_rad):
     distance = r * c
     
     return distance
+
+if __name__ == "__main__":
+    print("="*60)
+    print("TEST VERSIÓN 2 - FLIGHT MANAGEMENT")
+    print("="*60)
+    
+    # ==========================================
+    # 1. Test LoadArrivals
+    # ==========================================
+    print("\n📌 1. Probando LoadArrivals('arrivals.txt')")
+    print("-" * 40)
+    
+    flights = LoadArrivals("arrivals.txt")
+    
+    if flights:
+        print(f"   ✅ Vuelos cargados: {len(flights)}")
+        print(f"   Primer vuelo: {flights[0].id} | {flights[0].origin_airp} | {flights[0].land_time} | {flights[0].company}")
+        print(f"   Último vuelo: {flights[-1].id} | {flights[-1].origin_airp} | {flights[-1].land_time} | {flights[-1].company}")
+    else:
+        print("   ❌ Error: No se cargaron vuelos")
+        exit()
+    
+    # ==========================================
+    # 2. Test PlotArrivals
+    # ==========================================
+    print("\n📌 2. Probando PlotArrivals()")
+    print("-" * 40)
+    
+    PlotArrivals(flights)
+    print("   ✅ Gráfico de llegadas por hora (se cierra en 3 segundos)")
+    plt.ion()
+    plt.show(block=False)
+    plt.pause(3)
+    plt.close()
+    
+    # ==========================================
+    # 3. Test PlotAirlines
+    # ==========================================
+    print("\n📌 3. Probando PlotAirlines()")
+    print("-" * 40)
+    
+    PlotAirlines(flights)
+    print("   ✅ Gráfico de vuelos por aerolínea (se cierra en 3 segundos)")
+    plt.show(block=False)
+    plt.pause(3)
+    plt.close()
+    
+    # ==========================================
+    # 4. Test PlotFlightsType
+    # ==========================================
+    print("\n📌 4. Probando PlotFlightsType()")
+    print("-" * 40)
+    
+    PlotFlightsType(flights)
+    print("   ✅ Gráfico Schengen vs No Schengen (se cierra en 3 segundos)")
+    plt.show(block=False)
+    plt.pause(3)
+    plt.close()
+    
+    # ==========================================
+    # 5. Test LongDistanceArrivals
+    # ==========================================
+    print("\n📌 5. Probando LongDistanceArrivals()")
+    print("-" * 40)
+    
+    long_flights = LongDistanceArrivals(flights)
+    print(f"   ✅ Vuelos de larga distancia (>2000km): {len(long_flights)}")
+    
+    if long_flights:
+        print("   Primeros 5 vuelos de larga distancia:")
+        for f in long_flights[:5]:
+            print(f"      - {f.id} desde {f.origin_airp}")
+    
+    # ==========================================
+    # 6. Test SaveFlights
+    # ==========================================
+    print("\n📌 6. Probando SaveFlights()")
+    print("-" * 40)
+    
+    SaveFlights(flights, "test_flights_output.txt")
+    
+    if os.path.exists("test_flights_output.txt"):
+        with open("test_flights_output.txt", "r") as f:
+            lines = f.readlines()
+        print(f"   ✅ Archivo guardado: {len(lines)} líneas")
+        print(f"   Primera línea: {lines[0].strip()}")
+    else:
+        print("   ❌ Error: No se creó el archivo")
+    
+    # ==========================================
+    # 7. Test MapFlights
+    # ==========================================
+    print("\n📌 7. Probando MapFlights()")
+    print("-" * 40)
+    
+    MapFlights(flights)
+    
+    if os.path.exists("LEBL_Arrivals.kml"):
+        print("   ✅ Archivo KML creado: LEBL_Arrivals.kml")
+    else:
+        print("   ❌ Error: No se creó el archivo KML")
+    
+    # ==========================================
+    # RESULTADO FINAL
+    # ==========================================
+    print("\n" + "="*60)
+    print("🎉 TEST VERSIÓN 2 COMPLETADO")
+    print("="*60)
+    print("\n✅ Si no viste errores, todas las funciones funcionan correctamente.")
+    print("✅ Archivos creados: test_flights_output.txt, LEBL_Arrivals.kml")

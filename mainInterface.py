@@ -112,7 +112,7 @@ class InterfazPrincipal(ctk.CTk):
         btn_map_airp = ctk.CTkButton(btn_frame, text='Mapa Aeropuertos', command=lambda: MapAirports(LoadAirports('Airports.txt')))
         btn_map_airp.pack(pady=30)
 
-        btn_lebl_arrivals = ctk.CTkButton(btn_frame, text='Vuelos a LEBL hoy', command=lambda: MapFlights(LoadArrivals('Arrivals.txt')))
+        btn_lebl_arrivals = ctk.CTkButton(btn_frame, text='Vuelos a LEBL hoy', command=lambda: MapFlights(LoadArrivals('Arrivals.txt'), filename='LEBL_Arrivals.kml'))
         btn_lebl_arrivals.pack(pady=30)
 
         btn_long_dist_arrv = ctk.CTkButton(btn_frame, text='Llegadas a LEBL de vuelos de larga distancia', command=self.procesar_long_dist_arrv)
@@ -168,7 +168,7 @@ class InterfazPrincipal(ctk.CTk):
         btn_airp_data.pack(pady=30)
     
     def procesar_long_dist_arrv(self):
-        long_distance_arrivals_aircrafts = MapFlights(LongDistanceArrivals(LoadArrivals('Arrivals.txt')))
+        long_distance_arrivals_aircrafts = MapFlights(LongDistanceArrivals(LoadArrivals('Arrivals.txt')), filename='LEBL_Arrivals_MIN2000.kml')
 
     def ejecutar_visz_airports(self, airports):
         # Vaciar el frame principal

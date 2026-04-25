@@ -220,4 +220,3 @@ def RemoveAirport (airports, code):
             del airports[i]
             return True
     return False
-
