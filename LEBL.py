@@ -64,6 +64,94 @@ def LoadAirlines(terminal, t_name):
     except FileNotFoundError:
         return -1 # Mismo código de error que para SetGates()
 
+def LoadAirportStructure(filename):
+    try:
+        with open(filename, 'r') as file:
+            # Leo el código ICAO
+            line = file.readline()
+            while line and line.strip() == '':
+                line = file.readline()
+
+            if not line:
+                return -2  # archivo vacío
+            
+            icao = line.strip().split()[0]
+            airport = BarcelonaAP(ic=icao)
+
+            # Voy leyendo las siguientes líneas
+            line = file.readline()
+            while line:
+                # Salto las líneas vacías
+                line = line.strip()
+                if not line:
+                    line = file.readline()
+                    continue
+
+                parts = line.split()
+                if not parts:
+                    line = file.readline()
+                    continue
+
+                if parts[0] == 'Terminal':
+                    if len(parts) < 5:
+                        return -3  # Formato incorrecto (podría mezclarse información o introducirse información errónea)
+                    t_name = parts[1]
+                    terminal = Terminal(name=t_name)
+
+                    # Cargar aerolíneas del terminal
+                    ret_l_a = LoadAirlines(terminal, t_name)
+                    if ret_l_a != 0:
+                        return -4  # Error al cargar aerolíneas
+
+                    # Leo la siguiente línea, podría ser 'Area' o 'Terminal'
+                    line = file.readline()
+                    while line:
+                        line = line.strip()
+                        if not line:
+                            line = file.readline()
+                            continue
+
+                        parts = line.split()
+                        if not parts:
+                            line = file.readline()
+                            continue
+
+                        if parts[0] == 'Area':
+                            # Valido el formato: "Area Nombre Tipo Gates init_gate - end_gate"
+                            if len(parts) < 7 or parts[3] != 'Gates' or parts[5] != '-':
+                                return -5
+                            
+                            name = parts[1]
+                            type_area = parts[2]
+                            try:
+                                init_gate = int(parts[4])
+                                end_gate = int(parts[6])
+                            except ValueError:
+                                return -6
+                            
+                            area = BoardingArea(name=name, tp=type_area)
+                            prefix = t_name + "BA" + name.lower()
+                            ret_s_g = SetGates(area, init_gate, end_gate, prefix)
+                            if ret_s_g != 0:
+                                return -7
+                            
+                            terminal.boardingAreas.append(area)
+                            line = file.readline()
+                        else:
+                            # No es 'Area'
+                            break  # Salgo del bucle de áreas conservando 'line' para la siguiente terminal
+
+                    airport.terminals.append(terminal)
+                else:
+                    # Línea inesperada, la ignoro y continuo
+                    line = file.readline()
+
+            return airport
+
+    except FileNotFoundError:
+        return -1
+
+'''
 def LoadAirportStructure (filename):
     try:
         filename = open('LEBL.txt', 'r')
@@ -93,6 +181,7 @@ def LoadAirportStructure (filename):
 
         airport = BarcelonaAP(ic = ICAO, terminal)
         return airport
+'''
 
 def IsAirlineInTerminal(terminal, name):
     if name == '':
