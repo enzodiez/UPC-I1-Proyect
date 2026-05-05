@@ -165,9 +165,6 @@ def MapFlights(aircrafts, filename):
     
     airports = LoadAirports('Airports.txt')
     lonLEBL, latLEBL = 0, 0
-    
-    # Diccionario para almacenar las coordenadas de los aeropuertos de orígen no repetidos
-    origen_coords = {}  # clave: código ICAO, valor: (lon, lat)
 
     # Creo un diccionario con todos los aeropuertos para poder hacer una búsqueda rápida
     # El VALOR es una tupla (parecido a una lista pero no se puede modificar)
