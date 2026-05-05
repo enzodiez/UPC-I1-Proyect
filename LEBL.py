@@ -1,4 +1,4 @@
-import aircraft
+from aircraft import *
 
 class BarcelonaAP():
     def __init__(self, ic='', terminals=None):
@@ -181,15 +181,12 @@ def IsAirlineInTerminal(terminal, name):
         # Si no existe el archivo, no se puede buscar
         return False, -2 # Segúndo código de error: archivo no encontrado
 
-
 def SearchTerminal(bcn, name):
 
     for terminal in bcn.terminals:
         if IsAirlineInTerminal(terminal, name):
             return terminal.name
     return ""
-
-
 
 def AssignGate(bcn, aircraft):
     terminal_name = SearchTerminal(bcn, aircraft.airline)
@@ -209,4 +206,3 @@ def AssignGate(bcn, aircraft):
                             gate.occupied = True
                             gate.aircraft = aircraft.id
                             return gate.name
-
