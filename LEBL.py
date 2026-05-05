@@ -153,6 +153,28 @@ def LoadAirportStructure(filename):
     except FileNotFoundError:
         return -1
 
+def GateOccupancy (bcn):
+    try:
+        i = 0
+        m = 0
+        n = 0
+        gt=bcn.terminals[i].boardingAreas[m].gates
+        while i<len(terminals):
+            while m < len(boardingAreas):
+                while n<len(gates):
+                    if gt.occupied = True:
+                        status = "Occupied"
+                        id =
+                    elif gt.occupied==False:
+                        status = "Free"
+                        id = "none"
+                    gt.append(nm, status, id)
+                    n=n+1
+                m=m+1
+            i=i+1
+        return gt
+    except FileNotFoundError:
+        return -1
 
 def IsAirlineInTerminal(terminal, name):
     if name == '':
