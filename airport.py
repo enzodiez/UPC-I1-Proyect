@@ -27,28 +27,6 @@ def PrintAirport(airport: Airport): # Que airport sea un objeto Airport
     print(f"Longitud: {airport.longitude}")
     print(f"Pertenece a la zona Schengen: {airport.schengen}")
 
-'''def SaveSchengenAirports(airports, filename):
-    with open(filename, 'r', encoding='utf-8') as file:
-        schAirp = file.readlines()
-    
-    for airp in airports:
-        if IsSchengenAirport(airp.icaoCode):
-            found = False
-            cnt = 0
-            while not found and cnt < len(schAirp):
-                ic, lat, lon = schAirp[cnt].split()
-                if airp.icaoCode == ic:
-                    found = True
-                cnt += 1
-            if not found:
-                latitud = Convertir_a_gms(float(airp.latitude), 'N', 'S')
-                longitud = Convertir_a_gms(float(airp.longitude), 'E', 'W')
-                line = f'{airp.icaoCode} {latitud} {longitud}'
-                schAirp.append(line)
-    
-    with open(filename, 'w', encoding='utf-8') as file:
-        for linea in schAirp:
-            file.write(f'{linea}\n')'''
 def SaveSchengenAirports(airports, filename):
     # Leeo y limpio los saltos de línea con splitlines()
     try:
