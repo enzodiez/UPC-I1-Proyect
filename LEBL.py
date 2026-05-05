@@ -1,4 +1,7 @@
-import aircraft
+from airport import *
+from aircraft import *
+
+
 
 class BarcelonaAP():
     def __init__(self, ic='', terminals=None):
@@ -201,12 +204,11 @@ def AssignGate(bcn, aircraft):
 
     for terminal in bcn.terminals:
         if terminal.name == terminal_name:
-            for area in terminal.areas:
-                if (flight_schengen and area.type == "Schengen") or (
-                        not flight_schengen and area.type == "non-Schengen"):
+            for area in terminal.boardingAreas:
+                if (flight_schengen and area.type == "Schengen") or (not flight_schengen and area.type == "non-Schengen"):
                     for gate in area.gates:
                         if not gate.occupied:
                             gate.occupied = True
-                            gate.aircraft = aircraft.id
+                            gate.id = aircraft.id
                             return gate.name
 
