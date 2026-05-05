@@ -1,3 +1,5 @@
+import aircraft
+
 class BarcelonaAP():
     def __init__(self, ic='', terminals=None):
         self.code = ic
@@ -209,3 +211,33 @@ def IsAirlineInTerminal(terminal, name):
     except FileNotFoundError:
         # Si no existe el archivo, no se puede buscar
         return False, -2 # Segúndo código de error: archivo no encontrado
+
+
+def SearchTerminal(bcn, name):
+
+    for terminal in bcn.terminals:
+        if IsAirlineInTerminal(terminal, name):
+            return terminal.name
+    return ""
+
+
+
+def AssignGate(bcn, aircraft):
+    terminal_name = SearchTerminal(bcn, aircraft.airline)
+
+    if terminal_name == "":
+        return "No hay puerta disponible"
+
+    flight_schengen = IsSchengenAirport(aircraft.origin_airp)
+
+    for terminal in bcn.terminals:
+        if terminal.name == terminal_name:
+            for area in terminal.areas:
+                if (flight_schengen and area.type == "Schengen") or (
+                        not flight_schengen and area.type == "non-Schengen"):
+                    for gate in area.gates:
+                        if not gate.occupied:
+                            gate.occupied = True
+                            gate.aircraft = aircraft.id
+                            return gate.name
+
