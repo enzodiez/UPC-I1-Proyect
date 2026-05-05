@@ -1,7 +1,6 @@
+
 from airport import *
 from aircraft import *
-
-
 
 class BarcelonaAP():
     def __init__(self, ic='', terminals=None):
@@ -156,6 +155,28 @@ def LoadAirportStructure(filename):
     except FileNotFoundError:
         return -1
 
+def GateOccupancy (bcn):
+    try:
+        i = 0
+        m = 0
+        n = 0
+        gt=bcn.terminals[i].boardingAreas[m].gates
+        while i<len(terminals):
+            while m < len(boardingAreas):
+                while n<len(gates):
+                    if gt.occupied = True:
+                        status = "Occupied"
+                        id =
+                    elif gt.occupied==False:
+                        status = "Free"
+                        id = "none"
+                    gt.append(nm, status, id)
+                    n=n+1
+                m=m+1
+            i=i+1
+        return gt
+    except FileNotFoundError:
+        return -1
 
 def IsAirlineInTerminal(terminal, name):
     if name == '':
@@ -184,15 +205,12 @@ def IsAirlineInTerminal(terminal, name):
         # Si no existe el archivo, no se puede buscar
         return False, -2 # Segúndo código de error: archivo no encontrado
 
-
 def SearchTerminal(bcn, name):
 
     for terminal in bcn.terminals:
         if IsAirlineInTerminal(terminal, name):
             return terminal.name
     return ""
-
-
 
 def AssignGate(bcn, aircraft):
     terminal_name = SearchTerminal(bcn, aircraft.airline)
@@ -211,4 +229,5 @@ def AssignGate(bcn, aircraft):
                             gate.occupied = True
                             gate.id = aircraft.id
                             return gate.name
+
 
