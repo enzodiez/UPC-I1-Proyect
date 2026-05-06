@@ -158,21 +158,24 @@ def GateOccupancy (bcn):
         i = 0
         m = 0
         n = 0
-        gt=bcn.terminals[i].boardingAreas[m].gates
-        while i<len(terminals):
-            while m < len(boardingAreas):
-                while n<len(gates):
-                    if gt.occupied = True:
-                        status = "Occupied"
-                        id =
-                    elif gt.occupied==False:
-                        status = "Free"
-                        id = "none"
-                    gt.append(nm, status, id)
-                    n=n+1
-                m=m+1
-            i=i+1
-        return gt
+
+        gates = []
+
+        while i < len(bcn.terminals):
+            while m < len(bcn.terminals[i].boardingAreas):
+                while n < len(bcn.terminals[i].boardingAreas[m].gates):
+                    gate = bcn.terminals[i].boardingAreas[m].gates[n]
+
+                    if gate.occupied == True:
+                        gate.id =
+                    elif gate.occupied == False:
+                        gate.id = ''
+                    gates.append(gate)
+                    n += 1
+                m += 1
+            i += 1
+        return gates
+    
     except FileNotFoundError:
         return -1
 
@@ -204,7 +207,6 @@ def IsAirlineInTerminal(terminal, name):
         return False, -2 # Segúndo código de error: archivo no encontrado
 
 def SearchTerminal(bcn, name):
-
     for terminal in bcn.terminals:
         if IsAirlineInTerminal(terminal, name):
             return terminal.name
