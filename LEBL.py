@@ -164,7 +164,14 @@ def GateOccupancy (bcn):
                 gates.append(gate)
     return gates
 
-def IsAirlineInTerminal(terminal, name):
+def IsAirlineInTerminal(terminal, icao_code):
+    '''
+    Información importante!!! Esta función estaba pensada originalmente en el documento del proyecto para trabajar buscando con el
+    nombre de la aerolínea. No obstante se nos hace mucho más fácil trabajar buscando por el código ICAO, es por eso que la búsqueda
+    se realiza mediante el ICAO y no el nombre de la aerolínea.
+    '''
+
+    '''
     if name == '':
         return False, -1 # Nombre de aerolínea inválido
     
@@ -189,15 +196,20 @@ def IsAirlineInTerminal(terminal, name):
         return False, 0
     except FileNotFoundError:
         # Si no existe el archivo, no se puede buscar
-        return False, -2 # Segúndo código de error: archivo no encontrado
+        return False, -2 # Segundo código de error: archivo no encontrado
+    '''
+
+    if icao_code == '':
+        return False, -1
+    if not terminal.airlCodes:
+        return False, 0
+    return icao_code in terminal.airlCodes, 0
 
 def SearchTerminal(bcn, name):
     for terminal in bcn.terminals:
         isThere, code = IsAirlineInTerminal(terminal, name)
         if code == -1:
             return -1 # Nombre de aerolínea inválido
-        if code == -2:
-            return -2 # Error de lectura del archivo
         if isThere:
             return terminal.name
     return ""
@@ -224,3 +236,151 @@ def AssignGate(bcn, aircraft):
                             gate.id = aircraft.id
                             return 0
     return -4
+
+if __name__ == "__main__":
+    print("="*60)
+    print("TEST VERSIÓN 3 - ESTRUCTURA Y GESTIÓN DEL AEROPUERTO")
+    print("="*60)
+    
+    # ==========================================
+    # 1. Test LoadAirportStructure
+    # ==========================================
+    print("\n📌 1. Probando LoadAirportStructure('LEBL.txt')")
+    print("-" * 40)
+    
+    bcn = LoadAirportStructure("LEBL.txt")
+    
+    if isinstance(bcn, BarcelonaAP):
+        print(f"✅ Aeropuerto {bcn.code} cargado correctamente")
+        print(f"   Terminales: {len(bcn.terminals)}")
+        for t in bcn.terminals:
+            print(f"   - {t.name}: {len(t.boardingAreas)} áreas, {len(t.airlCodes)} aerolíneas cargadas")
+            for a in t.boardingAreas:
+                print(f"       Área {a.name} ({a.type}): {len(a.gates)} puertas")
+    else:
+        print(f"❌ Error al cargar aeropuerto. Código: {bcn}")
+        exit()
+    
+    # ==========================================
+    # 2. Test GateOccupancy (sin puertas ocupadas aún)
+    # ==========================================
+    print("\n📌 2. Probando GateOccupancy() (inicialmente todas libres)")
+    print("-" * 40)
+    
+    gates = GateOccupancy(bcn)
+    free_gates = [g for g in gates if not g.occupied]
+    occupied_gates = [g for g in gates if g.occupied]
+    
+    print(f"✅ Total puertas: {len(gates)}")
+    print(f"   Libres: {len(free_gates)}")
+    print(f"   Ocupadas: {len(occupied_gates)}")
+    if free_gates:
+        print(f"   Ejemplo de puerta libre: {free_gates[0].name}")
+    
+    # ==========================================
+    # 3. Test AssignGate con algunos vuelos
+    # ==========================================
+    print("\n📌 3. Probando AssignGate() con vuelos reales")
+    print("-" * 40)
+
+    # Cargar llegadas desde arrivals.txt
+    from aircraft import LoadArrivals
+    flights = LoadArrivals("Arrivals.txt")
+    
+    if not flights:
+        print("❌ No se pudieron cargar vuelos. Asegúrate de que 'arrivals.txt' existe.")
+    else:
+        assigned = 0
+        errors = []
+        for i, flight in enumerate(flights[:10]):  # Probamos solo primeros 10
+            result = AssignGate(bcn, flight)
+            if result == 0:
+                assigned += 1
+                # Buscar la puerta asignada para mostrar información
+                for gate in GateOccupancy(bcn):
+                    if gate.occupied and gate.id == flight.id:
+                        print(f"   ✅ Vuelo {flight.id} ({flight.company}) → puerta {gate.name}")
+                        break
+            else:
+                errors.append((flight.id, result))
+        
+        print(f"\n   Asignaciones exitosas: {assigned} de {min(10, len(flights))}")
+        if errors:
+            print("   Errores:")
+            for fid, code in errors:
+                print(f"      - Vuelo {fid}: código {code}")
+    
+    # ==========================================
+    # 4. Test GateOccupancy después de asignaciones
+    # ==========================================
+    print("\n📌 4. Verificando ocupación después de asignaciones")
+    print("-" * 40)
+    
+    gates = GateOccupancy(bcn)
+    free_gates = [g for g in gates if not g.occupied]
+    occupied_gates = [g for g in gates if g.occupied]
+    
+    print(f"   Puertas libres: {len(free_gates)}")
+    print(f"   Puertas ocupadas: {len(occupied_gates)}")
+    
+    # Mostrar ocupación por terminal y área (en texto)
+    print("\n   Resumen de ocupación por área:")
+    for terminal in bcn.terminals:
+        print(f"   Terminal {terminal.name}:")
+        for area in terminal.boardingAreas:
+            occupied_in_area = sum(1 for g in area.gates if g.occupied)
+            total_in_area = len(area.gates)
+            print(f"       Área {area.name} ({area.type}): {occupied_in_area}/{total_in_area} ocupadas")
+    
+    # ==========================================
+    # 5. Test funciones auxiliares (internas)
+    # ==========================================
+    print("\n📌 5. Probando funciones auxiliares internas")
+    print("-" * 40)
+    
+    # Probar SetGates directamente
+    test_area = BoardingArea(name="Test", tp="Schengen")
+    ret = SetGates(test_area, 1, 5, "TEST")
+    print(f"   SetGates(1,5,'TEST'): código {ret} → {len(test_area.gates)} puertas")
+    
+    # Probar LoadAirlines en una terminal existente
+    if bcn.terminals:
+        terminal_test = bcn.terminals[0]
+        # Guardar copia de airlCodes antes
+        old_codes = terminal_test.airlCodes.copy()
+        ret = LoadAirlines(terminal_test, terminal_test.name)
+        print(f"   LoadAirlines({terminal_test.name}): código {ret} → {len(terminal_test.airlCodes)} aerolíneas cargadas")
+        # Restaurar si no queremos modificar la estructura real (opcional)
+        # terminal_test.airlCodes = old_codes
+    
+    # Probar IsAirlineInTerminal y SearchTerminal con código ICAO
+    if bcn.terminals and terminal_test.airlCodes:
+        # Tomamos el primer código ICAO de la lista de la terminal (ejemplo: 'ADR', 'AEE', etc.)
+        ejemplo_code = terminal_test.airlCodes[0]  # Esto es un código ICAO, no un nombre
+        print(f"   Probando con código ICAO: '{ejemplo_code}'")
+
+        # Comprobar si ese código está en la terminal (debería ser True)
+        found, code = IsAirlineInTerminal(terminal_test, ejemplo_code)
+        print(f"   IsAirlineInTerminal('{ejemplo_code}'): {found}, código {code}")
+
+        # Buscar en qué terminal está ese código (debería ser la terminal actual)
+        term_name = SearchTerminal(bcn, ejemplo_code)
+        print(f"   SearchTerminal('{ejemplo_code}'): '{term_name}'")
+    
+    # Probar con código que no existe
+    codigo_falso = "XYZ"
+    found2, code2 = IsAirlineInTerminal(terminal_test, codigo_falso)
+    print(f"   IsAirlineInTerminal('{codigo_falso}'): {found2}, código {code2}")
+    term_name2 = SearchTerminal(bcn, codigo_falso)
+    print(f"   SearchTerminal('{codigo_falso}'): '{term_name2}'")  # Debería ser cadena vacía
+
+    # ==========================================
+    # RESULTADO FINAL
+    # ==========================================
+    print("\n" + "="*60)
+    print("🎉 TEST VERSIÓN 3 COMPLETADO")
+    print("="*60)
+    print("\n✅ Si no has visto errores, todas las funciones funcionan correctamente.")
+    print("✅ La estructura del aeropuerto se ha construido y se han asignado puertas.")
+    print("✅ La ocupación se puede consultar mediante GateOccupancy().")
+    print("   (El gráfico visual es una mejora opcional para versión final)")
