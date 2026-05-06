@@ -1,4 +1,3 @@
-
 from airport import *
 from aircraft import *
 
@@ -8,9 +7,9 @@ class BarcelonaAP():
         self.terminals = terminals if terminals is not None else []
 
 class Terminal():
-    def __init__(self, name='', ba=None, airlCodes=None):
+    def __init__(self, name='', boardingAreas=None, airlCodes=None):
         self.name = name
-        self.boardingAreas = ba if ba is not None else []
+        self.boardingAreas = boardingAreas if boardingAreas is not None else []
         self.airlCodes = airlCodes if airlCodes is not None else []
 
 class BoardingArea():
@@ -30,11 +29,11 @@ def SetGates(area, init_gate, end_gate, prefix):
         end_gate = int(end_gate)
         init_gate = int(init_gate)
     except ValueError:
-        return -2 # Código de error específico para el caso de no poder convertir (o confirmar) que estas dos variables son enteros
+        return -1 # Código de error específico para el caso de no poder convertir (o confirmar) que estas dos variables son enteros
 
     if end_gate < init_gate:
         # Código de error: -1
-        return -1
+        return -2
     # Si la lista de gates del área de embarque no está vacía la reinicio vacía
     if area.gates:
         area.gates = []
@@ -66,7 +65,7 @@ def LoadAirlines(terminal, t_name):
         return 0 # Para indicar que todo ha ido bien
 
     except FileNotFoundError:
-        return -1 # Mismo código de error que para SetGates()
+        return -1
 
 def LoadAirportStructure(filename):
     try:
@@ -97,14 +96,14 @@ def LoadAirportStructure(filename):
                     continue
 
                 if parts[0] == 'Terminal':
-                    if len(parts) < 5:
-                        return -3  # Formato incorrecto (podría mezclarse información o introducirse información errónea)
+                    if len(parts) < 2:
+                        return -3  # Información insuficiente, no están las dos palabras que buscamos: Terminal, nombre de la terminal
                     t_name = parts[1]
                     terminal = Terminal(name=t_name)
 
                     # Cargar aerolíneas del terminal
                     ret_l_a = LoadAirlines(terminal, t_name)
-                    if ret_l_a != 0:
+                    if ret_l_a == -1:
                         return -4  # Error al cargar aerolíneas
 
                     # Leo la siguiente línea, podría ser 'Area' o 'Terminal'
@@ -123,7 +122,7 @@ def LoadAirportStructure(filename):
                         if parts[0] == 'Area':
                             # Valido el formato: "Area Nombre Tipo Gates init_gate - end_gate"
                             if len(parts) < 7 or parts[3] != 'Gates' or parts[5] != '-':
-                                return -5
+                                return -5 # Formato incorrecto (podría mezclarse información o introducirse información errónea)
                             
                             name = parts[1]
                             type_area = parts[2]
@@ -131,13 +130,15 @@ def LoadAirportStructure(filename):
                                 init_gate = int(parts[4])
                                 end_gate = int(parts[6])
                             except ValueError:
-                                return -6
+                                return -6 # Error en los datos leídos
                             
                             area = BoardingArea(name=name, tp=type_area)
                             prefix = t_name + "BA" + name.lower()
                             ret_s_g = SetGates(area, init_gate, end_gate, prefix)
-                            if ret_s_g != 0:
-                                return -7
+                            if ret_s_g == -1:
+                                return -7 # Fórmato de los índices de los gates incorrecto
+                            if ret_s_g == -2:
+                                return -8 # Índices de los gates ilógicos
                             
                             terminal.boardingAreas.append(area)
                             line = file.readline()
@@ -156,34 +157,16 @@ def LoadAirportStructure(filename):
         return -1
 
 def GateOccupancy (bcn):
-    try:
-        i = 0
-        m = 0
-        n = 0
-
-        gates = []
-
-        while i < len(bcn.terminals):
-            while m < len(bcn.terminals[i].boardingAreas):
-                while n < len(bcn.terminals[i].boardingAreas[m].gates):
-                    gate = bcn.terminals[i].boardingAreas[m].gates[n]
-
-                    if gate.occupied == True:
-                        gate.id =
-                    elif gate.occupied == False:
-                        gate.id = ''
-                    gates.append(gate)
-                    n += 1
-                m += 1
-            i += 1
-        return gates
-    
-    except FileNotFoundError:
-        return -1
+    gates = []
+    for terminal in bcn.terminals:
+        for area in terminal.boardingAreas:
+            for gate in area.gates:
+                gates.append(gate)
+    return gates
 
 def IsAirlineInTerminal(terminal, name):
     if name == '':
-        return False, -1
+        return False, -1 # Nombre de aerolínea inválido
     
     if not terminal.airlCodes:
         return False, 0
@@ -210,15 +193,24 @@ def IsAirlineInTerminal(terminal, name):
 
 def SearchTerminal(bcn, name):
     for terminal in bcn.terminals:
-        if IsAirlineInTerminal(terminal, name):
+        isThere, code = IsAirlineInTerminal(terminal, name)
+        if code == -1:
+            return -1 # Nombre de aerolínea inválido
+        if code == -2:
+            return -2 # Error de lectura del archivo
+        if isThere:
             return terminal.name
     return ""
 
 def AssignGate(bcn, aircraft):
-    terminal_name = SearchTerminal(bcn, aircraft.airline)
+    terminal_name = SearchTerminal(bcn, aircraft.company)
 
+    if terminal_name == -1:
+        return -1 #Error, nombre de aerolínea inválido
+    if terminal_name == -2:
+        return -2 # Error de lectura de los datos
     if terminal_name == "":
-        return "No hay puerta disponible"
+        return -3 # No hay puerta disponible
 
     flight_schengen = IsSchengenAirport(aircraft.origin_airp)
 
@@ -230,6 +222,5 @@ def AssignGate(bcn, aircraft):
                         if not gate.occupied:
                             gate.occupied = True
                             gate.id = aircraft.id
-                            return gate.name
-
-
+                            return 0
+    return -4
