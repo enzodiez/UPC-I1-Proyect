@@ -1,5 +1,7 @@
 from airport import *
 from aircraft import *
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 
 class BarcelonaAP():
     def __init__(self, ic='', terminals=None):
@@ -156,12 +158,33 @@ def LoadAirportStructure(filename):
     except FileNotFoundError:
         return -1
 
-def GateOccupancy (bcn):
+'''def GateOccupancy (bcn):
     gates = []
     for terminal in bcn.terminals:
         for area in terminal.boardingAreas:
             for gate in area.gates:
                 gates.append(gate)
+    return gates'''
+def GateOccupancy(bcn):
+
+    gates = []
+
+    for terminal in bcn.terminals:
+
+        for area in terminal.boardingAreas:
+
+            for gate in area.gates:
+
+                gate_info = {
+                    "terminal": terminal.name,
+                    "area": area.name,
+                    "gate": gate.name,
+                    "occupied": gate.occupied,
+                    "aircraft": gate.id
+                }
+
+                gates.append(gate_info)
+
     return gates
 
 def IsAirlineInTerminal(terminal, icao_code):
@@ -237,6 +260,312 @@ def AssignGate(bcn, aircraft):
                             return 0
     return -4
 
+def PlotTerminalOccupancy(gates, terminal_name):
+    """
+    Dibuja gráficamente la ocupación de UNA terminal.
+
+    Parameters
+    ----------
+    gates : list
+        Lista devuelta por GateOccupancy()
+
+    terminal_name : str
+        Nombre de la terminal a dibujar
+    """
+
+    # =====================================================
+    # FILTRAR GATES DE LA TERMINAL
+    # =====================================================
+
+    terminal_gates = []
+
+    for gate in gates:
+
+        if gate["terminal"] == terminal_name:
+            terminal_gates.append(gate)
+
+    # Si no hay gates
+    if not terminal_gates:
+        return None
+
+    # =====================================================
+    # AGRUPAR GATES POR ÁREA
+    # =====================================================
+
+    areas = {}
+
+    for gate in terminal_gates:
+
+        area_name = gate["area"]
+
+        if area_name not in areas:
+            areas[area_name] = []
+
+        areas[area_name].append(gate)
+
+    # =====================================================
+    # ORDENAR GATES NUMÉRICAMENTE
+    # =====================================================
+
+    for area_name in areas:
+
+        areas[area_name].sort(
+            key=lambda g: int(
+                ''.join(filter(str.isdigit, g["gate"]))
+            )
+        )
+
+    # =====================================================
+    # CREAR FIGURA
+    # =====================================================
+
+    max_gates = max(len(g) for g in areas.values())
+
+    figure_height = max(8, max_gates * 0.45)
+
+    fig, ax = plt.subplots(
+        figsize=(18, figure_height)
+    )
+
+    ax.axis('off')
+
+    ax.set_title(
+        f"Terminal {terminal_name} - Gate Occupancy",
+        fontsize=20,
+        fontweight='bold',
+        pad=25
+    )
+
+    # =====================================================
+    # PARÁMETROS VISUALES
+    # =====================================================
+
+    horizontal_y = 0
+
+    area_spacing = 14
+
+    gate_spacing = 1.8
+
+    vertical_start_y = -2
+
+    gate_length = 3
+
+    terminal_color = '#0B5A7A'
+
+    # =====================================================
+    # LONGITUD TERMINAL
+    # =====================================================
+
+    area_names = list(areas.keys())
+
+    num_areas = len(area_names)
+
+    terminal_length = area_spacing * (num_areas - 1)
+
+    # =====================================================
+    # DIBUJAR TERMINAL
+    # =====================================================
+
+    ax.plot(
+        [0, terminal_length],
+        [horizontal_y, horizontal_y],
+        linewidth=25,
+        color=terminal_color
+    )
+
+    # Nombre terminal
+    ax.text(
+        -5,
+        horizontal_y,
+        terminal_name,
+        fontsize=22,
+        fontweight='bold',
+        va='center'
+    )
+
+    # =====================================================
+    # DIBUJAR ÁREAS
+    # =====================================================
+
+    for area_index, area_name in enumerate(area_names):
+
+        gates_area = areas[area_name]
+
+        num_gates = len(gates_area)
+
+        x_area = area_index * area_spacing
+
+        vertical_length = gate_spacing * num_gates
+
+        # -------------------------------------------------
+        # Línea vertical área
+        # -------------------------------------------------
+
+        ax.plot(
+            [x_area, x_area],
+            [
+                vertical_start_y,
+                vertical_start_y - vertical_length
+            ],
+            linewidth=25,
+            color=terminal_color
+        )
+
+        # -------------------------------------------------
+        # Nombre área
+        # -------------------------------------------------
+
+        ax.text(
+            x_area,
+            vertical_start_y - vertical_length - 3,
+            area_name,
+            fontsize=20,
+            fontweight='bold',
+            ha='center'
+        )
+
+        # =================================================
+        # DIBUJAR GATES
+        # =================================================
+
+        current_y = vertical_start_y - gate_spacing
+
+        for gate_index, gate in enumerate(gates_area):
+
+            # -------------------------------------------------
+            # Zigzag izquierda/derecha
+            # -------------------------------------------------
+
+            if gate_index % 2 == 0:
+                direction = 1
+            else:
+                direction = -1
+
+            x_end = x_area + direction * gate_length
+
+            # -------------------------------------------------
+            # Línea gate
+            # -------------------------------------------------
+
+            ax.plot(
+                [x_area, x_end],
+                [current_y, current_y],
+                linewidth=6,
+                color=terminal_color
+            )
+
+            # -------------------------------------------------
+            # Color ocupación
+            # -------------------------------------------------
+
+            if gate["occupied"]:
+                square_color = 'red'
+            else:
+                square_color = 'limegreen'
+
+            # -------------------------------------------------
+            # Cuadrado
+            # -------------------------------------------------
+
+            square_size = 0.9
+
+            rect = patches.Rectangle(
+                (
+                    x_end - square_size / 2,
+                    current_y - square_size / 2
+                ),
+                square_size,
+                square_size,
+                facecolor=square_color,
+                edgecolor='black'
+            )
+
+            ax.add_patch(rect)
+
+            # -------------------------------------------------
+            # Posición texto
+            # -------------------------------------------------
+
+            if direction == 1:
+
+                text_x = x_end + 1.3
+                align = 'left'
+
+            else:
+
+                text_x = x_end - 1.3
+                align = 'right'
+
+            # -------------------------------------------------
+            # Nombre gate
+            # -------------------------------------------------
+
+            ax.text(
+                text_x,
+                current_y + 0.15,
+                gate["gate"],
+                fontsize=9,
+                ha=align,
+                va='bottom'
+            )
+
+            # -------------------------------------------------
+            # ID avión
+            # -------------------------------------------------
+
+            if gate["occupied"]:
+
+                ax.text(
+                    text_x,
+                    current_y - 0.5,
+                    gate["aircraft"],
+                    fontsize=7,
+                    color='darkred',
+                    ha=align,
+                    va='top'
+                )
+
+            # siguiente gate
+            current_y -= gate_spacing
+
+    # =====================================================
+    # LEYENDA
+    # =====================================================
+
+    green_patch = patches.Patch(
+        color='limegreen',
+        label='Free'
+    )
+
+    red_patch = patches.Patch(
+        color='red',
+        label='Occupied'
+    )
+
+    ax.legend(
+        handles=[green_patch, red_patch],
+        loc='upper right'
+    )
+
+    # =====================================================
+    # AJUSTAR LIMITES
+    # =====================================================
+
+    ax.set_xlim(
+        -8,
+        terminal_length + 8
+    )
+
+    ax.set_ylim(
+        -max_gates * gate_spacing - 10,
+        5
+    )
+
+    # Parámetros rect=[left, bottom, right, top]
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
+
+    return fig
+
 if __name__ == "__main__":
     print("="*60)
     print("TEST VERSIÓN 3 - ESTRUCTURA Y GESTIÓN DEL AEROPUERTO")
@@ -262,20 +591,20 @@ if __name__ == "__main__":
         exit()
     
     # ==========================================
-    # 2. Test GateOccupancy (sin puertas ocupadas aún)
+    # 2. Test GateOccupancy (versión diccionario)
     # ==========================================
     print("\n📌 2. Probando GateOccupancy() (inicialmente todas libres)")
     print("-" * 40)
     
-    gates = GateOccupancy(bcn)
-    free_gates = [g for g in gates if not g.occupied]
-    occupied_gates = [g for g in gates if g.occupied]
+    gates_info = GateOccupancy(bcn)   # lista de diccionarios
+    free_gates = [g for g in gates_info if not g["occupied"]]
+    occupied_gates = [g for g in gates_info if g["occupied"]]
     
-    print(f"✅ Total puertas: {len(gates)}")
+    print(f"✅ Total puertas: {len(gates_info)}")
     print(f"   Libres: {len(free_gates)}")
     print(f"   Ocupadas: {len(occupied_gates)}")
     if free_gates:
-        print(f"   Ejemplo de puerta libre: {free_gates[0].name}")
+        print(f"   Ejemplo de puerta libre: {free_gates[0]['gate']} (terminal {free_gates[0]['terminal']}, área {free_gates[0]['area']})")
     
     # ==========================================
     # 3. Test AssignGate con algunos vuelos
@@ -283,7 +612,6 @@ if __name__ == "__main__":
     print("\n📌 3. Probando AssignGate() con vuelos reales")
     print("-" * 40)
 
-    # Cargar llegadas desde arrivals.txt
     from aircraft import LoadArrivals
     flights = LoadArrivals("Arrivals.txt")
     
@@ -292,14 +620,14 @@ if __name__ == "__main__":
     else:
         assigned = 0
         errors = []
-        for i, flight in enumerate(flights[:10]):  # Probamos solo primeros 10
+        for i, flight in enumerate(flights[:10]):   # probamos primeros 10
             result = AssignGate(bcn, flight)
             if result == 0:
                 assigned += 1
-                # Buscar la puerta asignada para mostrar información
-                for gate in GateOccupancy(bcn):
-                    if gate.occupied and gate.id == flight.id:
-                        print(f"   ✅ Vuelo {flight.id} ({flight.company}) → puerta {gate.name}")
+                # Buscar la puerta asignada (en la nueva estructura)
+                for ginfo in GateOccupancy(bcn):
+                    if ginfo["occupied"] and ginfo["aircraft"] == flight.id:
+                        print(f"   ✅ Vuelo {flight.id} ({flight.company}) → puerta {ginfo['gate']} (terminal {ginfo['terminal']}, área {ginfo['area']})")
                         break
             else:
                 errors.append((flight.id, result))
@@ -311,19 +639,18 @@ if __name__ == "__main__":
                 print(f"      - Vuelo {fid}: código {code}")
     
     # ==========================================
-    # 4. Test GateOccupancy después de asignaciones
+    # 4. GateOccupancy después de asignaciones
     # ==========================================
     print("\n📌 4. Verificando ocupación después de asignaciones")
     print("-" * 40)
     
-    gates = GateOccupancy(bcn)
-    free_gates = [g for g in gates if not g.occupied]
-    occupied_gates = [g for g in gates if g.occupied]
+    gates_info = GateOccupancy(bcn)
+    free_gates = [g for g in gates_info if not g["occupied"]]
+    occupied_gates = [g for g in gates_info if g["occupied"]]
     
     print(f"   Puertas libres: {len(free_gates)}")
     print(f"   Puertas ocupadas: {len(occupied_gates)}")
     
-    # Mostrar ocupación por terminal y área (en texto)
     print("\n   Resumen de ocupación por área:")
     for terminal in bcn.terminals:
         print(f"   Terminal {terminal.name}:")
@@ -338,49 +665,53 @@ if __name__ == "__main__":
     print("\n📌 5. Probando funciones auxiliares internas")
     print("-" * 40)
     
-    # Probar SetGates directamente
+    # SetGates
     test_area = BoardingArea(name="Test", tp="Schengen")
     ret = SetGates(test_area, 1, 5, "TEST")
     print(f"   SetGates(1,5,'TEST'): código {ret} → {len(test_area.gates)} puertas")
     
-    # Probar LoadAirlines en una terminal existente
+    # LoadAirlines
     if bcn.terminals:
         terminal_test = bcn.terminals[0]
-        # Guardar copia de airlCodes antes
-        old_codes = terminal_test.airlCodes.copy()
         ret = LoadAirlines(terminal_test, terminal_test.name)
         print(f"   LoadAirlines({terminal_test.name}): código {ret} → {len(terminal_test.airlCodes)} aerolíneas cargadas")
-        # Restaurar si no queremos modificar la estructura real (opcional)
-        # terminal_test.airlCodes = old_codes
     
-    # Probar IsAirlineInTerminal y SearchTerminal con código ICAO
+    # IsAirlineInTerminal y SearchTerminal con código ICAO
     if bcn.terminals and terminal_test.airlCodes:
-        # Tomamos el primer código ICAO de la lista de la terminal (ejemplo: 'ADR', 'AEE', etc.)
-        ejemplo_code = terminal_test.airlCodes[0]  # Esto es un código ICAO, no un nombre
+        ejemplo_code = terminal_test.airlCodes[0]
         print(f"   Probando con código ICAO: '{ejemplo_code}'")
-
-        # Comprobar si ese código está en la terminal (debería ser True)
         found, code = IsAirlineInTerminal(terminal_test, ejemplo_code)
         print(f"   IsAirlineInTerminal('{ejemplo_code}'): {found}, código {code}")
-
-        # Buscar en qué terminal está ese código (debería ser la terminal actual)
         term_name = SearchTerminal(bcn, ejemplo_code)
         print(f"   SearchTerminal('{ejemplo_code}'): '{term_name}'")
     
-    # Probar con código que no existe
+    # Código falso
     codigo_falso = "XYZ"
     found2, code2 = IsAirlineInTerminal(terminal_test, codigo_falso)
     print(f"   IsAirlineInTerminal('{codigo_falso}'): {found2}, código {code2}")
     term_name2 = SearchTerminal(bcn, codigo_falso)
-    print(f"   SearchTerminal('{codigo_falso}'): '{term_name2}'")  # Debería ser cadena vacía
-
+    print(f"   SearchTerminal('{codigo_falso}'): '{term_name2}'")
+    
+    # ==========================================
+    # 6. MOSTRAR GRÁFICOS DE OCUPACIÓN (PlotTerminalOccupancy)
+    # ==========================================
+    print("\n📌 6. Generando gráficos de ocupación de terminales")
+    print("-" * 40)
+    
+    for terminal in bcn.terminals:
+        print(f"   Generando gráfico para terminal {terminal.name}...")
+        fig = PlotTerminalOccupancy(GateOccupancy(bcn), terminal.name)
+        if fig is not None:
+            plt.show()        # muestra cada gráfico (se pausa hasta cerrar)
+        else:
+            print(f"      No se pudo generar para terminal {terminal.name}")
+    
     # ==========================================
     # RESULTADO FINAL
     # ==========================================
     print("\n" + "="*60)
     print("🎉 TEST VERSIÓN 3 COMPLETADO")
     print("="*60)
-    print("\n✅ Si no has visto errores, todas las funciones funcionan correctamente.")
+    print("\n✅ Todas las funciones se han probado correctamente.")
+    print("✅ Se han generado gráficos de ocupación para cada terminal.")
     print("✅ La estructura del aeropuerto se ha construido y se han asignado puertas.")
-    print("✅ La ocupación se puede consultar mediante GateOccupancy().")
-    print("   (El gráfico visual es una mejora opcional para versión final)")
