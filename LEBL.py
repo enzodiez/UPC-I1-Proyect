@@ -241,7 +241,7 @@ def AssignGate(bcn, aircraft):
     terminal_name = SearchTerminal(bcn, aircraft.company)
 
     if terminal_name == -1:
-        return -1 #Error, nombre de aerolínea inválido
+        return -1 # Error, nombre de aerolínea inválido
     if terminal_name == -2:
         return -2 # Error de lectura de los datos
     if terminal_name == "":

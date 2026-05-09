@@ -1,9 +1,10 @@
 import customtkinter as ctk
-from tkinter import messagebox
+from tkinter import messagebox, filedialog
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 from airport import *
 from aircraft import *
+from LEBL import *
 
 # Configuración de apariencia
 ctk.set_appearance_mode("dark")  # Modos: "system" (standard), "dark", "light"
@@ -44,12 +45,21 @@ class InterfazPrincipal(ctk.CTk):
         self.maps = ctk.CTkButton(self.options_frame, text="Mapas con Google Earth", corner_radius=5, border_width=2, command=self.ejecutar_google_earth)
         self.maps.grid(row=3, column=0, sticky='nsew', padx=15, pady=15)
 
+        self.cargar_bcn = ctk.CTkButton(self.options_frame, text="Cargar estructura del aeropuerto de Barcelona", corner_radius=5, border_width=2, command=self.cargar_estructura_bcn)
+        self.cargar_bcn.grid(row=4, column=0, sticky='nsew', padx=15, pady=15)
+
+        self.cargar_llegadas = ctk.CTkButton(self.options_frame, text="Cargar llegadas al aeropuerto de Barcelona", corner_radius=5, border_width=2, command=self.cargar_llegadas)
+        self.cargar_llegadas.grid(row=5, column=0, sticky='nsew', padx=15, pady=15)
+
         self.switch_appear = ctk.StringVar(value="on")
         self.appearance = ctk.CTkSwitch(self.options_frame, text='Modo Oscuro', onvalue='on', offvalue='off', variable=self.switch_appear, command=self.cambiar_modo_toggle)
-        self.appearance.grid(row=4, column=0, sticky='nsew', padx=15, pady=15)
+        self.appearance.grid(row=6, column=0, sticky='nsew', padx=15, pady=15)
 
         self.principal_frame = ctk.CTkFrame(self)
         self.principal_frame.grid(row=0, column=1, sticky="nsew", padx=20, pady=20)
+
+        self.bcn = None
+        self.all_flights = []
 
         # Sirve para poder cerrar bien la interfaz
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
@@ -71,6 +81,31 @@ class InterfazPrincipal(ctk.CTk):
             ctk.set_appearance_mode("light")
             self.appearance.configure(text="Modo Claro")
     
+    def cargar_estructura_bcn(self):
+        self.bcn = LoadAirportStructure("LEBL.txt")
+        
+        if type(self.bcn) == int:
+            if self.bcn == -1:
+                aviso = 'No se encontró la información del aeropuerto.'
+            elif self.bcn == -2:
+                aviso = 'No hay información sobre el aeropuerto.'
+            elif self.bcn == -3:
+                aviso = 'Información sobre el aeropuerto insuficiente.'
+            elif self.bcn == -4:
+                aviso = 'Error al cargar las aerolíneas asociadas.'
+            elif self.bcn == -5:
+                aviso = 'Archivo corrupto/formato no válido.'
+            elif self.bcn == -6:
+                aviso = 'Fallo en la lectura de los datos, información incompatible con la estructura del aeropuerto.'
+            elif self.bcn == -7:
+                aviso = 'Índices de las puertas de embarque inválidos.'
+            elif self.bcn == -8:
+                aviso = 'Índices de las puertas de embarque ilógicos.'
+            messagebox.showerror('Error', aviso)
+        else:
+            messagebox.showinfo('Éxito', 'La estructura del aeropuerte se a cargado exitosamente!')
+            
+    
     def ejecutar_registros(self):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():
@@ -89,6 +124,38 @@ class InterfazPrincipal(ctk.CTk):
 
         btn_lebl_arrivals = ctk.CTkButton(btn_frame, text='Guardar llegadas hoy a LEBL', command=self.procesar_save_flights)
         btn_lebl_arrivals.pack(pady=30)
+
+        btn_save_schengen = ctk.CTkButton(btn_frame, text='Guardar aeropuertos Schengen', command=self.procesar_guardar_schengen)
+        btn_save_schengen.pack(pady=30)
+
+        btn_assign_gates = ctk.CTkButton(btn_frame, text='Assignar puertas de embarque', command=self.procesar_asignar_puertas)
+        btn_assign_gates.pack(pady=30)
+    
+    def procesar_asignar_puertas(self):
+        if self.bcn is None or not isinstance(self.bcn, BarcelonaAP):
+            messagebox.showerror("Error", "Primero carga la estructura del aeropuerto")
+            return
+        if not self.all_flights:
+            messagebox.showerror("Error", "No hay vuelos cargados")
+            return
+        
+        ok = 0
+        for flight in self.all_flights:
+            ret_rn = AssignGate(self.bcn, flight)
+            if ret_rn == 0:
+                ok += 1
+        messagebox.showinfo("Asignación", f"Puertas asignadas: {ok}/{len(self.all_flights)}")
+    
+    def procesar_guardar_schengen(self):
+        airports = LoadAirports('Airports.txt')
+        SaveSchengenAirports(airports, 'SchengenAirports.txt')
+        messagebox.showinfo("Guardado", "Archivo SchengenAirports.txt creado")
+    
+    def cargar_llegadas(self):
+        filename = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
+        if filename:
+            self.all_flights = LoadArrivals(filename)
+            messagebox.showinfo("Éxito", f"Cargados {len(self.all_flights)} vuelos")
 
     def ejecutar_create_airp(self):
         # Vaciar el frame principal
@@ -178,6 +245,9 @@ class InterfazPrincipal(ctk.CTk):
         # Creo botones para las múltiples opciones dentro del subframe
         btn_airp_data = ctk.CTkButton(btn_frame, text='Información aeropuertos', command=lambda: self.ejecutar_visz_airports(LoadAirports('Airports.txt')))
         btn_airp_data.pack(pady=30)
+
+        '''btn_gates_occupancy = ctk.CTkButton(btn_frame, text='Información dobre las puertas de embarque', command=lambda: self.)
+        btn_gates_occupancy.pack(pady=30)'''
     
     def procesar_long_dist_arrv(self):
         long_distance_arrivals_aircrafts = MapFlights(LongDistanceArrivals(LoadArrivals('Arrivals.txt')), filename='LEBL_Arrivals_MIN2000.kml')
@@ -244,6 +314,24 @@ class InterfazPrincipal(ctk.CTk):
 
         btn_grph_flights_type = ctk.CTkButton(btn_frame, text='Llegadas a LEBL hoy desde zona Schengen VS No Schengen', command=self.mostrar_grph_flights_type)
         btn_grph_flights_type.pack(pady=30)
+
+        btn_grph_gates = ctk.CTkButton(btn_frame, text='Mostrar ocupación de los Gates por terminal', command=self.mostrar_grph_gates_occupancy)
+        btn_grph_gates.pack(pady=30)
+    
+    def mostrar_grph_gates_occupancy(self):
+        if self.bcn is None:
+            messagebox.showerror("Error", "Carga primero la estructura del aeropuerto")
+            return
+        gates_info = GateOccupancy(self.bcn)
+        for terminal in self.bcn.terminals:
+            fig = PlotTerminalOccupancy(gates_info, terminal.name)
+            if fig:
+                # Mostrar en una nueva ventana o en el frame principal
+                ventana = ctk.CTkToplevel(self)
+                ventana.title(f"Ocupación Terminal {terminal.name}")
+                canvas = FigureCanvasTkAgg(fig, master=ventana)
+                canvas.draw()
+                canvas.get_tk_widget().pack()
 
     def procesar_eliminate_airp(self):
         ic = self.input_ic.get()
@@ -319,7 +407,12 @@ class InterfazPrincipal(ctk.CTk):
         self.input_ic.focus()
     
     def procesar_save_flights(self):
-        type, txt = SaveFlights(LoadArrivals('Arrivals.txt'), 'ArrivalsToLEBL.txt')
+        ruta_archivo = filedialog.asksaveasfilename(
+            title="Guardar archivo como",
+            defaultextension=".txt",
+            filetypes=(("Archivos de texto", "*.txt"), ("Todos los archivos", "*.*"))
+            )
+        type, txt = SaveFlights(self.all_flights, ruta_archivo)
         
         if type == 'ERROR':
             messagebox.showerror('Error', txt)
