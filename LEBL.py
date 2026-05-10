@@ -245,7 +245,7 @@ def AssignGate(bcn, aircraft):
     if terminal_name == -2:
         return -2 # Error de lectura de los datos
     if terminal_name == "":
-        return -3 # No hay puerta disponible
+        return -3 # Aerolínea no registrada
 
     flight_schengen = IsSchengenAirport(aircraft.origin_airp)
 
@@ -258,7 +258,7 @@ def AssignGate(bcn, aircraft):
                             gate.occupied = True
                             gate.id = aircraft.id
                             return 0
-    return -4
+    return -4 # No hay puerta disponible
 
 def PlotTerminalOccupancy(gates, terminal_name):
     """
