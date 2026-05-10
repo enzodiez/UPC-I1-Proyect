@@ -134,8 +134,9 @@ def LoadAirportStructure(filename):
                             except ValueError:
                                 return -6 # Error en los datos leídos
                             
-                            area = BoardingArea(name=name, tp=type_area)
-                            prefix = t_name + "BA" + name.lower()
+                            full_name = t_name + 'BA' + name.lower()
+                            area = BoardingArea(name=full_name, tp=type_area)
+                            prefix = full_name
                             ret_s_g = SetGates(area, init_gate, end_gate, prefix)
                             if ret_s_g == -1:
                                 return -7 # Fórmato de los índices de los gates incorrecto
