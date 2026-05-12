@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import math
 
 class Aircraft():
+    # Representa un vuelo (llegada o salida) con identificador, compañía, origen y hora de aterrizaje.
     def __init__(self, id="", cmp="", origin_airp="", land_time=""):
         self.id = id
         self.company = cmp
@@ -11,6 +12,11 @@ class Aircraft():
         self.land_time = land_time
 
 def LoadArrivals(filename):
+    """
+    Carga desde un archivo de texto una lista de objetos Aircraft (llegadas).
+    Salta la cabecera, ignora líneas con formato incorrecto.
+    Devuelve la lista de vuelos, o vacía si el archivo no existe.
+    """
     try:
         arrivals = []
         with open(filename, 'r') as file:
@@ -25,6 +31,14 @@ def LoadArrivals(filename):
                     continue   # Ignorar líneas con formato incorrecto
                 aircraft_id = parts[0]
                 origin = parts[1]
+                if len(origin) != 4:
+                    continue
+                else:
+                    for ch in list(origin):
+                        if 'a' <= ch <= 'z' or 'A' <= ch <= 'Z':
+                            pass
+                        else:
+                            continue
                 arrival_time = parts[2]
                 company = parts[3]
                 plane = Aircraft(
@@ -39,6 +53,10 @@ def LoadArrivals(filename):
         return []
 
 def PlotArrivals(aircrafts):
+    """
+    Recibe una lista de Aircraft y muestra un gráfico de líneas con la frecuencia
+    de llegadas por cada hora del día (0 a 23). Devuelve la figura de matplotlib.
+    """
     if not aircrafts:
         return "Error en los datos recibidos. No se encontró información."
     else:
@@ -58,6 +76,11 @@ def PlotArrivals(aircrafts):
     return fig
 
 def SaveFlights(aircrafts, filename):
+    """
+    Guarda la lista de Aircraft en un archivo de texto con el formato:
+    id origen tiempo compañía. Si la lista está vacía, retorna un error.
+    Devuelve una tupla (tipo_mensaje, texto).
+    """
     if not aircrafts:
         return "ERROR", "Error en los datos recibidos. No se encontró información."
     else:
@@ -79,6 +102,11 @@ def SaveFlights(aircrafts, filename):
         return "INFO", "Registro de llegadas a LEBL hoy guardado correctamente."
 
 def PlotAirlines(aircrafts):
+    """
+    Gráfico de barras con el número de vuelos por aerolínea (código ICAO).
+    Las barras tienen el número sobre ellas y las etiquetas rotadas 90°.
+    Devuelve la figura de matplotlib.
+    """
     if not aircrafts:
         return "Error en los datos recibidos. No se encontró información."
     else:
@@ -122,6 +150,11 @@ def PlotAirlines(aircrafts):
         return fig
 
 def PlotFlightsType(aircrafts):
+    """
+    Gráfico de barras apiladas (Schengen vs. no Schengen) para los vuelos de llegada.
+    Utiliza la información de origen de cada vuelo y la función IsSchengenAirport.
+    Devuelve la figura de matplotlib.
+    """
     if not aircrafts:
         return "Error en los datos recibidos. No se encontró información."
     else:
@@ -136,6 +169,12 @@ def PlotFlightsType(aircrafts):
         return fig
 
 def MapFlights(aircrafts, filename):
+    """
+    Genera un archivo KML con las rutas desde cada aeropuerto de origen hasta LEBL.
+    Colorea las líneas según si el origen es Schengen (verde) o no (rojo).
+    Abre automáticamente el archivo en Google Earth si está instalado.
+    """
+
     # Sobreescribe todo el fichero para actualizarlo
     file = open(filename, 'w')
     file.write("""<?xml version="1.0" encoding="UTF-8"?>
@@ -223,6 +262,10 @@ def MapFlights(aircrafts, filename):
     os.startfile(filename)
 
 def LongDistanceArrivals(aircrafts):
+    """
+    Filtra y devuelve una lista con los vuelos cuyo aeropuerto de origen se encuentra
+    a más de 2000 km de LEBL (distancia calculada mediante la fórmula de Haversine).
+    """
     airports = LoadAirports('Airports.txt')
 
     # Creo diccionario de aeropuertos para hacer una búsqueda más rápida y sencilla
