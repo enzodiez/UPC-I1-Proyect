@@ -32,6 +32,8 @@ class InterfazPrincipal(ctk.CTk):
         self.options_frame.grid_rowconfigure(2, weight=1)
         self.options_frame.grid_rowconfigure(3, weight=1)
         self.options_frame.grid_rowconfigure(4, weight=1)
+        self.options_frame.grid_rowconfigure(5, weight=1)
+        self.options_frame.grid_rowconfigure(6, weight=1)
 
         self.registros = ctk.CTkButton(self.options_frame, text="Registros", corner_radius=5, border_width=2, command=self.ejecutar_registros)
         self.registros.grid(row=0, column=0, sticky='nsew', padx=15, pady=15)
