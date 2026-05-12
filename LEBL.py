@@ -26,6 +26,7 @@ class Gate():
         self.occupied = occupied
         self.id = id
 
+#Esta función assigna un nombre a cada gate i la añade a una lista en su area correspondiente
 def SetGates(area, init_gate, end_gate, prefix):
     try:
         end_gate = int(end_gate)
@@ -47,6 +48,7 @@ def SetGates(area, init_gate, end_gate, prefix):
     
     return 0 # Para indicar que todo ha ido bien
 
+# Esta función crea una lista de los codigos de la aerolinia en cada terminal assignada
 def LoadAirlines(terminal, t_name):
     try:
         # Si la lista de códigos ICAO de las aerolíneas de la terminal no está vacía la reinicio vacía
@@ -69,6 +71,7 @@ def LoadAirlines(terminal, t_name):
     except FileNotFoundError:
         return -1
 
+#Esta función acaba de assignar cada gate a su area i cada area a su terminal
 def LoadAirportStructure(filename):
     try:
         with open(filename, 'r') as file:
@@ -166,6 +169,8 @@ def LoadAirportStructure(filename):
             for gate in area.gates:
                 gates.append(gate)
     return gates'''
+
+#Esta función da una lista de las gates con su nombre, si esta ocupado o libre i en el caso de estar ocupado el codigo del avión que la ocupa
 def GateOccupancy(bcn):
 
     gates = []
@@ -188,6 +193,7 @@ def GateOccupancy(bcn):
 
     return gates
 
+#Esta función indica si la aerolinia debe ir a la terminal indicada
 def IsAirlineInTerminal(terminal, icao_code):
     '''
     Información importante!!! Esta función estaba pensada originalmente en el documento del proyecto para trabajar buscando con el
@@ -229,6 +235,7 @@ def IsAirlineInTerminal(terminal, icao_code):
         return False, 0
     return icao_code in terminal.airlCodes, 0
 
+#Esta función indica la terminal que debe ir cada aerolinia
 def SearchTerminal(bcn, name):
     for terminal in bcn.terminals:
         isThere, code = IsAirlineInTerminal(terminal, name)
@@ -238,6 +245,7 @@ def SearchTerminal(bcn, name):
             return terminal.name
     return ""
 
+#Esta función asigna la gate que debe aparcar cada avión
 def AssignGate(bcn, aircraft):
     terminal_name = SearchTerminal(bcn, aircraft.company)
 
@@ -261,6 +269,7 @@ def AssignGate(bcn, aircraft):
                             return 0
     return -4 # No hay puerta disponible
 
+#Esta función crea un dibujo de las terminales, sus areas y sus gates e indica si estan ocupadas
 def PlotTerminalOccupancy(gates, terminal_name):
     """
     Dibuja gráficamente la ocupación de UNA terminal.
