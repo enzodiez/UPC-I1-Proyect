@@ -13,36 +13,30 @@ class Aircraft():
 def LoadArrivals(filename):
     try:
         arrivals = []
-        file = open(filename, 'r')
-        # Leo dos veces para saltarme el encabezado
-        line = file.readline()
-        line = file.readline()
-
-        while line != "":
-            line = line.split()
-            if len(line) < 4: # Asegurar una correcta estructura
-                continue
-            aircraft_id = line[0]
-            origin = line[1]
-            arrival_time = line[2]
-            company = line[3]
-
-            plane = Aircraft(
-                id=aircraft_id,
-                cmp=company,
-                origin_airp=origin,
-                land_time=arrival_time
-            )
-            arrivals.append(plane)
-            
-            line = file.readline()
-        
-        file.close()
-
+        with open(filename, 'r') as file:
+            # Saltar la primera línea (cabecera)
+            next(file, None)
+            for line in file:
+                line = line.strip()
+                if not line:
+                    continue
+                parts = line.split()
+                if len(parts) < 4:
+                    continue   # Ignorar líneas con formato incorrecto
+                aircraft_id = parts[0]
+                origin = parts[1]
+                arrival_time = parts[2]
+                company = parts[3]
+                plane = Aircraft(
+                    id=aircraft_id,
+                    cmp=company,
+                    origin_airp=origin,
+                    land_time=arrival_time
+                )
+                arrivals.append(plane)
         return arrivals
-
     except FileNotFoundError:
-            return []
+        return []
 
 def PlotArrivals(aircrafts):
     if not aircrafts:
