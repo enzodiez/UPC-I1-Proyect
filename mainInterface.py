@@ -154,7 +154,7 @@ class InterfazPrincipal(ctk.CTk):
         for widget in self.principal_frame.winfo_children():
             widget.destroy()
         
-        label = ctk.CTkLabel(self.principal_frame, text="introduce el código ICAO del aeropuerto", font=("Arial", 20))
+        label = ctk.CTkLabel(self.principal_frame, text="Introduce el código ICAO del aeropuerto", font=("Arial", 20))
         label.pack(pady=20)
 
         self.input_ic = ctk.CTkEntry(self.principal_frame, placeholder_text='Código ICAO')
