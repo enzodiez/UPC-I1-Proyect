@@ -204,6 +204,97 @@ class InterfazPrincipal(ctk.CTk):
 
         btn_long_dist_arrv = ctk.CTkButton(btn_frame, text='Llegadas a LEBL de vuelos de larga distancia', command=self.procesar_long_dist_arrv)
         btn_long_dist_arrv.pack(pady=30)
+
+    def ejecutar_gestionar_airp(self):
+        # Vaciar el frame principal
+        for widget in self.principal_frame.winfo_children():
+            widget.destroy()
+        
+        label = ctk.CTkLabel(self.principal_frame, text="¿Qué quieres?", font=("Arial", 20))
+        label.pack(pady=40)
+
+        # Creo un subframe para los botones
+        btn_frame = ctk.CTkFrame(self.principal_frame, fg_color="transparent")
+        btn_frame.pack(expand=True)
+
+        # Los dos botones los creo dentro del subframe
+        btn_crear = ctk.CTkButton(btn_frame, text='Crear', fg_color='green', command=self.ejecutar_create_airp)
+        btn_crear.pack(side="left", padx=20)
+
+        btn_elim = ctk.CTkButton(btn_frame, text='Eliminar', fg_color='red', command=self.ejecutar_eliminate_airp)
+        btn_elim.pack(side="left", padx=20)
+    
+    def ejecutar_eliminate_airp(self):
+        # Vaciar el frame principal
+        for widget in self.principal_frame.winfo_children():
+            widget.destroy()
+        
+        label = ctk.CTkLabel(self.principal_frame, text="Introduce el código ICAO del aeropuerto", font=("Arial", 20))
+        label.pack(pady=20)
+
+        self.input_ic = ctk.CTkEntry(self.principal_frame, placeholder_text='Código ICAO')
+        self.input_ic.pack(pady=100)
+
+        btn_elim = ctk.CTkButton(self.principal_frame, text='Eliminar', fg_color='red', command=self.procesar_eliminate_airp)
+        btn_elim.pack(pady=100)
+    
+    def ejecutar_info_tecn(self):
+        # Vaciar el frame principal
+        for widget in self.principal_frame.winfo_children():
+            widget.destroy()
+        
+        label = ctk.CTkLabel(self.principal_frame, text="¿Qué información buscas?", font=("Arial", 20))
+        label.pack(pady=20)
+        
+        # Creo un subframe para los botones
+        btn_frame = ctk.CTkFrame(self.principal_frame, fg_color="transparent")
+        btn_frame.pack(expand=True)
+
+        # Creo botones para las múltiples opciones dentro del subframe
+        btn_airp_data = ctk.CTkButton(btn_frame, text='Información aeropuertos', command=lambda: self.ejecutar_visz_airports(LoadAirports('Airports.txt')))
+        btn_airp_data.pack(pady=30)
+    
+    def procesar_long_dist_arrv(self):
+        long_distance_arrivals_aircrafts = MapFlights(LongDistanceArrivals(LoadArrivals('Arrivals.txt')), filename='LEBL_Arrivals_MIN2000.kml')
+
+    def ejecutar_visz_airports(self, airports):
+        # Vaciar el frame principal
+        for widget in self.principal_frame.winfo_children():
+            widget.destroy()
+        
+        # Por ahora, su función es la de mostrar la información que hay de TODOS los aeropuertos en airports.txt
+        # pero con las coordenadas en números gracias a la función LoadAirports('airports.xt')
+        self.tabla = ctk.CTkScrollableFrame(self.principal_frame, label_text="Información de los aeropuertos registrados")
+        self.tabla.pack(fill="both", expand=True, padx=10, pady=10)
+        self.tabla.grid_columnconfigure((0, 1, 2), weight=1)
+
+        headers = ["Código ICAO", "Latitud", "Longitud", "¿Schengen?"]
+        for col, texto in enumerate(headers):
+            header = ctk.CTkLabel(
+                self.tabla, 
+                text=texto, 
+                font=("Arial", 14, "bold"),
+                fg_color=("#3a7ebf", "#1f538d"),
+                text_color="white",
+                corner_radius=5
+            )
+            header.grid(row=0, column=col, sticky="nsew", padx=2, pady=5)
+        
+        # Empiezo en la fila 1 porque la 0 son los encabezados
+        for i, airp in enumerate(airports, start=1):
+            icaoCode = airp.icaoCode
+            lat = airp.latitude
+            lon = airp.longitude
+            sch = airp.schengen
+            airp_data = [icaoCode, lat, lon, sch]
+            for j in range(4):
+                dato = ctk.CTkLabel(
+                    self.tabla,
+                    text=airp_data[j],
+                    fg_color='transparent' if i % 2 == 0 else ("#f0f0f0", "#0085B5") #Sentencia if para tener las filas en colores alternos (más facil para seguir una línea)
+                )
+                dato.grid(row=i, column=j, sticky='nsew', padx=2, pady=2)
+
     
     def ejecutar_graficos(self):
         # Vaciar el frame principal
