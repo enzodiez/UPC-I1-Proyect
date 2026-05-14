@@ -11,6 +11,7 @@ ctk.set_appearance_mode("dark")  # Modos: "system" (standard), "dark", "light"
 ctk.set_default_color_theme("blue")  # Temas: "blue" (standard), "green", "dark-blue"
 
 class InterfazPrincipal(ctk.CTk):
+    # Configura la ventana principal, los frames, botones y variables iniciales.
     def __init__(self):
         super().__init__()
         
@@ -68,6 +69,7 @@ class InterfazPrincipal(ctk.CTk):
     
     # Este método me lo ha explicado la IA DeepSeek
     # Sirve para poder cerrar bien todos los gráficos y evitar que aparezcan errores en la terminal si se cierra la aplicación con gráficos abiertos.
+    # Cierra todas las figuras de matplotlib y destruye la ventana principal.
     def on_closing(self):
         # Cerrar todas las figuras de matplotlib
         plt.close('all')
@@ -75,6 +77,7 @@ class InterfazPrincipal(ctk.CTk):
         self.quit()
         self.destroy()
 
+    # Cambia el modo claro/oscuro de customtkinter y actualiza el tema de matplotlib.
     def cambiar_modo_toggle(self):
         if self.switch_appear.get() == "on":
             ctk.set_appearance_mode("dark")
@@ -85,6 +88,7 @@ class InterfazPrincipal(ctk.CTk):
         
         self.configurar_tema_matplotlib()
     
+    # Ajusta los colores de matplotlib según el modo actual (claro u oscuro).
     def configurar_tema_matplotlib(self):
         modo = ctk.get_appearance_mode()
         if modo == "Dark":
@@ -106,6 +110,7 @@ class InterfazPrincipal(ctk.CTk):
                 'ytick.color': 'black'
             })
     
+    # Carga la estructura del aeropuerto desde LEBL.txt; si ya existe, pide confirmación.
     def cargar_estructura_bcn(self):
         # Si ya hay una estructura cargada, pregunto al usuario
         if self.bcn is not None:
@@ -142,6 +147,7 @@ class InterfazPrincipal(ctk.CTk):
             self.bcn = nuevo_bcn
             messagebox.showinfo('Éxito', 'La estructura del aeropuerto se ha cargado exitosamente!')
     
+    # Permite seleccionar un archivo de llegadas y añade sus vuelos a la lista self.all_flights.
     def cargar_llegadas(self):
         filename = filedialog.askopenfilename(
             title="Seleccionar archivo de llegadas",
@@ -155,6 +161,7 @@ class InterfazPrincipal(ctk.CTk):
             else:
                 messagebox.showerror("Error", "El archivo no contiene datos válidos.")
     
+    # Muestra el submenú de registros (gestión de aeropuertos, guardado de vuelos, asignación de puertas, etc.).
     def ejecutar_registros(self):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():
@@ -183,6 +190,7 @@ class InterfazPrincipal(ctk.CTk):
         btn_clear_flights = ctk.CTkButton(btn_frame, text='Limpiar vuelos cargados', command=self.limpiar_vuelos)
         btn_clear_flights.pack(pady=30)
     
+    # Muestra el submenú de mapas de Google Earth (aeropuertos, todos los vuelos, larga distancia).
     def ejecutar_google_earth(self):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():
@@ -205,6 +213,7 @@ class InterfazPrincipal(ctk.CTk):
         btn_long_dist_arrv = ctk.CTkButton(btn_frame, text='Llegadas a LEBL de vuelos de larga distancia', command=self.procesar_long_dist_arrv)
         btn_long_dist_arrv.pack(pady=30)
 
+    # Muestra el submenú para gestionar aeropuertos (crear o eliminar).
     def ejecutar_gestionar_airp(self):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():
@@ -224,6 +233,7 @@ class InterfazPrincipal(ctk.CTk):
         btn_elim = ctk.CTkButton(btn_frame, text='Eliminar', fg_color='red', command=self.ejecutar_eliminate_airp)
         btn_elim.pack(side="left", padx=20)
     
+    # Muestra el formulario para eliminar un aeropuerto.
     def ejecutar_eliminate_airp(self):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():
@@ -238,6 +248,7 @@ class InterfazPrincipal(ctk.CTk):
         btn_elim = ctk.CTkButton(self.principal_frame, text='Eliminar', fg_color='red', command=self.procesar_eliminate_airp)
         btn_elim.pack(pady=100)
     
+    # Muestra el submenú de información técnica (tabla de aeropuertos, ocupación de puertas).
     def ejecutar_info_tecn(self):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():
@@ -253,10 +264,11 @@ class InterfazPrincipal(ctk.CTk):
         # Creo botones para las múltiples opciones dentro del subframe
         btn_airp_data = ctk.CTkButton(btn_frame, text='Información aeropuertos', command=lambda: self.ejecutar_visz_airports(LoadAirports('Airports.txt')))
         btn_airp_data.pack(pady=30)
-    
-    def procesar_long_dist_arrv(self):
-        long_distance_arrivals_aircrafts = MapFlights(LongDistanceArrivals(LoadArrivals('Arrivals.txt')), filename='LEBL_Arrivals_MIN2000.kml')
 
+        btn_gates_occupancy = ctk.CTkButton(btn_frame, text='Información sobre las puertas de embarque', command=self.visz_gates_occupancy)
+        btn_gates_occupancy.pack(pady=30)
+
+    # Muestra en una tabla la información de todos los aeropuertos cargados.
     def ejecutar_visz_airports(self, airports):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():
@@ -295,7 +307,7 @@ class InterfazPrincipal(ctk.CTk):
                 )
                 dato.grid(row=i, column=j, sticky='nsew', padx=2, pady=2)
 
-    
+    # Muestra el submenú de gráficos (barras, frecuencias, ocupación de puertas).
     def ejecutar_graficos(self):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():
@@ -324,44 +336,7 @@ class InterfazPrincipal(ctk.CTk):
         btn_grph_gates = ctk.CTkButton(btn_frame, text='Mostrar ocupación de los Gates por terminal', command=self.mostrar_grph_gates_occupancy)
         btn_grph_gates.pack(pady=30)
     
-    def ejecutar_info_tecn(self):
-        # Vaciar el frame principal
-        for widget in self.principal_frame.winfo_children():
-            widget.destroy()
-        
-        label = ctk.CTkLabel(self.principal_frame, text="¿Qué información buscas?", font=("Arial", 20))
-        label.pack(pady=20)
-        
-        # Creo un subframe para los botones
-        btn_frame = ctk.CTkFrame(self.principal_frame, fg_color="transparent")
-        btn_frame.pack(expand=True)
-
-        # Creo botones para las múltiples opciones dentro del subframe
-        btn_airp_data = ctk.CTkButton(btn_frame, text='Información aeropuertos', command=lambda: self.ejecutar_visz_airports(LoadAirports('Airports.txt')))
-        btn_airp_data.pack(pady=30)
-
-        btn_gates_occupancy = ctk.CTkButton(btn_frame, text='Información sobre las puertas de embarque', command=self.visz_gates_occupancy)
-        btn_gates_occupancy.pack(pady=30)
-    
-    def ejecutar_gestionar_airp(self):
-        # Vaciar el frame principal
-        for widget in self.principal_frame.winfo_children():
-            widget.destroy()
-        
-        label = ctk.CTkLabel(self.principal_frame, text="¿Qué quieres?", font=("Arial", 20))
-        label.pack(pady=40)
-
-        # Creo un subframe para los botones
-        btn_frame = ctk.CTkFrame(self.principal_frame, fg_color="transparent")
-        btn_frame.pack(expand=True)
-
-        # Los dos botones los creo dentro del subframe
-        btn_crear = ctk.CTkButton(btn_frame, text='Crear', fg_color='green', command=self.ejecutar_create_airp)
-        btn_crear.pack(side="left", padx=20)
-
-        btn_elim = ctk.CTkButton(btn_frame, text='Eliminar', fg_color='red', command=self.ejecutar_eliminate_airp)
-        btn_elim.pack(side="left", padx=20)
-    
+    # Muestra el formulario para crear un nuevo aeropuerto.
     def ejecutar_create_airp(self):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():
@@ -380,20 +355,7 @@ class InterfazPrincipal(ctk.CTk):
         crear = ctk.CTkButton(self.principal_frame, text='Crear', fg_color='green', command=self.procesar_create_airp)
         crear.pack(pady=20)
     
-    def ejecutar_eliminate_airp(self):
-        # Vaciar el frame principal
-        for widget in self.principal_frame.winfo_children():
-            widget.destroy()
-        
-        label = ctk.CTkLabel(self.principal_frame, text="introduce el código ICAO del aeropuerto", font=("Arial", 20))
-        label.pack(pady=20)
-
-        self.input_ic = ctk.CTkEntry(self.principal_frame, placeholder_text='Código ICAO')
-        self.input_ic.pack(pady=100)
-
-        btn_elim = ctk.CTkButton(self.principal_frame, text='Eliminar', fg_color='red', command=self.procesar_eliminate_airp)
-        btn_elim.pack(pady=100)
-    
+    # Valida los datos ingresados, crea un aeropuerto y lo añade a la lista y al archivo Schengen.
     def procesar_create_airp(self):
         codICAO = self.input_ic.get()
         latitud = self.input_lat.get()
@@ -442,6 +404,7 @@ class InterfazPrincipal(ctk.CTk):
         # El cursor vuelve a la primera casilla
         self.input_ic.focus()
     
+    # Valida el código ICAO ingresado y elimina el aeropuerto de la lista en memoria.
     def procesar_eliminate_airp(self):
         ic = self.input_ic.get()
 
@@ -467,12 +430,14 @@ class InterfazPrincipal(ctk.CTk):
         #Limpio la casilla
         self.input_ic.delete(0, 'end')
 
+    # Limpia la lista de vuelos cargados previa confirmación del usuario.
     def limpiar_vuelos(self):
         if self.all_flights:
             if messagebox.askyesno("Limpiar", "¿Eliminar todos los vuelos cargados?"):
                 self.all_flights = []
                 messagebox.showinfo("Listo", "Vuelos eliminados.")
     
+    # Asigna puertas a todos los vuelos cargados utilizando la estructura del aeropuerto.
     def procesar_asignar_puertas(self):
         if self.bcn is None or not isinstance(self.bcn, BarcelonaAP):
             messagebox.showerror("Error", "Primero debe cargar la estructura del aeropuerto")
@@ -502,11 +467,13 @@ class InterfazPrincipal(ctk.CTk):
             mensaje += f"\nSin puertas libres: {errors[-4]}"
         messagebox.showinfo("Asignación", mensaje)
     
+    # Guarda los aeropuertos Schengen en un archivo fijo (SchengenAirports.txt).
     def procesar_guardar_schengen(self):
         airports = LoadAirports('Airports.txt')
         SaveSchengenAirports(airports, 'SchengenAirports.txt')
         messagebox.showinfo("Guardado", "Archivo SchengenAirports.txt creado")
     
+    # Genera el KML con todos los vuelos cargados y lo abre en Google Earth.
     def procesar_all_arrivals(self):
         if not self.all_flights:
             messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas')")
@@ -514,6 +481,7 @@ class InterfazPrincipal(ctk.CTk):
         
         MapFlights(self.all_flights, filename='LEBL_Arrivals.kml')
 
+    # Genera el KML solo con vuelos de larga distancia (>2000 km) y lo abre en Google Earth.
     def procesar_long_dist_arrv(self):
         if not self.all_flights:
             messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas')")
@@ -521,6 +489,7 @@ class InterfazPrincipal(ctk.CTk):
         
         MapFlights(LongDistanceArrivals(self.all_flights), filename='LEBL_Arrivals_MIN2000.kml')
     
+    # Muestra una tabla con la ocupación actual de todas las puertas del aeropuerto.
     def visz_gates_occupancy(self):
         if self.bcn is None or not isinstance(self.bcn, BarcelonaAP):
             messagebox.showerror("Error", "Primero debe cargar la estructura del aeropuerto.")
@@ -552,45 +521,8 @@ class InterfazPrincipal(ctk.CTk):
                     fg_color='transparent' if i % 2 == 0 else ("#f0f0f0", "#0085B5")
                 )
                 label.grid(row=i, column=j, sticky="nsew", padx=2, pady=2)
-
-    def ejecutar_visz_airports(self, airports):
-        # Vaciar el frame principal
-        for widget in self.principal_frame.winfo_children():
-            widget.destroy()
-        
-        # Por ahora, su función es la de mostrar la información que hay de TODOS los aeropuertos en airports.txt
-        # pero con las coordenadas en números gracias a la función LoadAirports('airports.xt')
-        self.tabla = ctk.CTkScrollableFrame(self.principal_frame, label_text="Información de los aeropuertos registrados")
-        self.tabla.pack(fill="both", expand=True, padx=10, pady=10)
-        self.tabla.grid_columnconfigure((0, 1, 2), weight=1)
-
-        headers = ["Código ICAO", "Latitud", "Longitud", "¿Schengen?"]
-        for col, texto in enumerate(headers):
-            header = ctk.CTkLabel(
-                self.tabla, 
-                text=texto, 
-                font=("Arial", 14, "bold"),
-                fg_color=("#3a7ebf", "#1f538d"),
-                text_color="white",
-                corner_radius=5
-            )
-            header.grid(row=0, column=col, sticky="nsew", padx=2, pady=5)
-        
-        # Empiezo en la fila 1 porque la 0 son los encabezados
-        for i, airp in enumerate(airports, start=1):
-            icaoCode = airp.icaoCode
-            lat = airp.latitude
-            lon = airp.longitude
-            sch = airp.schengen
-            airp_data = [icaoCode, lat, lon, sch]
-            for j in range(4):
-                dato = ctk.CTkLabel(
-                    self.tabla,
-                    text=airp_data[j],
-                    fg_color='transparent' if i % 2 == 0 else ("#f0f0f0", "#0085B5") #Sentencia if para tener las filas en colores alternos (más facil para seguir una línea)
-                )
-                dato.grid(row=i, column=j, sticky='nsew', padx=2, pady=2)
     
+    # Muestra ventanas con el gráfico de ocupación de cada terminal.
     def mostrar_grph_gates_occupancy(self):
         if self.bcn is None:
             messagebox.showerror("Error", "Carga primero la estructura del aeropuerto")
@@ -608,6 +540,7 @@ class InterfazPrincipal(ctk.CTk):
                 canvas.draw()
                 canvas.get_tk_widget().pack(fill="both", expand=True)
     
+    # Abre un diálogo para guardar la lista de vuelos en un archivo de texto.
     def procesar_save_flights(self):
         if not self.all_flights:
             messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas')")
@@ -625,6 +558,7 @@ class InterfazPrincipal(ctk.CTk):
             else:
                 messagebox.showinfo('Información', mensaje)
 
+    # Muestra el gráfico de aeropuertos Schengen vs no Schengen.
     def mostrar_grph_sch_nSch(self):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():
@@ -645,6 +579,7 @@ class InterfazPrincipal(ctk.CTk):
         except Exception as e:
             messagebox.showerror("Error de Gráfico", f"No se pudo generar el gráfico: {e}")
     
+    # Muestra el gráfico de frecuencia de llegadas por hora (usa self.all_flights).
     def mostrar_grph_arrv_frq(self):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():
@@ -672,6 +607,7 @@ class InterfazPrincipal(ctk.CTk):
         except Exception as e:
             messagebox.showerror("Error de Gráfico", f"No se pudo generar el gráfico: {e}")
     
+    # Muestra el gráfico de cantidad de vuelos por aerolínea.
     def mostrar_grph_airlns(self):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():
@@ -699,6 +635,7 @@ class InterfazPrincipal(ctk.CTk):
         except Exception as e:
             messagebox.showerror("Error de Gráfico", f"No se pudo generar el gráfico: {e}")
     
+    # Muestra el gráfico de vuelos Schengen vs no Schengen.
     def mostrar_grph_flights_type(self):
         # Vaciar el frame principal
         for widget in self.principal_frame.winfo_children():

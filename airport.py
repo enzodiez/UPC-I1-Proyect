@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import os
 
 class Airport():
+    # Representa un aeropuerto con código ICAO, coordenadas y atributo Schengen.
     def __init__(self, ic="", lat=0.0, lon=0.0, schengen=False):
         self.icaoCode = ic
         self.latitude = lat
@@ -9,6 +10,10 @@ class Airport():
         self.schengen = schengen
 
 def IsSchengenAirport(ic):
+    """
+    Determina si un aeropuerto pertenece a la zona Schengen según las dos primeras letras de su código ICAO.
+    Devuelve True si está en la lista de prefijos Schengen, False en caso contrario.
+    """
     trueSchengen = ['LO', 'EB', 'LK', 'LC', 'EK', 'FO', 'EE', 'EF', 'LF', 'ED', 'LG', 'EH', 'LH', 'BI',
                     'LI', 'EV', 'EY', 'EL', 'LM', 'EN', 'EP', 'LP', 'LZ', 'LJ', 'GC', 'LE', 'ES', 'LS']
     ic2 = f"{ic[0]}{ic[1]}"
@@ -18,16 +23,26 @@ def IsSchengenAirport(ic):
     return False
 
 def SetSchengen(airport: Airport): # Que airport sea un objeto/instancia Airport
+    """
+    Asigna el atributo schengen = True al aeropuerto si su código ICAO corresponde a un país Schengen.
+    Utiliza la función IsSchengenAirport.
+    """
     if IsSchengenAirport(airport.icaoCode):
         airport.schengen = True
 
 def PrintAirport(airport: Airport): # Que airport sea un objeto Airport
+    # Muestra por consola toda la información de un aeropuerto (código, latitud, longitud, Schengen).
     print(f"El código ICAO del aeropuerto es: {airport.icaoCode}")
     print(f"Latitud: {airport.latitude}")
     print(f"Longitud: {airport.longitude}")
     print(f"Pertenece a la zona Schengen: {airport.schengen}")
 
 def SaveSchengenAirports(airports, filename):
+    """
+    Guarda en un archivo de texto los aeropuertos Schengen de la lista.
+    El archivo se actualiza: se añaden los nuevos aeropuertos que no estuvieran ya presentes.
+    Las coordenadas se convierten al formato "N/S gradosminutossegundos".
+    """
     # Leeo y limpio los saltos de línea con splitlines()
     try:
         with open(filename, 'r', encoding='utf-8') as file:
@@ -65,6 +80,10 @@ def SaveSchengenAirports(airports, filename):
                 file.write(f'{linea}\n')
 
 def PlotAirports(airports, titulo='Schengen airports VS No Schengen airports'):
+    """
+    Crea un gráfico de barras apiladas con el número de aeropuertos Schengen y no Schengen.
+    Devuelve la figura de matplotlib para ser mostrada en la interfaz.
+    """
     sch, nSch = 0, 0
     for airport in airports:
         if IsSchengenAirport(f"{airport.icaoCode[0]}{airport.icaoCode[1]}"):
@@ -90,6 +109,11 @@ def PlotAirports(airports, titulo='Schengen airports VS No Schengen airports'):
     return fig
 
 def MapAirports(airports):
+    """
+    Genera un archivo KML (Airports_Points.kml) con todos los aeropuertos como puntos.
+    Colorea los puntos según pertenezcan a Schengen (verde) o no (rojo).
+    Abre automáticamente el archivo en Google Earth.
+    """
     # Sobreescribe todo el fichero para actualizarlo
     file = open('Airports_Points.kml', 'w')
 
@@ -136,6 +160,11 @@ def MapAirports(airports):
     os.startfile('Airports_Points.kml')
 
 def LoadAirports (filename):
+    """
+    Lee un archivo con formato "CODE LAT LON" (latitud/longitud en grados, minutos, segundos).
+    Convierte las coordenadas a grados decimales, asigna el atributo Schengen y devuelve una lista de objetos Airport.
+    Si el archivo no existe, devuelve una lista vacía.
+    """
     try:
         F = open(filename,'r')
         apdata = [] #apdata=airports data
@@ -176,7 +205,11 @@ def LoadAirports (filename):
         return []
 
 def Convertir_a_gms (value, positive, negative): #Defino esta función para pasar de grados a grados, minutos y segundos, con la N, S, W y E como en el documento airports.txt, por si hace falta en algún momento
-    #positive es N o E, negative es S o W
+    """
+    Convierte un valor en grados decimales a una cadena con formato "N/S gradosminutossegundos".
+    'positive' es la letra para valores >=0 ('N' o 'E'), 'negative' para valores <0 ('S' o 'W').
+    """
+    # positive es N o E, negative es S o W
     direction = positive if value >= 0 else negative
     value = abs(value)
 
@@ -187,6 +220,11 @@ def Convertir_a_gms (value, positive, negative): #Defino esta función para pasa
     return f"{direction}{degrees:02d}{minutes:02d}{seconds:02d}"
 
 def AddAirport (airports, airport):
+    """
+    Añade un nuevo aeropuerto a la lista si no existe ya otro con el mismo código ICAO.
+    Actualiza el archivo de aeropuertos Schengen.
+    Devuelve True si se añadió, False si ya existía.
+    """
     for airp in airports:
         if airp.icaoCode == airport.icaoCode:
             return False
@@ -196,6 +234,10 @@ def AddAirport (airports, airport):
     return True
 
 def RemoveAirport (airports, code):
+    """
+    Elimina de la lista el aeropuerto cuyo código ICAO coincide con el proporcionado.
+    Devuelve True si se encontró y eliminó, False en caso contrario.
+    """
     for i in range(len(airports)):
         if airports[i].icaoCode == code.upper():
             del airports[i]
