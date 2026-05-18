@@ -125,22 +125,22 @@ class InterfazPrincipal(ctk.CTk):
         
         nuevo_bcn = LoadAirportStructure("LEBL.txt")
         
-        if type(self.bcn) == int:
-            if self.bcn == -1:
+        if isinstance(nuevo_bcn, int):
+            if nuevo_bcn == -1:
                 aviso = 'No se encontró la información del aeropuerto.'
-            elif self.bcn == -2:
+            elif nuevo_bcn == -2:
                 aviso = 'No hay información sobre el aeropuerto.'
-            elif self.bcn == -3:
+            elif nuevo_bcn == -3:
                 aviso = 'Información sobre el aeropuerto insuficiente.'
-            elif self.bcn == -4:
+            elif nuevo_bcn == -4:
                 aviso = 'Error al cargar las aerolíneas asociadas.'
-            elif self.bcn == -5:
+            elif nuevo_bcn == -5:
                 aviso = 'Archivo corrupto/formato no válido.'
-            elif self.bcn == -6:
+            elif nuevo_bcn == -6:
                 aviso = 'Fallo en la lectura de los datos, información incompatible con la estructura del aeropuerto.'
-            elif self.bcn == -7:
+            elif nuevo_bcn == -7:
                 aviso = 'Índices de las puertas de embarque inválidos.'
-            elif self.bcn == -8:
+            elif nuevo_bcn == -8:
                 aviso = 'Índices de las puertas de embarque ilógicos.'
             messagebox.showerror('Error', aviso)
         else:
