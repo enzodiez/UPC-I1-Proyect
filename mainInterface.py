@@ -344,7 +344,7 @@ class InterfazPrincipal(ctk.CTk):
         
         label = ctk.CTkLabel(self.principal_frame, text="Crear Aeropuerto", font=("Arial", 20))
         label.pack(pady=20)
-
+        
         self.input_ic = ctk.CTkEntry(self.principal_frame, placeholder_text='Código ICAO')
         self.input_ic.pack(pady=10)
         self.input_lat = ctk.CTkEntry(self.principal_frame, placeholder_text='Latitud')
