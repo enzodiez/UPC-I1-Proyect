@@ -283,6 +283,28 @@ def AssignGate(bcn, aircraft):
                             return 0
     return -4 # No hay puerta disponible
 
+def AssignNightGates(bcn, aircrafts):
+    if not aircrafts:
+        return -1 #Error de lista vacia
+    for airc in aircrafts:
+        if airc.land_time == "":
+            # Compruebo que el avión NO tenga hora de llegada
+            if airc.departure_time != "":
+                # Compruebo que el avión tenga hora de salida
+                AssignGate(bcn, airc)
+    
+    return 0 # Todo ha ido bien
+
+def FreeGate (bcn, id):
+    for terminal in bcn.terminals:
+        for area in terminal.boardingAreas:
+            for gate in area.gates:
+                if gate.id == id:
+                    gate.occupied = False
+                    return 0 #Todo ha ido bien
+
+    else:
+        return -1 # No se ha encontrado ningun gate con ese avion
 def PlotTerminalOccupancy(gates, terminal_name):
     """
     Dibuja un esquema de una terminal: áreas y puertas, con cuadrados de color verde (libre) o rojo (ocupado).
