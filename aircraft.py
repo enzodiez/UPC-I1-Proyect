@@ -5,11 +5,28 @@ import math
 
 class Aircraft():
     # Representa un vuelo (llegada o salida) con identificador, compañía, origen y hora de aterrizaje.
-    def __init__(self, id="", cmp="", origin_airp="", land_time=""):
+    def __init__(self, id="", cmp="", origin_airp="", land_time="", destination_airp="", departure_time=""):
         self.id = id
         self.company = cmp
         self.origin_airp = origin_airp
         self.land_time = land_time
+        self.destination_airp = destination_airp
+        self.departure_time = departure_time
+
+def normalize_time(time_str):
+    """
+    Función extra.
+    Convierte una cadena de tiempo en formato 'h:mm', 'hh:mm', 'h:m' o 'hh:m' a 'hh:mm'.
+    Ejemplos: '0:04' -> '00:04', '1:24' -> '01:24', '12:3' -> '12:03'
+    """
+    if not time_str:
+        return ""
+    parts = time_str.split(':')
+    if len(parts) != 2:
+        return time_str  # Formato inesperado, se devuelve igual.
+    hour = parts[0].zfill(2)      # Rellena con cero a la izquierda hasta 2 dígitos.
+    minute = parts[1].zfill(2)    # Rellena con cero a la izquierda hasta 2 dígitos.
+    return f"{hour}:{minute}"
 
 def LoadArrivals(filename):
     """
@@ -39,7 +56,7 @@ def LoadArrivals(filename):
                             pass
                         else:
                             continue
-                arrival_time = parts[2]
+                arrival_time = normalize_time(parts[2])
                 company = parts[3]
                 plane = Aircraft(
                     id=aircraft_id,
@@ -335,6 +352,113 @@ def haversine_distance(lat1_rad, lon1_rad, lat2_rad, lon2_rad):
     distance = r * c
     
     return distance
+
+def LoadDepartures(filename):
+    """
+    Carga desde un archivo de texto una lista de objetos Aircraft (solo salidas).
+    Formato: AIRCRAFT DESTINATION DEPARTURE AIRLINE
+    Salta la cabecera, ignora líneas con formato incorrecto.
+    Devuelve la lista de vuelos de salida, o vacía si el archivo no existe.
+    """
+    try:
+        departures = []
+        with open(filename, 'r') as file:
+            # Saltar la primera línea (cabecera)
+            next(file, None)
+            for line in file:
+                line = line.strip()
+                if not line:
+                    continue
+                parts = line.split()
+                if len(parts) < 4:
+                    continue   # Ignorar líneas con formato incorrecto
+                aircraft_id = parts[0]
+                destination = parts[1]
+                if len(destination) != 4:
+                    continue
+                else:
+                    for ch in list(destination):
+                        if 'a' <= ch <= 'z' or 'A' <= ch <= 'Z':
+                            pass
+                        else:
+                            continue
+                departure_time = normalize_time(parts[2])
+                company = parts[3]
+                plane = Aircraft(
+                    id=aircraft_id,
+                    cmp=company,
+                    destination_airp=destination,
+                    departure_time=departure_time
+                )
+                departures.append(plane)
+        return departures, 0 # Código = 0: Todo bien
+    except FileNotFoundError:
+        return [], -1 # Código = -1: Archivo no encontrado
+
+def time_to_minutes(t):
+    """
+    Función extra para convertir hora "hh:mm" a minutos para comparar.
+    Sirve para ahorrar trabajo en la función MergeMovements.
+    """
+    if not t:
+        return -1
+    parts = t.split(':')
+    return int(parts[0]) * 60 + int(parts[1])
+
+def MergeMovements(arrivals, departures):
+    """
+    Combina listas de llegadas y salidas emparejando vuelos con el mismo ID
+    siempre que arrival_time < departure_time.
+    Devuelve una lista de Aircraft (con todos los campos completos cuando hay pareja)
+    y un código de error: 0 si éxito, -1 si alguna lista está vacía.
+    """
+    if not arrivals or not departures:
+        return [], -1 # Error de lista/s recibida/s vacía/s
+    
+    # Diccionario para almacenar todos los eventos por id
+    events_by_id = {}
+    for a in arrivals:
+        events_by_id.setdefault(a.id, []).append(('arrival', time_to_minutes(a.land_time), a))
+    for d in departures:
+        events_by_id.setdefault(d.id, []).append(('departure', time_to_minutes(d.departure_time), d))
+
+    merged = []
+    for aid, events in events_by_id.items():
+        # Ordenar eventos por tiempo (y si hay igualdad, las llegadas primero para evitar ambigüedades)
+        events.sort(key=lambda x: (x[1], 0 if x[0] == 'arrival' else 1))
+        # Recorrer y emparejar
+        i = 0
+        pending_arrival = None
+        while i < len(events):
+            typ, t, obj = events[i]
+            if typ == 'arrival':
+                if pending_arrival is not None:
+                    # Llegada sin salida intermedia ---> incoherencia
+                    # Añadir la llegada pendiente como no emparejada
+                    merged.append(pending_arrival)
+                pending_arrival = obj
+            else:  # departure
+                if pending_arrival is None:
+                    # Salida sin llegada previa (avión de la noche) ---> se añade sola
+                    merged.append(obj)
+                else:
+                    # Emparejar llegada pendiente con esta salida
+                    combined = Aircraft(
+                        id=aid,
+                        cmp=pending_arrival.company,
+                        origin_airp=pending_arrival.origin_airp,
+                        land_time=pending_arrival.land_time,
+                        destination_airp=obj.destination_airp,
+                        departure_time=obj.departure_time
+                    )
+                    merged.append(combined)
+                    pending_arrival = None
+            i += 1
+        # Si queda una llegada sin emparejar al final
+        if pending_arrival is not None:
+            merged.append(pending_arrival)
+
+    return merged, 0
 
 if __name__ == "__main__":
     print("="*60)

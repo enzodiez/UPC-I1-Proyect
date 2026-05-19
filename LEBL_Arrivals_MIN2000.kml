@@ -16,110 +16,6 @@
         </LineStyle>
     </Style>
     <Placemark>
-        <name>Route EVRA - LEBL</name>
-        <styleUrl>#Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                23.97111,56.92361
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route KEWR - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                -74.16833,40.69667
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route LUKK - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                28.93083,46.92778
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route GCXO - LEBL</name>
-        <styleUrl>#Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                -16.34167,28.48278
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route SAEZ - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                -58.53583,-34.82222
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route KJFK - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                -73.77833,40.64028
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route ESSA - LEBL</name>
-        <styleUrl>#Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                17.91861,59.65194
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route ESKN - LEBL</name>
-        <styleUrl>#Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                16.90361,58.78861
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
         <name>Route BIKF - LEBL</name>
         <styleUrl>#Schengen</styleUrl>
         <LineString>
@@ -128,331 +24,6 @@
             <tessellate>1</tessellate>
             <coordinates>
                 -22.60556,63.985
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route LTBA - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                28.81417,40.97611
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route ULLI - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                30.2625,59.80028
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route UUDD - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                37.90639,55.40861
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route CYUL - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                -73.74139,45.46806
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route UWKD - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                49.28028,55.60694
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route KCLT - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                -80.95,35.21667
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route LTFJ - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                29.30917,40.89833
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route ENBR - LEBL</name>
-        <styleUrl>#Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                5.21806,60.29361
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route URKK - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                39.17,45.03472
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route GCFV - LEBL</name>
-        <styleUrl>#Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                -13.86389,28.45278
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route LGSR - LEBL</name>
-        <styleUrl>#Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                25.47917,36.39917
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route OMDB - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                55.36,25.24917
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route KIAD - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                -77.45667,38.945
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route OLBA - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                35.49,33.81917
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route EFHK - LEBL</name>
-        <styleUrl>#Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                24.96333,60.31722
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route OTHH - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                51.60833,25.27444
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route SBGR - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                -46.47,-23.43333
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route GCLP - LEBL</name>
-        <styleUrl>#Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                -15.38667,27.93194
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route UKBB - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                30.89333,50.34472
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route SKBO - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                -74.15,4.7
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route KMIA - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                -80.28333,25.8
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route HTDA - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                39.20333,-6.87556
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route KATL - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                -84.43333,33.63333
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route CYYZ - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                -79.63056,43.67722
-                2.07833,41.29694
-            </coordinates>
-        </LineString>
-    </Placemark>
-    <Placemark>
-        <name>Route LLBG - LEBL</name>
-        <styleUrl>#Non Schengen</styleUrl>
-        <LineString>
-            <altitudeMode>clampToGround</altitudeMode>
-            <extrude>1</extrude>
-            <tessellate>1</tessellate>
-            <coordinates>
-                34.88556,32.00944
                 2.07833,41.29694
             </coordinates>
         </LineString>
@@ -471,14 +42,105 @@
         </LineString>
     </Placemark>
     <Placemark>
-        <name>Route ENGM - LEBL</name>
+        <name>Route KMIA - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                -80.28333,25.8
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route LTBA - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                28.81417,40.97611
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route GCLP - LEBL</name>
         <styleUrl>#Schengen</styleUrl>
         <LineString>
             <altitudeMode>clampToGround</altitudeMode>
             <extrude>1</extrude>
             <tessellate>1</tessellate>
             <coordinates>
-                11.08389,60.20278
+                -15.38667,27.93194
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route SAEZ - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                -58.53583,-34.82222
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route OMDB - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                55.36,25.24917
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route KATL - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                -84.43333,33.63333
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route LGSR - LEBL</name>
+        <styleUrl>#Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                25.47917,36.39917
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route CYYZ - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                -79.63056,43.67722
                 2.07833,41.29694
             </coordinates>
         </LineString>
@@ -497,6 +159,266 @@
         </LineString>
     </Placemark>
     <Placemark>
+        <name>Route KEWR - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                -74.16833,40.69667
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route KIAD - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                -77.45667,38.945
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route ESKN - LEBL</name>
+        <styleUrl>#Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                16.90361,58.78861
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route UWKD - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                49.28028,55.60694
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route SBGR - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                -46.47,-23.43333
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route SKBO - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                -74.15,4.7
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route LTFJ - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                29.30917,40.89833
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route LUKK - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                28.93083,46.92778
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route UUDD - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                37.90639,55.40861
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route LLBG - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                34.88556,32.00944
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route URKK - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                39.17,45.03472
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route CYUL - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                -73.74139,45.46806
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route KJFK - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                -73.77833,40.64028
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route EVRA - LEBL</name>
+        <styleUrl>#Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                23.97111,56.92361
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route ULLI - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                30.2625,59.80028
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route KCLT - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                -80.95,35.21667
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route GCFV - LEBL</name>
+        <styleUrl>#Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                -13.86389,28.45278
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route ESSA - LEBL</name>
+        <styleUrl>#Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                17.91861,59.65194
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route HTDA - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                39.20333,-6.87556
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route EFHK - LEBL</name>
+        <styleUrl>#Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                24.96333,60.31722
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
         <name>Route UUEE - LEBL</name>
         <styleUrl>#Non Schengen</styleUrl>
         <LineString>
@@ -505,6 +427,71 @@
             <tessellate>1</tessellate>
             <coordinates>
                 37.41306,55.9725
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route UKBB - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                30.89333,50.34472
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route KPHL - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                -75.245,39.87
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route GCXO - LEBL</name>
+        <styleUrl>#Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                -16.34167,28.48278
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route OTHH - LEBL</name>
+        <styleUrl>#Non Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                51.60833,25.27444
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route ENBR - LEBL</name>
+        <styleUrl>#Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                5.21806,60.29361
                 2.07833,41.29694
             </coordinates>
         </LineString>
@@ -523,14 +510,27 @@
         </LineString>
     </Placemark>
     <Placemark>
-        <name>Route KPHL - LEBL</name>
+        <name>Route ENGM - LEBL</name>
+        <styleUrl>#Schengen</styleUrl>
+        <LineString>
+            <altitudeMode>clampToGround</altitudeMode>
+            <extrude>1</extrude>
+            <tessellate>1</tessellate>
+            <coordinates>
+                11.08389,60.20278
+                2.07833,41.29694
+            </coordinates>
+        </LineString>
+    </Placemark>
+    <Placemark>
+        <name>Route OLBA - LEBL</name>
         <styleUrl>#Non Schengen</styleUrl>
         <LineString>
             <altitudeMode>clampToGround</altitudeMode>
             <extrude>1</extrude>
             <tessellate>1</tessellate>
             <coordinates>
-                -75.245,39.87
+                35.49,33.81917
                 2.07833,41.29694
             </coordinates>
         </LineString>
