@@ -407,13 +407,17 @@ def time_to_minutes(t):
 
 def MergeMovements(arrivals, departures):
     """
-    Combina listas de llegadas y salidas emparejando vuelos con el mismo ID
-    siempre que arrival_time < departure_time.
-    Devuelve una lista de Aircraft (con todos los campos completos cuando hay pareja)
-    y un código de error: 0 si éxito, -1 si alguna lista está vacía.
+    Combina listas de llegadas y salidas. Para cada avión, primero verifica que no haya
+    incoherencias (dos llegadas seguidas o dos salidas seguidas).
+    Si las hay, se añade su ID a la lista de problemáticos y se omite todo el avión.
+    Si no las hay, se emparejan llegadas con salidas posteriores (arrival < departure).
+    Devuelve:
+        - merged: lista de Aircraft (con todos los campos cuando hay pareja)
+        - problem_ids: lista de IDs con incoherencias
+        - code: 0 si éxito, -1 si alguna lista de entrada está vacía
     """
     if not arrivals or not departures:
-        return [], -1 # Error de lista/s recibida/s vacía/s
+        return [], [], -1 # Error: alguna lista vacía
     
     # Diccionario para almacenar todos los eventos por id
     events_by_id = {}
@@ -423,25 +427,36 @@ def MergeMovements(arrivals, departures):
         events_by_id.setdefault(d.id, []).append(('departure', time_to_minutes(d.departure_time), d))
 
     merged = []
+    problem_ids = []
+
     for aid, events in events_by_id.items():
         # Ordenar eventos por tiempo (y si hay igualdad, las llegadas primero para evitar ambigüedades)
         events.sort(key=lambda x: (x[1], 0 if x[0] == 'arrival' else 1))
-        # Recorrer y emparejar
-        i = 0
+        
+        # Detectar incoherencias
+        has_incoherence = False
+        prev_type = None
+        for typ, _, _ in events:
+            if typ == prev_type:
+                has_incoherence = True
+                break
+            prev_type = typ
+
+        if has_incoherence:
+            problem_ids.append(aid)
+            continue   # Saltamos este avión por completo
+
+        # Si no hay problemas con las horas del avión:
         pending_arrival = None
-        while i < len(events):
-            typ, t, obj = events[i]
+        for typ, t, obj in events:
             if typ == 'arrival':
+                # Si ya había una llegada pendiente (no debería, porque no hay dos llegadas seguidas)
                 if pending_arrival is not None:
-                    # Llegada sin salida intermedia ---> incoherencia
-                    # Añadir la llegada pendiente como no emparejada
+                    # Por si acaso, pero aquí no debería ocurrir
                     merged.append(pending_arrival)
                 pending_arrival = obj
             else:  # departure
-                if pending_arrival is None:
-                    # Salida sin llegada previa (avión de la noche) ---> se añade sola
-                    merged.append(obj)
-                else:
+                if pending_arrival is not None:
                     # Emparejar llegada pendiente con esta salida
                     combined = Aircraft(
                         id=aid,
@@ -453,12 +468,16 @@ def MergeMovements(arrivals, departures):
                     )
                     merged.append(combined)
                     pending_arrival = None
-            i += 1
-        # Si queda una llegada sin emparejar al final
+                else:
+                    # Salida sin llegada previa (avión de la noche)
+                    merged.append(obj)
+
+        # Si queda alguna llegada sin emparejar al final (no debería por la ausencia de incoherencias,
+        # pero puede pasar si hay más llegadas que salidas)
         if pending_arrival is not None:
             merged.append(pending_arrival)
 
-    return merged, 0
+    return merged, problem_ids, 0
 
 def NightAircrat(aircrafts):
     if not aircrafts:
