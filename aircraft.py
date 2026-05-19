@@ -460,6 +460,19 @@ def MergeMovements(arrivals, departures):
 
     return merged, 0
 
+def NightAircrat(aircrafts):
+    if not aircrafts:
+        return [], -1 # Código de error de lista vacía
+    night_aircrafts = []
+    for airc in aircrafts:
+        if airc.land_time == "":
+            # Compruebo que el avión NO tenga hora de llegada
+            if airc.departure_time != "":
+                # Compruebo que el avión tenga hora de salida
+                night_aircrafts.append(airc)
+    
+    return night_aircrafts, 0 # Código que avisa de que todo ha ido bien
+
 if __name__ == "__main__":
     print("="*60)
     print("TEST VERSIÓN 2 - FLIGHT MANAGEMENT")
