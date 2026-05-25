@@ -285,15 +285,16 @@ def AssignGate(bcn, aircraft):
 
 def AssignNightGates(bcn, aircrafts):
     if not aircrafts:
-        return -1 #Error de lista vacia
-    for airc in aircrafts:
-        if airc.land_time == "":
-            # Compruebo que el avión NO tenga hora de llegada
-            if airc.departure_time != "":
-                # Compruebo que el avión tenga hora de salida
-                AssignGate(bcn, airc)
+        return {}, -1 #Error de lista vacia
     
-    return 0 # Todo ha ido bien
+    problem_airc = {}
+    for airc in aircrafts:
+        if airc.land_time == "" and airc.departure_time != "":
+            # Compruebo que el avión NO tenga hora de llegada y SÍ tenga hora de salida
+            cd = AssignGate(bcn, airc)
+            if cd != 0:
+                problem_airc[airc.id] = cd
+    return problem_airc, 0 # Todo ha ido bien. El diccionario contiene los códigos de los aviones que han tenido problemas al asignarles un gate y el código de error
 
 def FreeGate (bcn, id):
     for terminal in bcn.terminals:

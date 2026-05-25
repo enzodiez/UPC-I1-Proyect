@@ -51,11 +51,13 @@ def LoadArrivals(filename):
                 if len(origin) != 4:
                     continue
                 else:
-                    for ch in list(origin):
-                        if 'a' <= ch <= 'z' or 'A' <= ch <= 'Z':
-                            pass
-                        else:
-                            continue
+                    valid = True
+                    for ch in origin:
+                        if not ('a' <= ch <= 'z' or 'A' <= ch <= 'Z'):
+                            valid = False
+                            break
+                    if not valid:
+                        continue
                 arrival_time = normalize_time(parts[2])
                 company = parts[3]
                 plane = Aircraft(
@@ -377,11 +379,13 @@ def LoadDepartures(filename):
                 if len(destination) != 4:
                     continue
                 else:
-                    for ch in list(destination):
-                        if 'a' <= ch <= 'z' or 'A' <= ch <= 'Z':
-                            pass
-                        else:
-                            continue
+                    valid = True
+                    for ch in destination:
+                        if not ('a' <= ch <= 'z' or 'A' <= ch <= 'Z'):
+                            valid = False
+                            break
+                    if not valid:
+                        continue
                 departure_time = normalize_time(parts[2])
                 company = parts[3]
                 plane = Aircraft(
@@ -479,7 +483,7 @@ def MergeMovements(arrivals, departures):
 
     return merged, problem_ids, 0
 
-def NightAircrat(aircrafts):
+def NightAircraft(aircrafts):
     if not aircrafts:
         return [], -1 # Código de error de lista vacía
     night_aircrafts = []
