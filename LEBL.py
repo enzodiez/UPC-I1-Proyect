@@ -2,6 +2,7 @@ from airport import *
 from aircraft import *
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+import copy
 
 class BarcelonaAP():
     def __init__(self, ic='', terminals=None):
@@ -306,6 +307,101 @@ def FreeGate (bcn, id):
 
     else:
         return -1 # No se ha encontrado ningun gate con ese avion
+
+def AssignGatesAtTime(bcn, aircrafts, time):
+    """
+    Asigna puertas a los vuelos que aterrizan durante la hora que empieza en 'time'
+    (formato 'hh:mm'). Antes de asignar, libera las puertas de aviones que han
+    despegado antes del inicio de esa hora.
+    Devuelve el número de aviones que aterrizan en ese período pero quedan sin
+    puerta (por ocupación total).
+    """
+    t_min = time_to_minutes(time)
+    t_end_min = t_min + 60
+
+    # Diccionario para búsqueda rápida de avión por id
+    aircraft_dict = {a.id: a for a in aircrafts}
+
+    # Liberar las puertas de aviones que ya han despegado antes del inicio del período
+    for terminal in bcn.terminals:
+        for area in terminal.boardingAreas:
+            for gate in area.gates:
+                if gate.occupied and gate.id:
+                    a = aircraft_dict.get(gate.id)
+                    if a and a.departure_time:
+                        dep_min = time_to_minutes(a.departure_time)
+                        if dep_min < t_min:
+                            gate.occupied = False
+                            gate.id = ''
+
+    # Asignar puertas a los vuelos que aterrizan durante el período
+    # Filtrar y ordenar por hora de llegada
+    landing_this_hour = [
+        a for a in aircrafts
+        if a.land_time and t_min <= time_to_minutes(a.land_time) < t_end_min
+    ]
+    landing_this_hour.sort(key=lambda a: time_to_minutes(a.land_time))
+
+    not_assigned = 0
+    for a in landing_this_hour:
+        if AssignGate(bcn, a) != 0:
+            not_assigned += 1
+    return not_assigned
+
+def PlotDayOccupancy(bcn, aircrafts):
+    """
+    Genera un gráfico con la ocupación de puertas por terminal y el número de
+    aviones no asignados, para cada período de una hora del día (0 a 23).
+    El estado inicial de bcn es el de inicio del día (solo aviones nocturnos).
+    Devuelve la figura de matplotlib.
+    """
+    hours = list(range(24))
+    # Estructuras de datos: por terminal y por hora
+    terminal_names = [t.name for t in bcn.terminals]
+    occupancy = {tname: [0]*24 for tname in terminal_names}
+    not_assigned_per_hour = [0]*24
+
+    # Copia del aeropuerto (para no modificar el original)
+    bcn_copy = copy.deepcopy(bcn)
+
+    # Para cada período horario, ejecutar AssignGatesAtTime y medir ocupación
+    for h in range(24):
+        time_str = f"{h:02d}:00"
+        # Primero, asignar puertas en este período (libera y asigna)
+        na = AssignGatesAtTime(bcn_copy, aircrafts, time_str)
+        not_assigned_per_hour[h] = na
+        # Registrar ocupación por terminal después de la asignación
+        for terminal in bcn_copy.terminals:
+            occ = 0
+            for area in terminal.boardingAreas:
+                for gate in area.gates:
+                    if gate.occupied:
+                        occ += 1
+            occupancy[terminal.name][h] = occ
+
+    # Dibujar gráfico
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(14, 10))
+
+    # Gráfico 1: ocupación por terminal
+    for tname in terminal_names:
+        ax1.plot(hours, occupancy[tname], marker='o', label=f"Terminal {tname}")
+    
+    ax1.set_xlabel("Hour of day")
+    ax1.set_ylabel("Number of occupied gates")
+    ax1.set_title("Gate occupancy per terminal")
+    ax1.legend()
+    ax1.grid(True)
+
+    # Gráfico 2: aviones no asignados
+    ax2.bar(hours, not_assigned_per_hour, color='salmon')
+    ax2.set_xlabel("Hour of day")
+    ax2.set_ylabel("Aircraft not assigned")
+    ax2.set_title("Unassigned arrivals per hour")
+    ax2.grid(axis='y')
+    plt.tight_layout()
+
+    return fig
+
 def PlotTerminalOccupancy(gates, terminal_name):
     """
     Dibuja un esquema de una terminal: áreas y puertas, con cuadrados de color verde (libre) o rojo (ocupado).
@@ -758,10 +854,97 @@ if __name__ == "__main__":
             print(f"      No se pudo generar para terminal {terminal.name}")
     
     # ==========================================
+    # NUEVOS TESTS VERSIÓN 4
+    # ==========================================
+    print("\n" + "="*60)
+    print("TEST VERSIÓN 4 - NUEVAS FUNCIONES (ASIGNACIÓN DINÁMICA, OCUPACIÓN)")
+    print("="*60)
+
+    # Cargar llegadas y salidas
+    from aircraft import LoadArrivals, LoadDepartures, MergeMovements, NightAircraft
+    flights = LoadArrivals("Arrivals.txt")
+    departures, _ = LoadDepartures("Departures.txt")
+    # Fusionar movimientos para tener lista completa
+    if flights and departures:
+        merged, _, _ = MergeMovements(flights, departures)
+        all_aircrafts = merged
+    elif flights:
+        all_aircrafts = flights
+    else:
+        all_aircrafts = []
+
+    # 1. Test AssignNightGates
+    print("\n📌 1. Probando AssignNightGates()")
+    # Primero necesitamos algunos aviones nocturnos. Los extraemos de la lista fusionada (solo salida)
+    night_aircrafts, _ = NightAircraft(all_aircrafts) if all_aircrafts else ([], -1)
+    if night_aircrafts:
+        problem_dict, code_ng = AssignNightGates(bcn, night_aircrafts)
+        if code_ng == 0:
+            print(f"   ✅ Puertas asignadas a {len(night_aircrafts) - len(problem_dict)}/{len(night_aircrafts)} aviones nocturnos")
+            if problem_dict:
+                print(f"   ⚠️ Problemas con aviones: {problem_dict}")
+        else:
+            print("   ❌ Error en AssignNightGates")
+    else:
+        print("   ⚠️ No hay aviones nocturnos para probar AssignNightGates (se necesitan solo salidas).")
+
+    # 2. Test FreeGate
+    print("\n📌 2. Probando FreeGate()")
+    # Buscar algún gate ocupado (por ejemplo, después de AssignNightGates)
+    occupied_gate_found = False
+    for terminal in bcn.terminals:
+        for area in terminal.boardingAreas:
+            for gate in area.gates:
+                if gate.occupied:
+                    aircraft_id = gate.id
+                    result = FreeGate(bcn, aircraft_id)
+                    if result == 0:
+                        print(f"   ✅ Gate {gate.name} liberado del avión {aircraft_id}")
+                        occupied_gate_found = True
+                        break
+                if occupied_gate_found:
+                    break
+            if occupied_gate_found:
+                break
+        if occupied_gate_found:
+            break
+    if not occupied_gate_found:
+        print("   ⚠️ No hay puertas ocupadas para probar FreeGate.")
+
+    # 3. Test AssignGatesAtTime
+    print("\n📌 3. Probando AssignGatesAtTime()")
+    if all_aircrafts:
+        # Elegir una hora, por ejemplo las 6:00
+        test_hour = "06:00"
+        not_assigned = AssignGatesAtTime(bcn, all_aircrafts, test_hour)
+        print(f"   ✅ Para el período que empieza a las {test_hour}, aviones no asignados: {not_assigned}")
+    else:
+        print("   ⚠️ No hay lista de aeronaves para probar AssignGatesAtTime.")
+
+    # 4. Test PlotDayOccupancy
+    print("\n📌 4. Probando PlotDayOccupancy()")
+    if all_aircrafts:
+        fig = PlotDayOccupancy(bcn, all_aircrafts)
+        if fig:
+            print("   ✅ Gráfico de ocupación diaria generado. Se mostrará en 3 segundos.")
+            plt.ion()
+            plt.show(block=False)
+            plt.pause(3)
+            plt.close()
+    else:
+        print("   ⚠️ No hay suficientes datos para PlotDayOccupancy.")
+
+    # Resumen final
+    print("\n" + "="*60)
+    print("🎉 TEST VERSIÓN 4 COMPLETADO")
+    print("="*60)
+    print("\n✅ Si no has visto errores, las nuevas funciones funcionan correctamente.")
+
+    # ==========================================
     # RESULTADO FINAL
     # ==========================================
     print("\n" + "="*60)
-    print("🎉 TEST VERSIÓN 3 COMPLETADO")
+    print("🎉 TEST VERSIÓN 3 + EXTENSIÓN DE LA VERSIÓN 4 COMPLETADO")
     print("="*60)
     print("\n✅ Todas las funciones se han probado correctamente.")
     print("✅ Se han generado gráficos de ocupación para cada terminal.")

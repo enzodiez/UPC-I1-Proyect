@@ -13,14 +13,16 @@ def IsSchengenAirport(ic):
     """
     Determina si un aeropuerto pertenece a la zona Schengen según las dos primeras letras de su código ICAO.
     Devuelve True si está en la lista de prefijos Schengen, False en caso contrario.
+    Si el código es None, vacío o tiene menos de 2 caracteres, no es Schengen y se devuelve False.
     """
+    if not ic or len(ic) < 2:
+        return False
+    
     trueSchengen = ['LO', 'EB', 'LK', 'LC', 'EK', 'FO', 'EE', 'EF', 'LF', 'ED', 'LG', 'EH', 'LH', 'BI',
                     'LI', 'EV', 'EY', 'EL', 'LM', 'EN', 'EP', 'LP', 'LZ', 'LJ', 'GC', 'LE', 'ES', 'LS']
-    ic2 = f"{ic[0]}{ic[1]}"
-    if ic2 in trueSchengen:
-            return True
     
-    return False
+    ic2 = ic[:2].upper() # Tomamos los dos primeros caracteres y los pasamos a mayúsculas
+    return ic2 in trueSchengen
 
 def SetSchengen(airport: Airport): # Que airport sea un objeto/instancia Airport
     """

@@ -606,10 +606,70 @@ if __name__ == "__main__":
         print("   ❌ Error: No se creó el archivo KML")
     
     # ==========================================
+    # NUEVOS TESTS VERSIÓN 4
+    # ==========================================
+    print("\n" + "="*60)
+    print("TEST VERSIÓN 4 - NUEVAS FUNCIONES (SALIDAS, FUSIÓN, NOCTURNOS)")
+    print("="*60)
+
+    # 1. Test LoadDepartures
+    print("\n📌 1. Probando LoadDepartures('Departures.txt')")
+    departures, code_dep = LoadDepartures("Departures.txt")
+    if code_dep == 0:
+        print(f"   ✅ Salidas cargadas: {len(departures)}")
+        if departures:
+            print(f"   Primera salida: {departures[0].id} -> {departures[0].destination_airp} a las {departures[0].departure_time}")
+    else:
+        print("   ⚠️ No se pudo cargar Departures.txt. Se usará una lista vacía para pruebas posteriores.")
+        departures = []
+
+    # 2. Test MergeMovements (si tenemos arrivals y departures)
+    print("\n📌 2. Probando MergeMovements()")
+    if flights and departures:
+        merged, problem_ids, code_merge = MergeMovements(flights, departures)
+        if code_merge == 0:
+            print(f"   ✅ Fusión completada: {len(merged)} vuelos combinados")
+            if problem_ids:
+                print(f"   ⚠️ Aeronaves con incoherencias horarias: {problem_ids}")
+            else:
+                print("   ✅ No se detectaron incoherencias.")
+            # Mostrar algunos ejemplos
+            if merged:
+                print("   Ejemplos de vuelos fusionados:")
+                count = 0
+                for a in merged:
+                    if a.origin_airp and a.destination_airp:
+                        print(f"      - {a.id}: llega de {a.origin_airp} a {a.land_time} -> sale a {a.destination_airp} a {a.departure_time}")
+                        count += 1
+                        if count >= 3:
+                            break
+                if count == 0:
+                    print("      (No hay vuelos con llegada y salida emparejados)")
+        else:
+            print("   ❌ Error en MergeMovements (código -1)")
+    else:
+        print("   ⚠️ No se puede probar MergeMovements: faltan llegadas o salidas.")
+
+    # 3. Test NightAircraft
+    print("\n📌 3. Probando NightAircraft()")
+    # Usar la lista fusionada si existe, si no, usar solo salidas
+    test_list = merged if 'merged' in locals() and merged else departures
+    if test_list:
+        night, code_night = NightAircraft(test_list)
+        if code_night == 0:
+            print(f"   ✅ Aviones nocturnos (solo salida): {len(night)}")
+            for a in night[:3]:
+                print(f"      - {a.id} sale a {a.destination_airp} a las {a.departure_time}")
+        else:
+            print("   ❌ Error en NightAircraft (lista vacía)")
+    else:
+        print("   ⚠️ No hay datos para probar NightAircraft.")
+
+    # ==========================================
     # RESULTADO FINAL
     # ==========================================
     print("\n" + "="*60)
-    print("🎉 TEST VERSIÓN 2 COMPLETADO")
+    print("🎉 TEST VERSIÓN 2 + EXTENSIÓN DE LA VERSIÓN 4 COMPLETADO")
     print("="*60)
     print("\n✅ Si no has visto errores, todas las funciones funcionan correctamente.")
     print("✅ Archivos creados: ArrivalsToLEBL.txt, LEBL_Arrivals.kml, LEBL_Arrivals_MIN2000.kml")
