@@ -10,10 +10,102 @@ from LEBL import *
 ctk.set_appearance_mode("dark")  # Modos: "system" (standard), "dark", "light"
 ctk.set_default_color_theme("blue")  # Temas: "blue" (standard), "green", "dark-blue"
 
+class SplashScreen(ctk.CTkToplevel):
+    def __init__(self):
+        # Forzar modo oscuro para la splash (luego la interfaz principal lo seguirá)
+        ctk.set_appearance_mode("dark")
+        super().__init__()
+        self.title("")
+        self.geometry("600x400")
+        self.overrideredirect(True)   # Sin bordes para un look moderno
+        self.resizable(False, False)
+        
+        # Fondo oscuro elegante
+        self.configure(fg_color=("#1e1e1e", "#f0f0f0"))
+        
+        # Centrar ventana en la pantalla
+        self.update_idletasks()
+        x = (self.winfo_screenwidth() // 2) - (600 // 2)
+        y = (self.winfo_screenheight() // 2) - (400 // 2)
+        self.geometry(f"600x400+{x}+{y}")
+        
+        # Marco principal para centrar contenido
+        main_frame = ctk.CTkFrame(self, fg_color="transparent")
+        main_frame.pack(expand=True, fill="both", padx=30, pady=30)
+        
+        # Título principal
+        self.label_title = ctk.CTkLabel(
+            main_frame, text="I1-Proyect", font=("Arial", 48, "bold"),
+            text_color=("#ffffff", "#000000")
+        )
+        self.label_title.pack(pady=20)
+        
+        # Subtítulo
+        self.label_sub = ctk.CTkLabel(
+            main_frame, text="Airport Management System", font=("Arial", 16),
+            text_color=("#cccccc", "#333333")
+        )
+        self.label_sub.pack(pady=5)
+        
+        # Barra de progreso estilizada
+        self.progress = ctk.CTkProgressBar(
+            main_frame, width=500, height=12, corner_radius=6,
+            progress_color="#1f8d4a",  # Verde atractivo
+            fg_color="#444444"
+        )
+        self.progress.pack(pady=50)
+        self.progress.set(0)
+        
+        # Mensaje dinámico
+        self.message = ctk.CTkLabel(
+            main_frame, text="Iniciando...", font=("Arial", 12),
+            text_color=("#aaaaaa", "#555555")
+        )
+        self.message.pack(pady=10)
+        
+        # Secuencia de carga
+        self.stages = [
+            (0.1, "Cargando módulos..."),
+            (0.3, "Conectando con bases de datos..."),
+            (0.5, "Cargando estructura del aeropuerto..."),
+            (0.7, "Preparando interfaz..."),
+            (0.9, "¡Casi listo!"),
+        ]
+        self.stage_index = 0
+        self.start_loading()
+    
+    def start_loading(self):
+        if self.stage_index < len(self.stages):
+            progress, msg = self.stages[self.stage_index]
+            self.progress.set(progress)
+            self.message.configure(text=msg)
+            self.stage_index += 1
+            self.after(800, self.start_loading)
+        else:
+            self.progress.set(1.0)
+            self.message.configure(text="¿Estás listo para sumergirte en el mundo de la gestión aeroportuaria?")
+            self.show_start_button()
+    
+    def show_start_button(self):
+        self.start_button = ctk.CTkButton(
+            self, text="¡Empezar!", command=self.destroy,
+            width=200, height=45, corner_radius=10,
+            font=("Arial", 14, "bold"), fg_color="#1f8d4a", hover_color="#166b39"
+        )
+        self.start_button.place(relx=0.5, y=340, anchor="center")
+
 class InterfazPrincipal(ctk.CTk):
     # Configura la ventana principal, los frames, botones y variables iniciales.
     def __init__(self):
+        # Crear la ventana principal (aún no visible)
         super().__init__()
+        
+        # Ocultarla temporalmente
+        self.withdraw()
+        
+        # Mostrar splash screen
+        splash = SplashScreen()
+        self.wait_window(splash)   # Espera a que se cierre la splash
         
         self.after(0, lambda: self.state('zoomed'))
         self.title("I1-Proyect")
@@ -35,6 +127,7 @@ class InterfazPrincipal(ctk.CTk):
         self.options_frame.grid_rowconfigure(4, weight=1)
         self.options_frame.grid_rowconfigure(5, weight=1)
         self.options_frame.grid_rowconfigure(6, weight=1)
+        self.options_frame.grid_rowconfigure(7, weight=1)
 
         self.registros = ctk.CTkButton(self.options_frame, text="Registros", corner_radius=5, border_width=2, command=self.ejecutar_registros)
         self.registros.grid(row=0, column=0, sticky='nsew', padx=15, pady=15)
@@ -51,21 +144,29 @@ class InterfazPrincipal(ctk.CTk):
         self.cargar_bcn = ctk.CTkButton(self.options_frame, text="Cargar estructura del aeropuerto de Barcelona", corner_radius=5, border_width=2, command=self.cargar_estructura_bcn)
         self.cargar_bcn.grid(row=4, column=0, sticky='nsew', padx=15, pady=15)
 
-        self.cargar_llegadas = ctk.CTkButton(self.options_frame, text="Cargar llegadas al aeropuerto de Barcelona", corner_radius=5, border_width=2, command=self.cargar_llegadas)
-        self.cargar_llegadas.grid(row=5, column=0, sticky='nsew', padx=15, pady=15)
+        self.btn_cargar_llegadas = ctk.CTkButton(self.options_frame, text="Cargar llegadas al aeropuerto de Barcelona", corner_radius=5, border_width=2, command=self.cargar_llegadas)
+        self.btn_cargar_llegadas.grid(row=5, column=0, sticky='nsew', padx=15, pady=15)
+
+        self.btn_cargar_salidas = ctk.CTkButton(self.options_frame, text="Cargar salidas del aeropuerto de Barcelona", corner_radius=5, border_width=2, command=self.cargar_salidas)
+        self.btn_cargar_salidas.grid(row=6, column=0, sticky='nsew', padx=15, pady=15)
 
         self.switch_appear = ctk.StringVar(value="on")
         self.appearance = ctk.CTkSwitch(self.options_frame, text='Modo Oscuro', onvalue='on', offvalue='off', variable=self.switch_appear, command=self.cambiar_modo_toggle)
-        self.appearance.grid(row=6, column=0, sticky='nsew', padx=15, pady=15)
+        self.appearance.grid(row=7, column=0, sticky='nsew', padx=15, pady=15)
 
         self.principal_frame = ctk.CTkFrame(self)
         self.principal_frame.grid(row=0, column=1, sticky="nsew", padx=20, pady=20)
 
         self.bcn = None
         self.all_flights = []
+        self.arrivals = []
+        self.departures = []
 
         # Sirve para poder cerrar bien la interfaz
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
+
+        # Finalmente, mostrar la ventana
+        self.deiconify()
     
     # Este método me lo ha explicado la IA DeepSeek
     # Sirve para poder cerrar bien todos los gráficos y evitar que aparezcan errores en la terminal si se cierra la aplicación con gráficos abiertos.
@@ -147,17 +248,33 @@ class InterfazPrincipal(ctk.CTk):
             self.bcn = nuevo_bcn
             messagebox.showinfo('Éxito', 'La estructura del aeropuerto se ha cargado exitosamente!')
     
-    # Permite seleccionar un archivo de llegadas y añade sus vuelos a la lista self.all_flights.
+    # Permite seleccionar un archivo de llegadas y añade sus vuelos a la lista self.arrivals.
     def cargar_llegadas(self):
         filename = filedialog.askopenfilename(
             title="Seleccionar archivo de llegadas",
             filetypes=[("Text files", "*.txt"), ("All files", "*.*")]
         )
         if filename:
-            nuevos_vuelos = LoadArrivals(filename)
-            if nuevos_vuelos:
-                self.all_flights.extend(nuevos_vuelos)
-                messagebox.showinfo("Éxito", f"Se añadieron {len(nuevos_vuelos)} vuelos.\nTotal: {len(self.all_flights)}")
+            nuevos_arrivals = LoadArrivals(filename)
+            if nuevos_arrivals:
+                self.arrivals.extend(nuevos_arrivals)
+                messagebox.showinfo("Éxito", f"Se añadieron {len(nuevos_arrivals)} vuelos.\nTotal: {len(self.arrivals)}")
+            else:
+                messagebox.showerror("Error", "El archivo no contiene datos válidos.")
+    
+    # Permite seleccionar un archivo de salidas y añade sus vuelos a la lista self.departures.
+    def cargar_salidas(self):
+        filename = filedialog.askopenfilename(
+            title="Seleccionar archivo de salidas",
+            filetypes=[("Text files", "*.txt"), ("All files", "*.*")]
+        )
+        if filename:
+            nuevos_departures, code = LoadDepartures(filename)
+            if code == 0 and nuevos_departures:
+                self.departures.extend(nuevos_departures)
+                messagebox.showinfo("Éxito", f"Se añadieron {len(nuevos_departures)} vuelos.\nTotal: {len(self.departures)}")
+            elif code == -1:
+                messagebox.showerror("Error", "No se encontró el archivo de salidas.")
             else:
                 messagebox.showerror("Error", "El archivo no contiene datos válidos.")
     
@@ -176,19 +293,113 @@ class InterfazPrincipal(ctk.CTk):
 
         # Creo botones para las múltiples opciones dentro del subframe
         btn_map_airp = ctk.CTkButton(btn_frame, text='Gestionar aeropuertos', command=self.ejecutar_gestionar_airp)
-        btn_map_airp.pack(pady=30)
+        btn_map_airp.pack(pady=20)
 
         btn_lebl_arrivals = ctk.CTkButton(btn_frame, text='Guardar llegadas hoy a LEBL', command=self.procesar_save_flights)
-        btn_lebl_arrivals.pack(pady=30)
+        btn_lebl_arrivals.pack(pady=20)
 
         btn_save_schengen = ctk.CTkButton(btn_frame, text='Guardar aeropuertos Schengen', command=self.procesar_guardar_schengen)
-        btn_save_schengen.pack(pady=30)
+        btn_save_schengen.pack(pady=20)
 
         btn_assign_gates = ctk.CTkButton(btn_frame, text='Assignar puertas de embarque', command=self.procesar_asignar_puertas)
-        btn_assign_gates.pack(pady=30)
+        btn_assign_gates.pack(pady=20)
 
         btn_clear_flights = ctk.CTkButton(btn_frame, text='Limpiar vuelos cargados', command=self.limpiar_vuelos)
-        btn_clear_flights.pack(pady=30)
+        btn_clear_flights.pack(pady=20)
+
+        btn_merge_movements = ctk.CTkButton(btn_frame, text='Fusionar llegadas y salidas cargadas', command=self.fusionar_movimientos)
+        btn_merge_movements.pack(pady=20)
+
+        btn_gates_time = ctk.CTkButton(btn_frame, text='Asignar puertas por período horario', command=self.ejecutar_asignar_gates_hora)
+        btn_gates_time.pack(pady=20)
+
+        btn_night_gates = ctk.CTkButton(btn_frame, text='Asignar puertas a aviones nocturnos', command=self.procesar_asignar_vuelos_noche)
+        btn_night_gates.pack(pady=20)
+    
+    # Asigna las puertas de embarque a los aviones nocturnos, los que pasan la noche en el aeropuerto
+    def procesar_asignar_vuelos_noche(self):
+        if self.bcn is None or not isinstance(self.bcn, BarcelonaAP):
+            messagebox.showerror("Error", "Primero debe cargar la estructura del aeropuerto")
+            return
+        
+        if not self.all_flights:
+            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas' + botón 'Cargar salidas + botón 'Fusionar llegadas y salidas')")
+            return
+        
+        night_aircrafts, cd = NightAircraft(self.all_flights)
+
+        if cd == -1: # Muy raro porque ya se comprueba que all_flights no esté vacía. No debería suceder nunca
+            messagebox.showerror('Error', 'No hay vuelos cargados')
+            return
+        elif cd == 0 and night_aircrafts == []: # Raro pero podría pasar
+            messagebox.showwarning('Advertencia', 'No se ha encontrado ningún avión con las características requeridas.')
+            return
+        else:
+            problem_airc, code = AssignNightGates(self.bcn, night_aircrafts)
+
+            if code == -1: # No debería suceder nunca
+                messagebox.showerror('Error', 'No hay vuelos nocturnos cargados')
+                return
+            else:
+                msg = 'Asignación de puertas a los aviones nocturnos realizada.'
+                if problem_airc:
+                    problem_details = "\n".join([f"{aid}: código {code}" for aid, code in list(problem_airc.items())[:10]])
+                    if len(problem_airc) > 10:
+                        problem_details += f"\n... y {len(problem_airc)-10} más."
+                    msg += f"\n\nAviones con problemas:\n{problem_details}"
+                    messagebox.showwarning('Información con advertencia', msg)
+                else:
+                    messagebox.showinfo('Información', msg)
+    
+    # Recibe la hora del día en la cual realizar la asignación de las puertas de embarque
+    def ejecutar_asignar_gates_hora(self):
+        # Vaciar el frame principal
+        for widget in self.principal_frame.winfo_children():
+            widget.destroy()
+        
+        label = ctk.CTkLabel(self.principal_frame, text="Asignar puertas por período horario. Elige la hora.", font=("Arial", 20))
+        label.pack(pady=20)
+        
+        # Creo un subframe para los botones
+        btn_frame = ctk.CTkFrame(self.principal_frame, fg_color="transparent")
+        btn_frame.pack(expand=True)
+
+        # Creo una lista desplegable y un botón de confirmación
+        opciones = ['---', '00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00',
+                    '11:00', '12:00', '13:00','14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00',
+                    '23:00']
+        self.desplegable = ctk.CTkOptionMenu(master=btn_frame, values=opciones)
+        self.desplegable.pack(pady=30)
+        self.desplegable.set(opciones[0]) # Valor por defecto
+
+        btn_map_airp = ctk.CTkButton(btn_frame, text='Confirmar hora', command=self.procesar_asignar_gates_hora)
+        btn_map_airp.pack(pady=30)
+    
+    # Procesa la asignación de las puertas de embarque en una hora especificada del día
+    def procesar_asignar_gates_hora(self):
+        hora = self.desplegable.get()
+
+        if hora != '---':
+            if self.bcn is None or not isinstance(self.bcn, BarcelonaAP):
+                messagebox.showerror("Error", "Primero debe cargar la estructura del aeropuerto")
+                return
+            
+            if not self.all_flights:
+                messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas' + botón 'Cargar salidas + botón 'Fusionar llegadas y salidas')")
+                return
+
+            messagebox.showinfo('Confirmación', f'Ha selecionado el período horario: {hora}.')
+            not_assigned = AssignGatesAtTime(self.bcn, self.all_flights, hora)
+            msg = 'Asignación realizada!'
+            if not_assigned != 0:
+                msg += f'\n\nNúmero de aviónes que no han podido ser asignados: {not_assigned}'
+                messagebox.showwarning('Información con advertencia', msg)
+            else:
+                messagebox.showinfo('Información', msg)
+            
+            self.ejecutar_registros()
+        else:
+            messagebox.showwarning('Advertencia', 'Debe seleccionar un período horario.')
     
     # Muestra el submenú de mapas de Google Earth (aeropuertos, todos los vuelos, larga distancia).
     def ejecutar_google_earth(self):
@@ -268,6 +479,133 @@ class InterfazPrincipal(ctk.CTk):
         btn_gates_occupancy = ctk.CTkButton(btn_frame, text='Información sobre las puertas de embarque', command=self.visz_gates_occupancy)
         btn_gates_occupancy.pack(pady=30)
 
+        btn_generate_pdf = ctk.CTkButton(btn_frame, text='Generar informe PDF', command=self.generar_informe_pdf)
+        btn_generate_pdf.pack(pady=30)
+    
+    # Genera un informe en PDF con el estado actual del aeropuerto.
+    def generar_informe_pdf(self):
+        if self.bcn is None:
+            messagebox.showerror("Error", "Cargue primero la estructura del aeropuerto.")
+            return
+        if not self.all_flights:
+            messagebox.showerror("Error", "No hay vuelos cargados (fuse primero llegadas y salidas).")
+            return
+
+        from reportlab.lib.pagesizes import A4
+        from reportlab.pdfgen import canvas
+        from reportlab.lib.utils import ImageReader
+        from reportlab.lib import colors
+        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
+        from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+        from reportlab.lib.units import cm
+        import io
+        from datetime import datetime
+
+        # Elegir archivo de salida
+        filename = filedialog.asksaveasfilename(
+            defaultextension=".pdf",
+            filetypes=[("PDF files", "*.pdf"), ("All files", "*.*")],
+            title="Guardar informe PDF"
+        )
+        if not filename:
+            return
+
+        # Recopilar datos
+        total_gates = 0
+        free_gates = 0
+        occupied_gates = 0
+        occupancy_by_terminal = {}
+        for t in self.bcn.terminals:
+            occ = 0
+            for a in t.boardingAreas:
+                for g in a.gates:
+                    total_gates += 1
+                    if g.occupied:
+                        occ += 1
+            free = len([g for a in t.boardingAreas for g in a.gates if not g.occupied])
+            occupied_gates += occ
+            free_gates += free
+            occupancy_by_terminal[t.name] = (occ, len([g for a in t.boardingAreas for g in a.gates]))
+
+        # Vuelos no asignados (con AssignGate devuelve -3 o -4; pero podemos contar los que no tienen puerta asignada)
+        # Para simplificar, usamos la lista de vuelos y comprobamos si algún gate tiene su id (no es trivial)
+        # Mejor: contar vuelos que en la asignación estática fallaron? O podemos simular una asignación completa y ver errores.
+        # En lugar de complicar, mostraremos solo estadísticas básicas.
+
+        # Generar gráfico de ocupación por terminal (usando matplotlib)
+        fig, ax = plt.subplots(figsize=(6, 4))
+        terminals = list(occupancy_by_terminal.keys())
+        occupied_counts = [occupancy_by_terminal[t][0] for t in terminals]
+        ax.bar(terminals, occupied_counts, color='steelblue')
+        ax.set_ylabel("Puertas ocupadas")
+        ax.set_title("Ocupación por terminal")
+        # Guardar figura en un buffer
+        img_buffer = io.BytesIO()
+        plt.savefig(img_buffer, format='png', bbox_inches='tight')
+        img_buffer.seek(0)
+        plt.close(fig)
+
+        # Crear PDF
+        doc = SimpleDocTemplate(filename, pagesize=A4)
+        styles = getSampleStyleSheet()
+        title_style = ParagraphStyle(name='Title', parent=styles['Title'], alignment=1, spaceAfter=20)
+        normal_style = styles['Normal']
+        content = []
+
+        # Título y fecha
+        content.append(Paragraph("Informe del Aeropuerto de Barcelona (LEBL)", title_style))
+        content.append(Spacer(1, 12))
+        content.append(Paragraph(f"Generado el: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}", normal_style))
+        content.append(Spacer(1, 12))
+
+        # Estadísticas generales
+        content.append(Paragraph(f"<b>Total puertas:</b> {total_gates}", normal_style))
+        content.append(Paragraph(f"<b>Puertas libres:</b> {free_gates}", normal_style))
+        content.append(Paragraph(f"<b>Puertas ocupadas:</b> {occupied_gates}", normal_style))
+        content.append(Spacer(1, 12))
+
+        # Tabla de ocupación por terminal
+        table_data = [["Terminal", "Puertas totales", "Puertas ocupadas", "Ocupación (%)"]]
+        for t in terminals:
+            total = occupancy_by_terminal[t][1]
+            occ = occupancy_by_terminal[t][0]
+            percent = (occ / total * 100) if total > 0 else 0
+            table_data.append([t, str(total), str(occ), f"{percent:.1f}%"])
+        table = Table(table_data, colWidths=[80, 80, 80, 80])
+        table.setStyle(TableStyle([
+            ('BACKGROUND', (0,0), (-1,0), colors.grey),
+            ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke),
+            ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+            ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0,0), (-1,0), 12),
+            ('BACKGROUND', (0,1), (-1,-1), colors.beige),
+            ('GRID', (0,0), (-1,-1), 1, colors.black),
+        ]))
+        content.append(table)
+        content.append(Spacer(1, 12))
+
+        # Gráfico de barras (imagen)
+        img = Image(img_buffer, width=400, height=250)
+        content.append(img)
+        content.append(Spacer(1, 12))
+
+        # Lista de aviones nocturnos (si hay)
+        night_aircrafts, _ = NightAircraft(self.all_flights)
+        if night_aircrafts:
+            content.append(Paragraph("<b>Aviones nocturnos (solo salida):</b>", normal_style))
+            night_list = ", ".join([a.id for a in night_aircrafts[:10]])
+            if len(night_aircrafts) > 10:
+                night_list += f" y {len(night_aircrafts)-10} más."
+            content.append(Paragraph(night_list, normal_style))
+            content.append(Spacer(1, 12))
+
+        # Observaciones finales
+        content.append(Paragraph("Informe generado automáticamente por el sistema I1-Proyect.", normal_style))
+
+        # Construir PDF
+        doc.build(content)
+        messagebox.showinfo("Informe PDF", f"Informe guardado en:\n{filename}")
+
     # Muestra en una tabla la información de todos los aeropuertos cargados.
     def ejecutar_visz_airports(self, airports):
         # Vaciar el frame principal
@@ -335,6 +673,135 @@ class InterfazPrincipal(ctk.CTk):
 
         btn_grph_gates = ctk.CTkButton(btn_frame, text='Mostrar ocupación de los Gates por terminal', command=self.mostrar_grph_gates_occupancy)
         btn_grph_gates.pack(pady=30)
+
+        btn_grph_gates_per_hour = ctk.CTkButton(btn_frame, text='Mostrar ocupación de los Gates a lo largo del día', command=self.mostrar_grph_day_occupancy)
+        btn_grph_gates_per_hour.pack(pady=30)
+
+        btn_simulate_day = ctk.CTkButton(btn_frame, text='Ocupación interactiva por hora', command=self.mostrar_ocupacion_interactiva)
+        btn_simulate_day.pack(pady=30)
+    
+    # Muestra un gráfico interactivo con slider para explorar la ocupación hora a hora.
+    def mostrar_ocupacion_interactiva(self):
+        if self.bcn is None:
+            messagebox.showerror("Error", "Cargue primero la estructura del aeropuerto.")
+            return
+        if not self.all_flights:
+            messagebox.showerror("Error", "Cargue y fusione los vuelos primero.")
+            return
+
+        # Ventana emergente
+        win = ctk.CTkToplevel(self)
+        win.title("Ocupación horaria interactiva")
+        win.geometry("1000x700")
+        
+        # Marco para el slider y botones
+        control_frame = ctk.CTkFrame(win)
+        control_frame.pack(pady=10)
+        
+        hour_var = ctk.IntVar(value=0)
+        slider = ctk.CTkSlider(control_frame, from_=0, to=23, number_of_steps=23, variable=hour_var,
+                            command=lambda x: update_plot(int(x)))
+        slider.pack(side="left", padx=10)
+        
+        label_hour = ctk.CTkLabel(control_frame, text="Hora: 00:00")
+        label_hour.pack(side="left", padx=10)
+        
+        # Botones de reproducción
+        playing = [False]
+        def play():
+            playing[0] = True
+            def step():
+                if playing[0] and hour_var.get() < 23:
+                    hour_var.set(hour_var.get() + 1)
+                    update_plot(hour_var.get())
+                    win.after(500, step)
+            step()
+        def stop():
+            playing[0] = False
+        btn_play = ctk.CTkButton(control_frame, text="▶ Reproducir", command=play)
+        btn_play.pack(side="left", padx=5)
+        btn_stop = ctk.CTkButton(control_frame, text="⏹ Detener", command=stop)
+        btn_stop.pack(side="left", padx=5)
+        
+        # Marco para el gráfico
+        frame_graph = ctk.CTkFrame(win)
+        frame_graph.pack(fill="both", expand=True, padx=10, pady=10)
+        
+        # Crear figura y canvas
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
+        canvas = FigureCanvasTkAgg(fig, master=frame_graph)
+        canvas.get_tk_widget().pack(fill="both", expand=True)
+        
+        # Total de puertas (para escala)
+        total_gates = 0
+        for t in self.bcn.terminals:
+            for area in t.boardingAreas:
+                total_gates += len(area.gates)
+        
+        def update_plot(hour):
+            label_hour.configure(text=f"Hora: {hour:02d}:00")
+            # Copia del aeropuerto para no modificar el original
+            import copy
+            bcn_copy = copy.deepcopy(self.bcn)
+            # Aplicar asignaciones desde la hora 0 hasta la hora seleccionada
+            for h in range(hour + 1):
+                time_str = f"{h:02d}:00"
+                AssignGatesAtTime(bcn_copy, self.all_flights, time_str)
+            # Calcular ocupación por terminal
+            terminal_names = []
+            occ_values = []
+            for t in bcn_copy.terminals:
+                terminal_names.append(t.name)
+                occ = 0
+                for area in t.boardingAreas:
+                    for gate in area.gates:
+                        if gate.occupied:
+                            occ += 1
+                occ_values.append(occ)
+            
+            ax1.clear()
+            ax1.bar(terminal_names, occ_values, color='steelblue')
+            ax1.set_ylabel("Puertas ocupadas")
+            ax1.set_title(f"Ocupación de puertas a las {hour:02d}:00")
+            ax1.set_ylim(0, total_gates)
+            
+            ax2.clear()
+            ax2.text(0.5, 0.5, f"Aviones no asignados en el período {hour:02d}:00 - {hour+1:02d}:00:\n"
+                    "Consulta el gráfico 'Mostrar ocupación de los Gates a lo largo del día' para ver estadísticas completas.",
+                    ha='center', va='center', transform=ax2.transAxes, fontsize=10)
+            ax2.axis('off')
+            canvas.draw()
+        
+        # Inicializar
+        update_plot(0)
+    
+    # Muestra un gráfico de la ocupación de los gates por teminal a lo largo del día
+    def mostrar_grph_day_occupancy(self):
+        # Vaciar el frame principal
+        for widget in self.principal_frame.winfo_children():
+            widget.destroy()
+        
+        if self.bcn is None:
+            messagebox.showerror("Error", "Carga primero la estructura del aeropuerto")
+            return
+
+        if not self.all_flights:
+            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas' + botón 'Cargar salidas + botón 'Fusionar llegadas y salidas')")
+            return
+        
+        try:
+            self.configurar_tema_matplotlib()
+
+            # Obtengo la figura
+            fig = PlotDayOccupancy(self.bcn, self.all_flights)
+
+            # Lo integro en CustomTkinter
+            canvas = FigureCanvasTkAgg(fig, master=self.principal_frame)
+            canvas.draw()
+            canvas.get_tk_widget().pack(side='top', fill='both', expand=True, padx=20, pady=20)
+            
+        except Exception as e:
+            messagebox.showerror("Error de Gráfico", f"No se pudo generar el gráfico: {e}")
     
     # Muestra el formulario para crear un nuevo aeropuerto.
     def ejecutar_create_airp(self):
@@ -437,13 +904,38 @@ class InterfazPrincipal(ctk.CTk):
                 self.all_flights = []
                 messagebox.showinfo("Listo", "Vuelos eliminados.")
     
+    # Fusiona la lista de llegadas y salidas en la lista all_flights y luego las vacía
+    def fusionar_movimientos(self):
+        merged, problems, code = MergeMovements(self.arrivals, self.departures)
+        
+        if code == -1:
+            messagebox.showerror("Error", "No se pudo fusionar: una de las listas (llegadas o salidas) está vacía.")
+            return
+        
+        if code == 0 and merged:
+            self.all_flights = merged
+            msg = f"Fusión completada: {len(merged)} vuelos combinados."
+            if problems:
+                msg += f"\n\nAeronaves con incoherencias horarias: {', '.join(problems[:10])}"
+                if len(problems) > 10:
+                    msg += f" y {len(problems)-10} más."
+                messagebox.showwarning("Fusión completada con advertencias", msg)
+            else:
+                messagebox.showinfo("Fusión completada", msg)
+            # Vaciar listas temporales
+            self.arrivals = []
+            self.departures = []
+        else:
+            # Es muy raro que code == 0 pero merged vacío, pero podría ocurrir
+            messagebox.showerror("Error", "No se pudo generar la lista de vuelos fusionados.")
+    
     # Asigna puertas a todos los vuelos cargados utilizando la estructura del aeropuerto.
     def procesar_asignar_puertas(self):
         if self.bcn is None or not isinstance(self.bcn, BarcelonaAP):
             messagebox.showerror("Error", "Primero debe cargar la estructura del aeropuerto")
             return
         if not self.all_flights:
-            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas')")
+            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas' + botón 'Cargar salidas + botón 'Fusionar llegadas y salidas')")
             return
         
         ok = 0
@@ -476,7 +968,7 @@ class InterfazPrincipal(ctk.CTk):
     # Genera el KML con todos los vuelos cargados y lo abre en Google Earth.
     def procesar_all_arrivals(self):
         if not self.all_flights:
-            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas')")
+            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas' + botón 'Cargar salidas + botón 'Fusionar llegadas y salidas')")
             return
         
         MapFlights(self.all_flights, filename='LEBL_Arrivals.kml')
@@ -484,7 +976,7 @@ class InterfazPrincipal(ctk.CTk):
     # Genera el KML solo con vuelos de larga distancia (>2000 km) y lo abre en Google Earth.
     def procesar_long_dist_arrv(self):
         if not self.all_flights:
-            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas')")
+            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas' + botón 'Cargar salidas + botón 'Fusionar llegadas y salidas')")
             return
         
         MapFlights(LongDistanceArrivals(self.all_flights), filename='LEBL_Arrivals_MIN2000.kml')
@@ -543,7 +1035,7 @@ class InterfazPrincipal(ctk.CTk):
     # Abre un diálogo para guardar la lista de vuelos en un archivo de texto.
     def procesar_save_flights(self):
         if not self.all_flights:
-            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas')")
+            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas' + botón 'Cargar salidas + botón 'Fusionar llegadas y salidas')")
             return
 
         filename = filedialog.asksaveasfilename(
@@ -586,7 +1078,7 @@ class InterfazPrincipal(ctk.CTk):
             widget.destroy()
         
         if not self.all_flights:
-            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas')")
+            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas' + botón 'Cargar salidas + botón 'Fusionar llegadas y salidas')")
             return
         
         try:
@@ -614,7 +1106,7 @@ class InterfazPrincipal(ctk.CTk):
             widget.destroy()
         
         if not self.all_flights:
-            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas')")
+            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas' + botón 'Cargar salidas + botón 'Fusionar llegadas y salidas')")
             return
         
         try:
@@ -642,7 +1134,7 @@ class InterfazPrincipal(ctk.CTk):
             widget.destroy()
         
         if not self.all_flights:
-            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas')")
+            messagebox.showerror("Error", "Primero debe cargar los vuelos (botón 'Cargar llegadas' + botón 'Cargar salidas + botón 'Fusionar llegadas y salidas')")
             return
         
         try:
