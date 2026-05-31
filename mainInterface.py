@@ -1159,138 +1159,130 @@ class InterfazPrincipal(ctk.CTk):
             messagebox.showerror("Error de Gráfico", f"No se pudo generar el gráfico: {e}")
 
     def mostrar_horario_operaciones(self):
-        """Muestra una ventana con todos los eventos (llegadas/salidas) ordenados por hora."""
+        """Muestra el horario de operaciones (llegadas/salidas) en el frame principal."""
         if not self.all_flights:
             messagebox.showerror("Error", "No hay vuelos cargados.")
             return
 
-        # Ventana emergente
-        win = ctk.CTkToplevel(self)
-        win.title("Horario de operaciones - LEBL")
-        win.geometry("1000x600")
-        win.grab_set()
+        # Limpiar frame principal
+        for widget in self.principal_frame.winfo_children():
+            widget.destroy()
 
-        # Frame superior para filtros
-        filter_frame = ctk.CTkFrame(win)
+        # Frame superior para filtros y botones
+        filter_frame = ctk.CTkFrame(self.principal_frame)
         filter_frame.pack(pady=10, padx=10, fill="x")
 
         ctk.CTkLabel(filter_frame, text="Filtrar por tipo:").pack(side="left", padx=5)
         tipo_var = ctk.StringVar(value="todos")
         radio_todos = ctk.CTkRadioButton(filter_frame, text="Todos", variable=tipo_var, value="todos")
         radio_todos.pack(side="left", padx=5)
-        radio_llegadas = ctk.CTkRadioButton(filter_frame, text="Solo llegadas", variable=tipo_var, value="llegadas")
+        radio_llegadas = ctk.CTkRadioButton(filter_frame, text="Solo llegadas", variable=tipo_var, value="Llegada")
         radio_llegadas.pack(side="left", padx=5)
-        radio_salidas = ctk.CTkRadioButton(filter_frame, text="Solo salidas", variable=tipo_var, value="salidas")
+        radio_salidas = ctk.CTkRadioButton(filter_frame, text="Solo salidas", variable=tipo_var, value="Salida")
         radio_salidas.pack(side="left", padx=5)
 
-        ctk.CTkLabel(filter_frame, text="Compañía:").pack(side="left", padx=5)
+        ctk.CTkLabel(filter_frame, text="Compañía (código ICAO):").pack(side="left", padx=5)
         company_var = ctk.StringVar(value="")
         company_entry = ctk.CTkEntry(filter_frame, textvariable=company_var, width=100)
         company_entry.pack(side="left", padx=5)
 
-        btn_aplicar = ctk.CTkButton(filter_frame, text="Aplicar filtros", command=lambda: actualizar_tabla())
+        btn_aplicar = ctk.CTkButton(filter_frame, text="Aplicar filtros", 
+                                    command=lambda: self.actualizar_tabla_eventos(tipo_var.get(), company_var.get().strip().upper()))
         btn_aplicar.pack(side="left", padx=10)
 
-        btn_exportar = ctk.CTkButton(filter_frame, text="Exportar a CSV", command=lambda: exportar_csv())
+        btn_exportar = ctk.CTkButton(filter_frame, text="Exportar a CSV", 
+                                    command=lambda: self.exportar_eventos_csv(tipo_var.get(), company_var.get().strip().upper()))
         btn_exportar.pack(side="right", padx=10)
 
-        # Tabla (scrollable)
-        table_frame = ctk.CTkScrollableFrame(win, label_text="Eventos del día")
-        table_frame.pack(fill="both", expand=True, padx=10, pady=10)
+        # Área de texto para la tabla (mucho más eficiente que cientos de labels)
+        self.textbox_eventos = ctk.CTkTextbox(self.principal_frame, font=("Courier New", 12))
+        self.textbox_eventos.pack(fill="both", expand=True, padx=10, pady=10)
 
-        headers = ["Hora", "Tipo", "ID", "Aerolínea", "Origen/Destino", "Puerta"]
-        for col, text in enumerate(headers):
-            lbl = ctk.CTkLabel(table_frame, text=text, font=("Arial", 14, "bold"))
-            lbl.grid(row=0, column=col, padx=10, pady=5, sticky="nsew")
-            table_frame.grid_columnconfigure(col, weight=1)
+        # Mostrar datos iniciales
+        self.actualizar_tabla_eventos(tipo_var.get(), company_var.get().strip().upper())
 
-        # Datos (se actualizarán dinámicamente)
-        filas = []  # lista de widgets de fila
+    def actualizar_tabla_eventos(self, tipo, company_filter):
+        """Construye y muestra la tabla de eventos aplicando filtros correctamente."""
+        # Precalcular diccionario de puertas asignadas (una sola vez)
+        puertas_por_avion = {}
+        if self.bcn:
+            for t in self.bcn.terminals:
+                for a in t.boardingAreas:
+                    for g in a.gates:
+                        if g.id:
+                            puertas_por_avion[g.id] = g.name
 
-        def cargar_eventos():
-            # Limpiar filas existentes
-            for row_widgets in filas:
-                for w in row_widgets:
-                    w.destroy()
-            filas.clear()
+        eventos = []
+        for a in self.all_flights:
+            # Para cada avión, generar eventos según los movimientos que tenga
+            movimientos = []
+            if a.land_time:
+                movimientos.append(("Llegada", a.land_time, a.origin_airp))
+            if a.departure_time:
+                movimientos.append(("Salida", a.departure_time, a.destination_airp))
 
-            # Filtrar
-            tipo = tipo_var.get()
-            company_filter = company_var.get().upper()
-
-            eventos = []
-            for a in self.all_flights:
-                # Determinar tipo
-                if a.land_time and not a.departure_time:
-                    tipo_evento = "Llegada"
-                    origen_destino = a.origin_airp
-                    hora = a.land_time
-                    puerta = self.buscar_puerta_por_avion(a.id) if self.bcn else ""
-                elif a.departure_time and not a.land_time:
-                    tipo_evento = "Salida"
-                    origen_destino = a.destination_airp
-                    hora = a.departure_time
-                    puerta = self.buscar_puerta_por_avion(a.id) if self.bcn else ""
-                elif a.land_time and a.departure_time:
-                    # Caso raro: avión con ambos (deberían estar fusionados pero puede ocurrir)
-                    # Para simplificar, mostramos solo la llegada y la salida por separado (dos eventos)
-                    eventos.append(("Llegada", a.land_time, a.id, a.company, a.origin_airp, ""))
-                    eventos.append(("Salida", a.departure_time, a.id, a.company, a.destination_airp, ""))
-                    continue
-                else:
-                    continue
-
+            for tipo_evento, hora, od in movimientos:
+                # Aplicar filtros ANTES de añadir a la lista
                 if tipo != "todos" and tipo_evento != tipo:
                     continue
                 if company_filter and company_filter != a.company:
                     continue
+                puerta = puertas_por_avion.get(a.id, "")
+                eventos.append((tipo_evento, hora, a.id, a.company, od, puerta))
 
-                eventos.append((tipo_evento, hora, a.id, a.company, origen_destino, puerta))
+        # Ordenar por hora (formato hh:mm)
+        eventos.sort(key=lambda x: x[1])
 
-            # Ordenar por hora
-            eventos.sort(key=lambda x: x[1])
+        # Preparar texto formateado (anchos fijos)
+        header = f"{'Hora':<8} {'Tipo':<12} {'ID':<10} {'Aerolínea':<12} {'Origen/Destino':<15} {'Puerta':<10}\n"
+        separator = "-" * 80 + "\n"
+        lines = [header, separator]
+        for ev in eventos:
+            hora, tipo_ev, aid, comp, od, puerta = ev[1], ev[0], ev[2], ev[3], ev[4], ev[5]
+            lines.append(f"{hora:<8} {tipo_ev:<12} {aid:<10} {comp:<12} {od:<15} {puerta:<10}\n")
 
-            # Mostrar
-            for idx, ev in enumerate(eventos, start=1):
-                tipo_evento, hora, aid, comp, od, puerta = ev
-                row = []
-                for col, val in enumerate([hora, tipo_evento, aid, comp, od, puerta]):
-                    lbl = ctk.CTkLabel(table_frame, text=val)
-                    lbl.grid(row=idx, column=col, padx=10, pady=2)
-                    row.append(lbl)
-                filas.append(row)
+        # Actualizar textbox
+        self.textbox_eventos.delete("0.0", "end")
+        self.textbox_eventos.insert("0.0", "".join(lines))
 
-        def exportar_csv():
-            if not filas:
-                messagebox.showwarning("Exportar", "No hay datos para exportar.")
-                return
-            filename = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV", "*.csv")])
-            if filename:
-                import csv
-                with open(filename, 'w', newline='', encoding='utf-8') as f:
-                    writer = csv.writer(f)
-                    writer.writerow(headers)
-                    for row_widgets in filas:
-                        row_data = [w.cget("text") for w in row_widgets]
-                        writer.writerow(row_data)
-                messagebox.showinfo("Exportar", f"Exportado a {filename}")
+    def exportar_eventos_csv(self, tipo, company_filter):
+        """Exporta los eventos actualmente filtrados a CSV."""
+        puertas_por_avion = {}
+        if self.bcn:
+            for t in self.bcn.terminals:
+                for a in t.boardingAreas:
+                    for g in a.gates:
+                        if g.id:
+                            puertas_por_avion[g.id] = g.name
 
-        def actualizar_tabla():
-            cargar_eventos()
+        eventos = []
+        for a in self.all_flights:
+            movimientos = []
+            if a.land_time:
+                movimientos.append(("Llegada", a.land_time, a.origin_airp))
+            if a.departure_time:
+                movimientos.append(("Salida", a.departure_time, a.destination_airp))
 
-        # Cargar inicial
-        cargar_eventos()
+            for tipo_evento, hora, od in movimientos:
+                if tipo != "todos" and tipo_evento != tipo:
+                    continue
+                if company_filter and company_filter != a.company:
+                    continue
+                puerta = puertas_por_avion.get(a.id, "")
+                eventos.append((tipo_evento, hora, a.id, a.company, od, puerta))
 
-    def buscar_puerta_por_avion(self, aircraft_id):
-        """Devuelve el nombre de la puerta donde está estacionado el avión, o '' si no tiene."""
-        if self.bcn is None:
-            return ""
-        for t in self.bcn.terminals:
-            for a in t.boardingAreas:
-                for g in a.gates:
-                    if g.id == aircraft_id:
-                        return g.name
-        return ""
+        eventos.sort(key=lambda x: x[1])
+
+        filename = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV", "*.csv")])
+        if filename:
+            import csv
+            with open(filename, 'w', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                writer.writerow(["Hora", "Tipo", "ID", "Aerolínea", "Origen/Destino", "Puerta"])
+                for ev in eventos:
+                    writer.writerow([ev[1], ev[0], ev[2], ev[3], ev[4], ev[5]])
+            messagebox.showinfo("Exportar", f"Eventos exportados a {filename}")
+
 if __name__ == "__main__":
     app = InterfazPrincipal()
     app.mainloop()
