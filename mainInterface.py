@@ -23,11 +23,9 @@ class SplashScreen(ctk.CTkToplevel):
         # Fondo oscuro elegante
         self.configure(fg_color=("#1e1e1e", "#f0f0f0"))
         
-        # Centrar ventana en la pantalla
+        # Centrar ventana de forma nativa en CustomTkinter
         self.update_idletasks()
-        x = (self.winfo_screenwidth() // 2) - (600 // 2)
-        y = (self.winfo_screenheight() // 2) - (400 // 2)
-        self.geometry(f"600x400+{x}+{y}")
+        self.tk.eval(f'tk::PlaceWindow {self._w} center')
         
         # Marco principal para centrar contenido
         main_frame = ctk.CTkFrame(self, fg_color="transparent")
@@ -663,25 +661,25 @@ class InterfazPrincipal(ctk.CTk):
 
         # Creo botones para las múltiples opciones de gráficos dentro del subframe
         btn_grph_sch_nSch = ctk.CTkButton(btn_frame, text='Aeropuertos Schengen & No Schengen', command=self.mostrar_grph_sch_nSch)
-        btn_grph_sch_nSch.pack(pady=30)
+        btn_grph_sch_nSch.pack(pady=20)
 
         btn_grph_arrv_frq = ctk.CTkButton(btn_frame, text='Frecuencias de llegadas a LEBL hoy', command=self.mostrar_grph_arrv_frq)
-        btn_grph_arrv_frq.pack(pady=30)
+        btn_grph_arrv_frq.pack(pady=20)
 
         btn_grph_airlns = ctk.CTkButton(btn_frame, text='Cantidad de llegadas a LEBL hoy por aerolínea', command=self.mostrar_grph_airlns)
-        btn_grph_airlns.pack(pady=30)
+        btn_grph_airlns.pack(pady=20)
 
         btn_grph_flights_type = ctk.CTkButton(btn_frame, text='Llegadas a LEBL hoy desde zona Schengen VS No Schengen', command=self.mostrar_grph_flights_type)
-        btn_grph_flights_type.pack(pady=30)
+        btn_grph_flights_type.pack(pady=20)
 
         btn_grph_gates = ctk.CTkButton(btn_frame, text='Mostrar ocupación de los Gates por terminal', command=self.mostrar_grph_gates_occupancy)
-        btn_grph_gates.pack(pady=30)
+        btn_grph_gates.pack(pady=20)
 
         btn_grph_gates_per_hour = ctk.CTkButton(btn_frame, text='Mostrar ocupación de los Gates a lo largo del día', command=self.mostrar_grph_day_occupancy)
-        btn_grph_gates_per_hour.pack(pady=30)
+        btn_grph_gates_per_hour.pack(pady=20)
 
         btn_simulate_day = ctk.CTkButton(btn_frame, text='Ocupación interactiva por hora', command=self.mostrar_ocupacion_interactiva)
-        btn_simulate_day.pack(pady=30)
+        btn_simulate_day.pack(pady=20)
     
     # Muestra un gráfico interactivo con slider para explorar la ocupación hora a hora.
     def mostrar_ocupacion_interactiva(self):
