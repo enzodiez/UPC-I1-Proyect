@@ -158,7 +158,6 @@ def MapAirports(airports):
     
     file.close()
 
-    print("Abriendo mapa de aeropuertos en Google Earth...")
     os.startfile('Airports_Points.kml')
 
 def LoadAirports (filename):
@@ -226,22 +225,24 @@ def AddAirport (airports, airport):
     Añade un nuevo aeropuerto a la lista si no existe ya otro con el mismo código ICAO.
     Actualiza el archivo de aeropuertos Schengen.
     Devuelve True si se añadió, False si ya existía.
+    También devuelve la lista.
     """
     for airp in airports:
         if airp.icaoCode == airport.icaoCode:
-            return False
+            return False, airports
     
     airports.append(airport)
     SaveSchengenAirports(airports, 'SchengenAirports.txt')
-    return True
+    return True, airports
 
 def RemoveAirport (airports, code):
     """
     Elimina de la lista el aeropuerto cuyo código ICAO coincide con el proporcionado.
     Devuelve True si se encontró y eliminó, False en caso contrario.
+    También devuelve la lista
     """
     for i in range(len(airports)):
         if airports[i].icaoCode == code.upper():
             del airports[i]
-            return True
-    return False
+            return True, airports
+    return False, airports

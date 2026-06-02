@@ -1,4 +1,4 @@
-from airport import IsSchengenAirport, LoadAirports, Airport, SetSchengen, PlotAirports
+from airport import IsSchengenAirport, Airport, SetSchengen, PlotAirports, LoadAirports
 import os
 import matplotlib.pyplot as plt
 import math
@@ -190,7 +190,7 @@ def PlotFlightsType(aircrafts):
 
         return fig
 
-def MapFlights(aircrafts, filename):
+def MapFlights(aircrafts, filename, airports):
     """
     Genera un archivo KML con las rutas desde cada aeropuerto de origen hasta LEBL.
     Colorea las líneas según si el origen es Schengen (verde) o no (rojo).
@@ -217,8 +217,7 @@ def MapFlights(aircrafts, filename):
         </LineStyle>
     </Style>
 """)
-    
-    airports = LoadAirports('Airports.txt')
+
     lonLEBL, latLEBL = 0, 0
 
     # Creo un diccionario con todos los aeropuertos para poder hacer una búsqueda rápida
@@ -249,8 +248,6 @@ def MapFlights(aircrafts, filename):
         if codigo in airport_dict:
             lon, lat = airport_dict[codigo]
             lonLatOrigin_airp.append([lon, lat, codigo])
-        else:
-            print(f"Advertencia: No se encontraron coordenadas para {codigo}")
     
     for i in range(len(lonLatOrigin_airp)):
         name = f"Route {lonLatOrigin_airp[i][2]} - LEBL"
@@ -280,15 +277,13 @@ def MapFlights(aircrafts, filename):
     
     file.close()
 
-    print("Abriendo mapa de vuelos a LEBL hoy en Google Earth...")
     os.startfile(filename)
 
-def LongDistanceArrivals(aircrafts):
+def LongDistanceArrivals(aircrafts, airports):
     """
     Filtra y devuelve una lista con los vuelos cuyo aeropuerto de origen se encuentra
     a más de 2000 km de LEBL (distancia calculada mediante la fórmula de Haversine).
     """
-    airports = LoadAirports('Airports.txt')
 
     # Creo diccionario de aeropuertos para hacer una búsqueda más rápida y sencilla
     airport_coords = {}
@@ -314,7 +309,6 @@ def LongDistanceArrivals(aircrafts):
         
         # Verificar que el aeropuerto de origen existe
         if origin_code not in airport_coords:
-            print(f"Advertencia: No se encontraron coordenadas para {origin_code}")
             continue
         
         # Obtener coordenadas del origen
@@ -500,6 +494,8 @@ def NightAircraft(aircrafts):
     return night_aircrafts, 0 # Código que avisa de que todo ha ido bien
 
 if __name__ == "__main__":
+    airports = LoadAirports("Airports.txt")
+
     print("="*60)
     print("TEST VERSIÓN 2 - FLIGHT MANAGEMENT")
     print("="*60)
@@ -579,7 +575,7 @@ if __name__ == "__main__":
     print("\n📌 6. Probando MapFlights()")
     print("-" * 40)
     
-    MapFlights(flights, 'LEBL_Arrivals.kml')
+    MapFlights(flights, 'LEBL_Arrivals.kml', airports)
     input()
     
     if os.path.exists("LEBL_Arrivals.kml"):
@@ -593,7 +589,7 @@ if __name__ == "__main__":
     print("\n📌 7. Probando LongDistanceArrivals()")
     print("-" * 40)
     
-    long_flights = LongDistanceArrivals(flights)
+    long_flights = LongDistanceArrivals(flights, airports)
     print(f"   ✅ Vuelos de larga distancia (>2000km): {len(long_flights)}")
     
     if long_flights:
@@ -601,7 +597,7 @@ if __name__ == "__main__":
         for f in long_flights[:5]:
             print(f"      - {f.id} desde {f.origin_airp}")
     
-    MapFlights(long_flights, 'LEBL_Arrivals_MIN2000.kml')
+    MapFlights(long_flights, 'LEBL_Arrivals_MIN2000.kml', airports)
     
     if os.path.exists("LEBL_Arrivals_MIN2000.kml"):
         print("   ✅ Archivo KML creado: LEBL_Arrivals_MIN2000.kml")
