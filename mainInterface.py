@@ -1255,30 +1255,34 @@ class InterfazPrincipal(ctk.CTk):
         # Frame superior para filtros y botones
         filter_frame = ctk.CTkFrame(self.principal_frame)
         filter_frame.pack(pady=10, padx=10, fill="x")
-        filter_frame.grid_columnconfigure(5, weight=1)  # Para empujar el botón de exportar a la derecha
 
-        # Fila 0: filtros
-        ctk.CTkLabel(filter_frame, text="Filtrar por tipo:").grid(row=0, column=0, padx=5, sticky="w")
+        # Primera línea: filtros
+        row1 = ctk.CTkFrame(filter_frame, fg_color="transparent")
+        row1.pack(fill="x", pady=5)
+        ctk.CTkLabel(row1, text="Filtrar por tipo:").pack(side="left", padx=5)
         tipo_var = ctk.StringVar(value="todos")
-        radio_todos = ctk.CTkRadioButton(filter_frame, text="Todos", variable=tipo_var, value="todos")
-        radio_todos.grid(row=0, column=1, padx=5)
-        radio_llegadas = ctk.CTkRadioButton(filter_frame, text="Solo llegadas", variable=tipo_var, value="Llegada")
-        radio_llegadas.grid(row=0, column=2, padx=5)
-        radio_salidas = ctk.CTkRadioButton(filter_frame, text="Solo salidas", variable=tipo_var, value="Salida")
-        radio_salidas.grid(row=0, column=3, padx=5)
+        radio_todos = ctk.CTkRadioButton(row1, text="Todos", variable=tipo_var, value="todos")
+        radio_todos.pack(side="left", padx=5)
+        radio_llegadas = ctk.CTkRadioButton(row1, text="Solo llegadas", variable=tipo_var, value="Llegada")
+        radio_llegadas.pack(side="left", padx=5)
+        radio_salidas = ctk.CTkRadioButton(row1, text="Solo salidas", variable=tipo_var, value="Salida")
+        radio_salidas.pack(side="left", padx=5)
 
-        ctk.CTkLabel(filter_frame, text="Compañía (código ICAO):").grid(row=0, column=4, padx=5)
+        ctk.CTkLabel(row1, text="Compañía (código ICAO):").pack(side="left", padx=5)
         company_var = ctk.StringVar(value="")
-        company_entry = ctk.CTkEntry(filter_frame, textvariable=company_var, width=100)
-        company_entry.grid(row=0, column=5, padx=5)
+        company_entry = ctk.CTkEntry(row1, textvariable=company_var, width=100)
+        company_entry.pack(side="left", padx=5)
 
-        btn_aplicar = ctk.CTkButton(filter_frame, text="Aplicar filtros", 
+        # Segunda línea: botones
+        row2 = ctk.CTkFrame(filter_frame, fg_color="transparent")
+        row2.pack(fill="x", pady=5)
+        btn_aplicar = ctk.CTkButton(row2, text="Aplicar filtros", 
                                     command=lambda: self.actualizar_tabla_eventos(tipo_var.get(), company_var.get().strip().upper()))
-        btn_aplicar.grid(row=0, column=6, padx=5)
+        btn_aplicar.pack(side="left", padx=10)
 
-        btn_exportar = ctk.CTkButton(filter_frame, text="Exportar a CSV", 
+        btn_exportar = ctk.CTkButton(row2, text="Exportar a CSV", 
                                     command=lambda: self.exportar_eventos_csv(tipo_var.get(), company_var.get().strip().upper()))
-        btn_exportar.grid(row=0, column=7, padx=5)
+        btn_exportar.pack(side="left", padx=10)
 
         # Área de texto para la tabla (mucho más eficiente que cientos de labels)
         self.textbox_eventos = ctk.CTkTextbox(self.principal_frame, font=("Courier New", 12))
