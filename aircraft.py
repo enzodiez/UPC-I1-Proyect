@@ -493,6 +493,38 @@ def NightAircraft(aircrafts):
     
     return night_aircrafts, 0 # Código que avisa de que todo ha ido bien
 
+def GroundTime(aircrafts):
+    tiempo_estancia = [0, 1, 2, 3, 4]
+    tiempo_estancia_rango = ["0-1", "1-2", "2-3", "3-4", "4- "]
+    ejey = [0,0,0,0,0]
+
+    # Para cada avion se mira que tenga tanto hora de llegada como de salida. Restandolas se consigue el ground time y se suma 1 al vector del eje Y.
+    for avion in aircrafts:
+        if avion.land_time != "" and avion.departure_time != "":
+            h_departure = time_to_minutes(avion.departure_time)/60
+            h_arrival = time_to_minutes(avion.land_time)/60
+            estancia = h_departure - h_arrival
+            i=0
+            while i < len(tiempo_estancia):
+                if estancia >= tiempo_estancia[i] and estancia < (tiempo_estancia[i]+1):
+                    ejey[i] = ejey[i] +1
+                elif estancia >= tiempo_estancia[4]:
+                    ejey[4] = ejey[4] +1
+                i=i+1
+
+    # Dibujar gráfico
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    # Titoles de los ejes y detalles
+    ax.bar(tiempo_estancia_rango, ejey, color='salmon')
+    ax.set_xlabel("Ground time (hours)")
+    ax.set_ylabel("Number of aircrafts")
+    ax.set_title("Ground time by aircrafts")
+    ax.grid(axis='y')
+    plt.tight_layout()
+    
+    return fig
+
 if __name__ == "__main__":
     airports = LoadAirports("Airports.txt")
 

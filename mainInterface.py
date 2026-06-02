@@ -726,6 +726,9 @@ class InterfazPrincipal(ctk.CTk):
 
         btn_simulate_day = ctk.CTkButton(btn_frame, text='Ocupación interactiva por hora', command=self.mostrar_ocupacion_interactiva)
         btn_simulate_day.pack(pady=20)
+
+        btn_ground_time = ctk.CTkButton(btn_frame, text='Aviones y su tiempo en tierra', command=self.mostrar_ground_time)
+        btn_ground_time.pack(pady=20)
     
     # Muestra un gráfico interactivo con slider para explorar la ocupación hora a hora.
     def mostrar_ocupacion_interactiva(self):
@@ -1372,6 +1375,29 @@ class InterfazPrincipal(ctk.CTk):
                 for ev in eventos:
                     writer.writerow([ev[1], ev[0], ev[2], ev[3], ev[4], ev[5]])
             messagebox.showinfo("Exportar", f"Eventos exportados a {filename}")
+    
+    def mostrar_ground_time(self):
+        # Vaciar el frame principal
+        for widget in self.principal_frame.winfo_children():
+            widget.destroy()
+
+        if not self.all_flights:
+            messagebox.showerror("Error","Primero debe cargar los vuelos (botón 'Cargar llegadas' + botón 'Cargar salidas + botón 'Fusionar llegadas y salidas')")
+            return
+        try:
+            self.configurar_tema_matplotlib()
+
+            fig = GroundTime(self.all_flights)
+
+            # Lo integro en CustomTkinter
+            canvas = FigureCanvasTkAgg(fig, master=self.principal_frame)
+            canvas.draw()
+            canvas.get_tk_widget().pack(side='top', fill='both', expand=True, padx=20, pady=20)
+        except Exception as e:
+            messagebox.showerror(
+                "Error de Gráfico",
+                f"No se pudo generar el gráfico:\n{e}"
+            )
 
 if __name__ == "__main__":
     app = InterfazPrincipal()
