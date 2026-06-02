@@ -482,7 +482,22 @@ class InterfazPrincipal(ctk.CTk):
 
         btn_horario_operaciones = ctk.CTkButton(btn_frame, text='Horario de operaciones', command=self.mostrar_horario_operaciones)
         btn_horario_operaciones.pack(pady=30)
+
+        btn_vuelos_menos_dos_horas = ctk.CTkButton(btn_frame, text='Cantidad de vuelos con menos de dos horas de estacionamiento.', command=self.informacion_vuelos_menos_dos_horas)
+        btn_vuelos_menos_dos_horas.pack(pady=30)
     
+    def informacion_vuelos_menos_dos_horas(self):
+        if not self.all_flights:
+            messagebox.showerror("Error", "No hay vuelos cargados (fusione primero llegadas y salidas).")
+            return
+        
+        cantidad = vuelos_menos_dos_horas(self.all_flights)
+
+        if cantidad == -1: # Este caso no debería darse nunca porque se comprueba en el IF de arriba
+            messagebox.showerror("Error", "No hay vuelos cargados!")
+        else:
+            messagebox.showinfo("Información", f"Hay {cantidad} vuelos cuyo periodo de estacionamiento en el aeropuerto será inferior a dos horas.")
+
     # Genera un informe en PDF con el estado actual del aeropuerto.
     def generar_informe_pdf(self):
         if self.bcn is None:

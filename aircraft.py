@@ -82,10 +82,12 @@ def PlotArrivals(aircrafts):
         frq = [0]*24
         hours = range(0,24)
         for airc in aircrafts:
-            hora_str = airc.land_time.split(':')[0]
-            hr = int(hora_str)
-            if 0 <= hr < 24:
-                frq[hr] += 1
+            if airc.land_time != "":
+                hora_str = airc.land_time.split(':')[0]
+                hr = int(hora_str)
+                if 0 <= hr < 24:
+                    frq[hr] += 1
+
     fig, ax = plt.subplots()
     ax.plot(hours, frq, color='skyblue', linewidth=2)
     ax.set_xlabel("Arrival times", fontsize=12)
@@ -179,9 +181,10 @@ def PlotFlightsType(aircrafts):
     else:
         airports = []
         for airc in aircrafts:
-            airp = Airport(ic=airc.origin_airp)
-            SetSchengen(airp)
-            airports.append(airp)
+            if airc.origin_airp != "":
+                airp = Airport(ic=airc.origin_airp)
+                SetSchengen(airp)
+                airports.append(airp)
         
         fig = PlotAirports(airports, titulo='Arrivals from Schengen airports VS No Schengen airports')
 

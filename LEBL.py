@@ -27,6 +27,23 @@ class Gate():
         self.occupied = occupied
         self.id = id
 
+def vuelos_menos_dos_horas(aircrafts):
+    if not aircrafts:
+        return -1
+    
+    count = 0
+
+    for airc in aircrafts:
+        if airc.land_time != "" and airc.departure_time != "":
+            llegada = time_to_minutes(airc.land_time) # La hora de llegada en minutos
+            salida = time_to_minutes(airc.departure_time) # La hora de salida en minutos
+            tiempo_estacionado = salida - llegada # Diferencia en minutos entre la salida y la llegada
+            tiempo_limite = 120  # 120 minutos son 2 horas
+            if tiempo_estacionado < tiempo_limite:
+                count += 1
+    
+    return count
+
 def SetGates(area, init_gate, end_gate, prefix):
     """
     Crea las puertas de un área de embarque con nombres "prefijo + G + número".
